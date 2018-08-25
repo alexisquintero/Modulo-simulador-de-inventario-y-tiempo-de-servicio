@@ -1,16 +1,15 @@
 ﻿using MathNet.Numerics.Distributions;
-using MathNet.Numerics.Random;
 
 namespace Simulador.Generators
 {
   class NormalDIstribution
   {
-    double orderSize(double mean, double stddev)
+    public static double OrderSize(double mean, double stddev)
     {
       Normal normal = new Normal(mean, stddev);
       return normal.Sample();
     }
-    double timeBetweenOrder(double mean, double stddev)
+    public static double TimeBetweenOrder(double mean, double stddev)
     {
       Normal normal = new Normal(mean, stddev);
       return normal.Sample();

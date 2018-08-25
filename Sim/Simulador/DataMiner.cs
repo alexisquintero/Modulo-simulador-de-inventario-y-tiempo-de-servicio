@@ -7,7 +7,7 @@
     /* Determines the number of clients in a certain period (a day, week, month
      * , year, etc.)
      */
-    private int numberClientsPeriod()
+    private int NumberClientsPeriod()
     {
       return 0; //TODO: Implement
     }
@@ -15,7 +15,7 @@
     /* Determines the amount of a given product sold on a certain period (a day
      * , week, month, year, etc.)
      */
-    private decimal amountSalesProductPeriod()
+    private decimal AmountSalesProductPeriod()
     {
       return 0; //TODO: Implement
     }

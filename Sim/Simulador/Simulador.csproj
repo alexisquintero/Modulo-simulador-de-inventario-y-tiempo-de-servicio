@@ -47,7 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataMiner.cs" />
+    <Compile Include="Events\Order.cs" />
     <Compile Include="Generators\NormalDIstribution.cs" />
+    <Compile Include="Inventory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
