@@ -3,8 +3,7 @@ using Simulador.Generators;
 
 namespace Simulador.Events
 {
-  class Order
-  {
+  class Order : Event {
     public Order(
       double osMean     = 0, 
       double osStdDev   = 0, 

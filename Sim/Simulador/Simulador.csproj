@@ -52,7 +52,7 @@
     <Compile Include="Inventory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\Node.cs" />
-    <Compile Include="Utils\fLinkedList.cs" />
+    <Compile Include="Utils\LinkedList.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

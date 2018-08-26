@@ -14,5 +14,15 @@ namespace Simulador.Generators
       Normal normal = new Normal(mean, stddev);
       return normal.Sample();
     }
+    public static double ArrivalTime(double mean, double stddev)
+    {
+      Normal normal = new Normal(mean, stddev);
+      return normal.Sample();
+    }
+    public static double DepartureTime(double mean, double stddev)
+    {
+      Normal normal = new Normal(mean, stddev);
+      return normal.Sample();
+    }
   }
 }
