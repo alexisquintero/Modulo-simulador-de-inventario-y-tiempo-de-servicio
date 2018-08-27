@@ -8,8 +8,24 @@ namespace Simulador.Events
       double timeMean   = 0,
       double timeStdDev = 0)
     {
-      Time = NormalDIstribution.DepartureTime(timeMean, timeStdDev);
+      this.timeMean   = timeMean;
+      this.timeStdDev = timeStdDev;
+      if (firstEvent)
+      {
+        Time = double.MaxValue;
+        firstEvent = false;
+      } else
+      {
+        Time = NormalDIstribution.DepartureTime(timeMean, timeStdDev);
+      }
     }
+    private bool firstEvent = true;
+    private double timeMean;
+    private double timeStdDev;
     public double Time { get; }
+    public Departure GenerateEvent()
+    {
+      return new Departure(timeMean, timeStdDev);
+    }
   }
 }

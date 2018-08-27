@@ -20,20 +20,26 @@ namespace Simulador
     private static int totalNumberOfOrders = 0;
     private static int numberOfOrdersNotEnoughStock = 0;
     private void Simulation(
+      double timeStartSimulation, 
+      double timeEndSimulation, 
+      double initialInventory,
       double orderSizeMean,
       double orderSizeStdDev,
       double timeBetweenOrdersMean,
-      double timeBetweenOrderStdDev)
+      double timeBetweenOrdersStdDev)
     {
-      Initialization();
+      Initialization(
+        timeStartSimulation, 
+        timeEndSimulation, 
+        initialInventory,
+        orderSizeMean, 
+        orderSizeStdDev, 
+        timeBetweenOrdersMean, 
+        timeBetweenOrdersStdDev);
       while (clock < endTime)
       {
         Statistics();
-        GenerateEvent(
-          orderSizeMean, 
-          orderSizeStdDev, 
-          timeBetweenOrdersMean, 
-          timeBetweenOrderStdDev);
+        GenerateEvent();
       }
     }
     private void GatherData()
@@ -88,24 +94,19 @@ namespace Simulador
         totalDemand += o.Ammount;
       }
     }
-    private static void GenerateEvent(
-      double orderSizeMean, 
-      double orderSizeStdDev, 
-      double timeBetweenOrdersMean, 
-      double timeBetweenOrderStdDev)
+    private static void GenerateEvent()
     {
       //Add event to every event list
       events.Add(eventList[(int)nextEvent]);
-      //Generate new event
-      Order order = new Order(
-        orderSizeMean,
-        orderSizeStdDev,
-        timeBetweenOrdersMean,
-        timeBetweenOrderStdDev);
-      //Add event to event list
-      eventList[(int)nextEvent] = order;
-      //Advance clock to next event
-      clock += order.Time;
+      if (eventList[(int)nextEvent] is Order o)
+      {
+        //Generate new event
+        Order order = o.GenerateNext();
+        //Add new event to event list
+        eventList[(int)nextEvent] = o.GenerateNext();
+        //Advance clock to next event
+        clock += order.Time;
+      }
     }
   }
 }
