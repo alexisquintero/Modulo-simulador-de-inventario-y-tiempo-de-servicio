@@ -1,6 +1,5 @@
 ﻿using Simulador.Events;
 using Simulador.Utils;
-using static Simulador.Utils.Enumerators;
 
 namespace Simulador
 {
