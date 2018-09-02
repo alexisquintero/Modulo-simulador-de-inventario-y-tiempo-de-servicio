@@ -2,5 +2,6 @@
 {
   class Event
   {
+    public double Time { get; protected set; }
   }
 }

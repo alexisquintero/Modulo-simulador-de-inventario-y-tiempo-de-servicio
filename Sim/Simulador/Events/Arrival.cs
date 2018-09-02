@@ -6,18 +6,20 @@ namespace Simulador.Events
   {
     public Arrival(
       double timeMean = 0,
-      double timeStdDev = 0)
+      double timeStdDev = 0, 
+      double clockOfSimulation = 0)
     {
-      this.timeMean   = timeMean;
-      this.timeStdDev = timeStdDev;
+      TimeMean   = timeMean;
+      TimeStdDev = timeStdDev;
       Time = NormalDIstribution.ArrivalTime(timeMean, timeStdDev);
+      TimeOfArrival = clockOfSimulation;
     }
-    private double timeMean;
-    private double timeStdDev;
-    public double Time { get; }
-    public Arrival GenerateNext()
+    private static double TimeMean;
+    private static double TimeStdDev;
+    public double TimeOfArrival { get; set; }
+    public Arrival GenerateNext(double clockOfSimulation)
     {
-      return new Arrival(timeMean, timeStdDev);
+      return new Arrival(TimeMean, TimeStdDev, clockOfSimulation);
     }
   }
 }

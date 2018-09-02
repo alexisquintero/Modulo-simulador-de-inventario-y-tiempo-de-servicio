@@ -10,22 +10,21 @@ namespace Simulador.Events
       double tboMean    = 0, 
       double tboStdDev  = 0)
     {
-      this.osMean     = osMean;
-      this.osStdDev   = osStdDev;
-      this.tboMean    = tboMean;
-      this.tboStdDev  = tboStdDev;
+      OsMean     = osMean;
+      OsStdDev   = osStdDev;
+      TboMean    = tboMean;
+      TboStdDev  = tboStdDev;
       Ammount = NormalDIstribution.OrderSize(osMean, osStdDev);
       Time    = NormalDIstribution.TimeBetweenOrder(tboMean, tboStdDev);
     }
-    private double osMean     = 0;
-    private double osStdDev   = 0;
-    private double tboMean    = 0;
-    private double tboStdDev  = 0;
-    public double Time { get; }
+    private static double OsMean     = 0;
+    private static double OsStdDev   = 0;
+    private static double TboMean    = 0;
+    private static double TboStdDev  = 0;
     public double Ammount { get; }
     public Order GenerateNext()
     {
-      return new Order(osMean, osStdDev, tboMean, tboStdDev);
+      return new Order(OsMean, OsStdDev, TboMean, TboStdDev);
     }
   }
 }

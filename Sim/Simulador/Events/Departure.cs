@@ -4,28 +4,43 @@ namespace Simulador.Events
 {
   class Departure : Event
   {
+    private Departure()
+    {
+      Init();
+    }
     public Departure(
       double timeMean   = 0,
       double timeStdDev = 0)
     {
-      this.timeMean   = timeMean;
-      this.timeStdDev = timeStdDev;
+      TimeMean   = timeMean;
+      TimeStdDev = timeStdDev;
+      Init();
+    }
+    private void Init()
+    {
       if (firstEvent)
       {
         Time = double.MaxValue;
         firstEvent = false;
-      } else
+      }
+      else
       {
-        Time = NormalDIstribution.DepartureTime(timeMean, timeStdDev);
+        Time = NormalDIstribution.DepartureTime(TimeMean, TimeStdDev);
       }
     }
     private bool firstEvent = true;
-    private double timeMean;
-    private double timeStdDev;
-    public double Time { get; }
+    //Points to the server this departure affects
+    public int ServerIndex { get; set; }
+    private static double TimeMean;
+    private static double TimeStdDev;
     public Departure GenerateEvent()
     {
-      return new Departure(timeMean, timeStdDev);
+      return new Departure();
+    }
+    public Departure GenerateInifiniteTimeEvent()
+    {
+      firstEvent = true;
+      return new Departure();
     }
   }
 }

@@ -41,10 +41,10 @@ namespace Simulador
         GenerateEvent();
       }
     }
-    private void GatherData()
+    private static void GatherData()
     {
       //Do something
-      Simulation();
+      //Simulation();
     }
     public static void StartSimulation(
       double pInventory = 0, 
@@ -52,6 +52,7 @@ namespace Simulador
     {
       inventory = pInventory;
       endTime = pEndTime;
+      GatherData();
     }
     private static void Initialization(
       double startOfSimulationTime,

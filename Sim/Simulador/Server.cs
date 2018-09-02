@@ -1,4 +1,5 @@
 ﻿using Simulador.Events;
+using Simulador.Utils;
 
 namespace Simulador
 {
@@ -6,14 +7,19 @@ namespace Simulador
   {
     public Server()
     {
-      arrival = null;
-      numberOfCustomersServed = 0;
+      Arrival = null; 
+      NumberOfCustomersServed = 0;
+      ServerIndex = serverIndex;
+      serverIndex++;
     }
-    public Arrival arrival { get; set; }
-    public int numberOfCustomersServed { get; set; }
-    public double activeTime { get; set; }
-    public void AddCustomerServed() => numberOfCustomersServed += 1;
-    public void AddActiveTime(double time) => activeTime += time;
-    public bool IsFree() => arrival == null;
+    public Arrival Arrival { get; set; }
+    public Departure Departure { get; set; }
+    public int NumberOfCustomersServed { get; set; }
+    public double ActiveTime { get; set; }
+    public void AddCustomerServed() => NumberOfCustomersServed += 1;
+    public void AddActiveTime(double time) => ActiveTime += time;
+    public bool IsFree() => Arrival == null;
+    private static int serverIndex = 0;
+    public int ServerIndex { get; private set; }
   }
 }
