@@ -56,11 +56,17 @@
     <Compile Include="Error\MeanSquaredError.cs" />
     <Compile Include="Error\RootMeanSquareDeviation.cs" />
     <Compile Include="Method\AverageBased\DoubleMovingAverage.cs" />
+    <Compile Include="Method\AverageBased\DoubleMovingAverageHelper.cs" />
     <Compile Include="Method\AverageBased\Holt.cs" />
+    <Compile Include="Method\AverageBased\HoltHelper.cs" />
     <Compile Include="Method\AverageBased\MovingAverage.cs" />
+    <Compile Include="Method\AverageBased\MovingAverageHelper.cs" />
     <Compile Include="Method\AverageBased\SimpleAverage.cs" />
+    <Compile Include="Method\AverageBased\SimpleAverageHelper.cs" />
     <Compile Include="Method\AverageBased\SimpleExponentialSmoothing.cs" />
+    <Compile Include="Method\AverageBased\SimpleExponentialSmoothingHelper.cs" />
     <Compile Include="Method\AverageBased\Winters.cs" />
+    <Compile Include="Method\AverageBased\WintersHelper.cs" />
     <Compile Include="Method\LinearRegression\SimpleLinearRegression.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
