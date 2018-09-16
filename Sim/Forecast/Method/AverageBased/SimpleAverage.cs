@@ -9,7 +9,7 @@ namespace Forecast.Method.AverageBased
     {
       //Call function to calculate the 'n' next periods
       return SimpleAverageHelper.Calculate(
-        inputValue.ToList<double>(), amountOfPeriodToCalculate).ToArray<double>();
+        inputValue.ToList<double>(), inputValue.Sum(), amountOfPeriodToCalculate).ToArray<double>();
     }
     
   }

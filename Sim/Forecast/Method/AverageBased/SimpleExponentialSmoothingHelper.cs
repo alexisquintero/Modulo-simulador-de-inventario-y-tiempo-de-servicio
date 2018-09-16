@@ -5,7 +5,8 @@ namespace Forecast.Method.AverageBased
 {
   class SimpleExponentialSmoothingHelper
   {
-    public static List<double> Calculate(List<double> realValues, List<double> output, double smoothingConstant)
+    public static List<double> Calculate(
+      List<double> realValues, List<double> output, double smoothingConstant)
     {
       if (0 == realValues.Count) return output;
       else if (0 == output.Count)
@@ -17,8 +18,7 @@ namespace Forecast.Method.AverageBased
         double forecastValue = output.Last() + smoothingConstant * (realValues.First() - output.Last());
         output.Add(forecastValue);
       }
-      realValues.RemoveAt(0);
-      return Calculate(realValues, output, smoothingConstant);
+      return Calculate(realValues.Skip(1).ToList(), output, smoothingConstant);
     }
   }
 }
