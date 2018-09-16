@@ -18,9 +18,9 @@ namespace Forecast.Method.AverageBased
       }
       else
       {
-        firstAverage.RemoveAt(0);
-        secondAverage.RemoveAt(0);
-        return Calculate(firstAverage, secondAverage, outputValue, movingAverageTerms, index, amountOfPeriodToCalculate);
+        return Calculate(
+          firstAverage.Skip(1).ToList(), secondAverage.Skip(1).ToList(),
+          outputValue, movingAverageTerms, index, amountOfPeriodToCalculate);
       }
     }
   }
