@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class SimpleAverageHelper
+  public class SimpleAverageHelper
   {
     public static List<double> Calculate(
       List<double> inputValue, double inputSum, int amountOfPeriodToCalculate)

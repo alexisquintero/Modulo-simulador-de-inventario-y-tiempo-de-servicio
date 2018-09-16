@@ -49,7 +49,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="Error\MeanAbsoluteDeviation.cs" />
     <Compile Include="Error\MeanAbsolutePercentageError.cs" />
     <Compile Include="Error\MeanPercentageError.cs" />

@@ -4,7 +4,7 @@ using Utils.Exceptions;
 
 namespace Forecast.Error
 {
-  class RootMeanSquareDeviation
+  public class RootMeanSquareDeviation
   {
     public static double Calculation(double[] realValue, double[] forecastValue)
     {

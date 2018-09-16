@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class Holt
+  public class Holt
   {
     public static double[] Calculate(
       double[] inputValue, int amountOfPeriodToCalculate,

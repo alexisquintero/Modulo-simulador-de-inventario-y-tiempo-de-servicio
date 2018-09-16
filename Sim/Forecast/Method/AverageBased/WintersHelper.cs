@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class WintersHelper
+  public class WintersHelper
   {
     public static List<double> Calculate(
      double lastRealValue, List<double> outputValues, double levelConstant,

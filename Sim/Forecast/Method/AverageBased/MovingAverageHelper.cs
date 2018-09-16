@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class MovingAverageHelper
+  public class MovingAverageHelper
   {
     public static List<double> Calculate(
       List<double> inputValue, int amountOfPeriodToCalculate, int index,
