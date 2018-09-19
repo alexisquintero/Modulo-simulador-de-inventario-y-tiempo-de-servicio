@@ -4,7 +4,7 @@ namespace Utils.Exceptions
 {
   public class EmptyParameterArray : Exception
   {
-    private static readonly string eMessage =
+    public static readonly string eMessage =
       "Empty parameter array not allowed";
     public EmptyParameterArray()
       : base(eMessage)

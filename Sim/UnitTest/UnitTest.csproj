@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ForecastTest\ErrorTest\MeanAbsoluteDeviationUnitTest.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +63,10 @@
     <ProjectReference Include="..\Simulador\Simulador.csproj">
       <Project>{8d0c17cc-358c-469d-b900-39223b69d08a}</Project>
       <Name>Simulador</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utils\Utils.csproj">
+      <Project>{A792BF4C-15A6-4046-AB0B-4C3A87056736}</Project>
+      <Name>Utils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -4,7 +4,7 @@ namespace Utils.Exceptions
 {
   public class ZeroInputArray : Exception
   {
-    private static readonly string eMessage =
+    public static readonly string eMessage =
       "Zero on imput array not allowed";
     public ZeroInputArray()
       : base(eMessage)
