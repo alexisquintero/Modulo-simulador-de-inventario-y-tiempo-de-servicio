@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ForecastTest\ErrorTest\MeanAbsoluteDeviationUnitTest.cs" />
+    <Compile Include="ForecastTest\ErrorTest\MeanAbsolutePercentageErrorUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

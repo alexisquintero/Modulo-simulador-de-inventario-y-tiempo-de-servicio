@@ -8,8 +8,6 @@ namespace Forecast.Error
   {
     public static double Calculation(double[] realValue, double[] forecastValue)
     {
-      if (0 == realValue.Length || 0 == forecastValue.Length)
-        throw new Exception("Parameters of length zero not allowed");
       int n = realValue.Length;
       int m = forecastValue.Length;
       if (0 == n || 0 == m) throw new EmptyParameterArray();
