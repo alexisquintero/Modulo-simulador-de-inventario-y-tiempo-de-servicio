@@ -39,7 +39,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       }
     }
     [TestMethod]
-    public void Calculation_BasicFlow1()
+    public void Calculation_BasicFlow()
     {
       double[] input = new double[] { 41.89, 37.5, 42.9 };
       double[] forecast = new double[] { 42.275, 42.275, 42.275 };

@@ -5,7 +5,7 @@ using Utils.Exceptions;
 namespace UnitTest.ForecastTest.ErrorTest
 {
   [TestClass]
-  public class MeanAbsoluteDeviationUnitTest
+  public class MeanPercentageErrorUnitTest
   {
     [TestMethod]
     public void Calculation_emptyArrays()
@@ -16,7 +16,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       try
       {
         double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+          Forecast.Error.MeanPercentageError.Calculation(input, forecast);
       }
       catch (EmptyParameterArray e)
       {
@@ -31,7 +31,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       try
       {
         double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+          Forecast.Error.MeanPercentageError.Calculation(input, forecast);
       }
       catch (DifferentSizeArrays e)
       {
@@ -46,7 +46,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       try
       {
         double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+          Forecast.Error.MeanPercentageError.Calculation(input, forecast);
       }
       catch (ZeroInputArray e)
       {
@@ -58,10 +58,10 @@ namespace UnitTest.ForecastTest.ErrorTest
     {
       double[] input = new double[] { 41.89, 37.5, 42.9 };
       double[] forecast = new double[] { 42.275, 42.275, 42.275 };
-      double expected = 1.92833;
+      double expected = -0.04065;
 
       double result =
-        Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+        Forecast.Error.MeanPercentageError.Calculation(input, forecast);
 
       Assert.AreEqual(expected, result, 0.001);
     }
