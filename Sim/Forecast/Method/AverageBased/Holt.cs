@@ -7,8 +7,7 @@ namespace Forecast.Method.AverageBased
   {
     public static double[] Calculate(
       double[] inputValue, int amountOfPeriodToCalculate,
-      int movingAverageTerms, double dataSmoothingFactor,
-      double trendSmoothingFactor) 
+      double dataSmoothingFactor, double trendSmoothingFactor) 
     {
       double initalSmoothedValue = inputValue[0];
       (List<double>, List<double>) auxValues = 

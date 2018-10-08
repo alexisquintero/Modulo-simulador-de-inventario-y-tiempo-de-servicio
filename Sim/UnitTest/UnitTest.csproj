@@ -57,6 +57,7 @@
     <Compile Include="ForecastTest\MethodTest\SimpleAverageUnitTest.cs" />
     <Compile Include="ForecastTest\MethodTest\MovingAverageUnitTest.cs" />
     <Compile Include="ForecastTest\MethodTest\SimpleExponentialSmoothingUnitTest.cs" />
+    <Compile Include="ForecastTest\MethodTest\HoltUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

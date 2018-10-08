@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Forecast.Method.AverageBased;
+﻿using Forecast.Method.AverageBased;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Utils.Exceptions;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
