@@ -4,7 +4,7 @@ using Utils.Exceptions;
 
 namespace Forecast.Error
 {
-  class MeanAbsoluteDeviation
+  public class MeanAbsoluteDeviation
   {
     public static double Calculation(double[] realValue, double[] forecastValue)
     {

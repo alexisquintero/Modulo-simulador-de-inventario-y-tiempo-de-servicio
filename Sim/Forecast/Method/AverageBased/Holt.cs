@@ -3,12 +3,11 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class Holt
+  public class Holt
   {
     public static double[] Calculate(
       double[] inputValue, int amountOfPeriodToCalculate,
-      int movingAverageTerms, double dataSmoothingFactor,
-      double trendSmoothingFactor) 
+      double dataSmoothingFactor, double trendSmoothingFactor) 
     {
       double initalSmoothedValue = inputValue[0];
       (List<double>, List<double>) auxValues = 

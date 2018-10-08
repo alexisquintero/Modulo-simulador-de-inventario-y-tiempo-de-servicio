@@ -4,7 +4,7 @@ namespace Utils.Exceptions
 {
   public class DifferentSizeArrays : Exception
   {
-    private static readonly string eMessage =
+    public static readonly string eMessage =
       "Different sized parameter arrays not allowed";
     public DifferentSizeArrays()
       : base(eMessage)

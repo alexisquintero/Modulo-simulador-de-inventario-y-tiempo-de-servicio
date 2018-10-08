@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class Winters 
+  public class Winters 
   {
     public static double[] Calculate(
       double[] inputValues, double levelConstant, double trendConstant,

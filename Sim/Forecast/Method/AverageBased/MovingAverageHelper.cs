@@ -1,14 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Utils.Exceptions;
 
 namespace Forecast.Method.AverageBased
 {
-  class MovingAverageHelper
+  public class MovingAverageHelper
   {
     public static List<double> Calculate(
       List<double> inputValue, int amountOfPeriodToCalculate, int index,
       int movingAverageTerms, List<double> outputValue)
     {
+      if (0 > amountOfPeriodToCalculate) throw new NegativePeriodsToCalculate();
+      if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
+      if (0 == amountOfPeriodToCalculate) return inputValue;
       double period = 0;
       int newAmountOfPeriodToCalculate = amountOfPeriodToCalculate;
       int newIndex = index;

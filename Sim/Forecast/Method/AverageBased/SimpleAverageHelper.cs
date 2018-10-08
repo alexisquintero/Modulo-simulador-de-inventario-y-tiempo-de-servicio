@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using Utils.Exceptions;
 
 namespace Forecast.Method.AverageBased
 {
-  class SimpleAverageHelper
+  public class SimpleAverageHelper
   {
     public static List<double> Calculate(
       List<double> inputValue, double inputSum, int amountOfPeriodToCalculate)
     {
+      if (0 > amountOfPeriodToCalculate) throw new NegativePeriodsToCalculate();
       //Return value if no need to calculate next periods
       if (0 == amountOfPeriodToCalculate) return inputValue;
       else

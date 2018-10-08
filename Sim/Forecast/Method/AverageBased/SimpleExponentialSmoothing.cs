@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Forecast.Method.AverageBased
 {
-  class SimpleExponentialSmoothing
+  public class SimpleExponentialSmoothing
   {
     public static double[] Calculate(double[] inputValue, double smoothingConstant)
     {
