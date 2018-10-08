@@ -55,8 +55,8 @@
     <Compile Include="ForecastTest\ErrorTest\MeanSquaredErrorUnitTest.cs" />
     <Compile Include="ForecastTest\ErrorTest\RootMeanSquareDeviationUnitTest.cs" />
     <Compile Include="ForecastTest\MethodTest\SimpleAverageUnitTest.cs" />
-    <Compile Include="ForecastTest\MethodTest\SimpleAverageHelperUnitTest.cs" />
-    <Compile Include="ForecastTest\MethodTest\MovingAverageHelperUnitTest.cs" />
+    <Compile Include="ForecastTest\MethodTest\MovingAverageUnitTest.cs" />
+    <Compile Include="ForecastTest\MethodTest\SimpleExponentialSmoothingUnitTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

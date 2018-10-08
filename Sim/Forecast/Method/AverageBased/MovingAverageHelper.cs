@@ -11,6 +11,7 @@ namespace Forecast.Method.AverageBased
       int movingAverageTerms, List<double> outputValue)
     {
       if (0 > amountOfPeriodToCalculate) throw new NegativePeriodsToCalculate();
+      if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
       if (0 == amountOfPeriodToCalculate) return inputValue;
       double period = 0;
       int newAmountOfPeriodToCalculate = amountOfPeriodToCalculate;
