@@ -43,6 +43,7 @@
   <ItemGroup>
     <Compile Include="Exceptions\DifferentSizeArrays.cs" />
     <Compile Include="Exceptions\EmptyParameterArray.cs" />
+    <Compile Include="Exceptions\MovingAverageTermsBiggerThanInputSize.cs" />
     <Compile Include="Exceptions\NegativeMovingAverageTerms.cs" />
     <Compile Include="Exceptions\NegativePeriodsToCalculate.cs" />
     <Compile Include="Exceptions\ZeroInputArray.cs" />
