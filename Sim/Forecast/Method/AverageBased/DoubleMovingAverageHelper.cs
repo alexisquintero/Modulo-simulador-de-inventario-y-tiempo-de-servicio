@@ -5,7 +5,8 @@ namespace Forecast.Method.AverageBased
 {
   class DoubleMovingAverageHelper
   {
-    public static List<double> Calculate(List<double> firstAverage, List<double> secondAverage, List<double> outputValue, int movingAverageTerms, int index, int amountOfPeriodToCalculate)
+    public static List<double> Calculate(
+      List<double> firstAverage, List<double> secondAverage, List<double> outputValue, int movingAverageTerms, int index, int amountOfPeriodToCalculate)
     {
       if (index > amountOfPeriodToCalculate) return outputValue;
       double at = 2 * firstAverage.First() - secondAverage.First();
@@ -14,7 +15,8 @@ namespace Forecast.Method.AverageBased
       outputValue.Add(forecastValue);
       if (1 == firstAverage.Count)
       {
-        return Calculate(firstAverage, secondAverage, outputValue, movingAverageTerms, index++, amountOfPeriodToCalculate);
+        return Calculate(
+          firstAverage, secondAverage, outputValue, movingAverageTerms, ++index, amountOfPeriodToCalculate);
       }
       else
       {
