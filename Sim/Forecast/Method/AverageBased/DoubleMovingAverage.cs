@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Utils.Exceptions;
 
 namespace Forecast.Method.AverageBased
 {
@@ -8,6 +9,9 @@ namespace Forecast.Method.AverageBased
     //116 
     public static double[] Calculate(double[] inputValue, int amountOfPeriodToCalculate, int movingAverageTerms)
     {
+      if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
+      if (inputValue.Length < movingAverageTerms) throw new MovingAverageTermsBiggerThanInputSize();
+      if (0 > amountOfPeriodToCalculate) throw new NegativePeriodsToCalculate();
       //Calculate first moving average
       double[] firstAverage = MovingAverage.Calculate(inputValue, movingAverageTerms);
       //Calculate second moving average
