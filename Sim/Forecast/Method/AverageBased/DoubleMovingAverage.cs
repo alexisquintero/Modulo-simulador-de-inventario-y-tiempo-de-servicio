@@ -9,9 +9,9 @@ namespace Forecast.Method.AverageBased
     public static double[] Calculate(double[] inputValue, int amountOfPeriodToCalculate, int movingAverageTerms)
     {
       //Calculate first moving average
-      double[] firstAverage = MovingAverage.Calculate(inputValue, amountOfPeriodToCalculate, movingAverageTerms);
+      double[] firstAverage = MovingAverage.Calculate(inputValue, movingAverageTerms);
       //Calculate second moving average
-      double[] secondAverage = MovingAverage.Calculate(firstAverage, amountOfPeriodToCalculate, movingAverageTerms);
+      double[] secondAverage = MovingAverage.Calculate(firstAverage, movingAverageTerms);
       //Remove first movingAverageTerms - 1 values since they are not use
       List<double> fixFirstAverage = firstAverage.ToList().Skip(movingAverageTerms - 1).ToList();
       //Call function to calculate the 'n' next periods
