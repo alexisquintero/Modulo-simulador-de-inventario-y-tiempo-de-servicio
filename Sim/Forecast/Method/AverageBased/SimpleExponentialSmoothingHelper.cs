@@ -9,10 +9,6 @@ namespace Forecast.Method.AverageBased
       List<double> realValues, List<double> output, double smoothingConstant)
     {
       if (0 == realValues.Count) return output;
-      else if (0 == output.Count)
-      {
-        output.Add(realValues.First());
-      }
       else
       {
         double forecastValue = output.Last() + smoothingConstant * (realValues.First() - output.Last());
