@@ -32,7 +32,7 @@ namespace Forecast.Method.AverageBased
           Forecast(newSmoothedValue, index, newTrendValue, newSeasonalValue));
         return Calculate(
           lastRealValue, outputValues, levelConstant, trendConstant,
-          seasonalConstant, amountOfPeriodToCalculate--, index++,
+          seasonalConstant, --amountOfPeriodToCalculate, index++,
           newSmoothedValue, newTrendValue, newSeasonalValue);
       }
     }
@@ -78,19 +78,16 @@ namespace Forecast.Method.AverageBased
       }
       else
       {
-        double newSmoothedValue =
-          SmoothedValue(
-            levelConstant, inputValues.First(), seasonalValues.Last(),
-            smoothedValues.Last(), trendValues.Last());
+        double newSmoothedValue = SmoothedValue(levelConstant,
+          inputValues.First(), seasonalValues.Last(), smoothedValues.Last(),
+          trendValues.Last());
+        double newTrendValue = TrendValue(trendConstant, newSmoothedValue,
+          smoothedValues.Last(), trendValues.Last());
+        double newSeasonalValue = SeasonalValue(seasonalConstant,
+          inputValues.First(), smoothedValues.Last(), seasonalValues.Last());
         smoothedValues.Add(newSmoothedValue);
-        trendValues.Add(
-          TrendValue(
-            trendConstant, newSmoothedValue, smoothedValues.Last(),
-            trendValues.Last()));
-        seasonalValues.Add(
-          SeasonalValue(
-            seasonalConstant, inputValues.First(), smoothedValues.Last(),
-            seasonalValues.Last()));
+        trendValues.Add(newTrendValue);
+        seasonalValues.Add(newSeasonalValue);
       }
       return CalculateSmoothedTrendAndSeasonalValues(
         inputValues.Skip(1).ToList(), levelConstant, trendConstant,
