@@ -1,5 +1,7 @@
 ﻿using Forecast.Method.AverageBased;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
+using System.Linq;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
@@ -15,12 +17,13 @@ namespace UnitTest.ForecastTest.MethodTest
       double alpha = 0.3;
       double beta = 0.1;
       double[] forecastValue = Holt.Calculate(input, 1, alpha, beta);
-      double[] expectedValue = new double[] { 500.0, 500.0, 450.5, 379.8,
-        376.0, 390.5, 369.4, 304.6, 289.1, 295.1, 251.4, 202.8, 249.7,
-        336.5, 337.7, 305.9, 381.0, 438.6, 432.7, 411.2, 476.8, 575.9,
-        567.9, 527.4, 577.7 };
+      double[] expectedValue = new double[] { 500.0, 500.7, 451.0, 380.1,
+        376.1, 390.6, 369.4, 304.6, 289.0, 295.0, 251.3, 202.7, 249.6,
+        336.4, 337.6, 305.8, 380.9, 438.5, 432.7, 411.1, 476.7, 575.8,
+        567.9, 527.3, 577.6, 681 };
+      double[] simplifiedForecast = forecastValue.Select(f => Math.Round(f, 1)).ToArray<double>();
 
-      CollectionAssert.AreEqual(expectedValue, forecastValue);
+      CollectionAssert.AreEqual(expectedValue, simplifiedForecast);
     }
   }
 }

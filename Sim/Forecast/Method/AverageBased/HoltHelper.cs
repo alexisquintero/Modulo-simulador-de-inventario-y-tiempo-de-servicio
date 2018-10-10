@@ -6,29 +6,19 @@ namespace Forecast.Method.AverageBased
   public class HoltHelper
   {
     public static List<double> Calculate(
-      double lastRealValue, int index, int amountOfPeriodToCalculate,
-      List<double> outputValue, double smoothedValue, double dataSmoothingValue,
-      double trendSmoothingFactor, double trendValue)
+      List<double> smoothedValues, List<double> trendValues,
+      List<double> output)
     {
-      if (0 == amountOfPeriodToCalculate) return outputValue;
+      if(0 == smoothedValues.Count)
+      {
+        return output;
+      }
       else
       {
-        //Calculate new smoothed value
-        double newSmoothedValue =
-          SmoothedValue(
-            dataSmoothingValue, lastRealValue, smoothedValue, trendValue);
-        //Calculate new trend value
-        double newTrendValue =
-          TrendValue(
-            trendSmoothingFactor, newSmoothedValue, outputValue.First(),
-            trendValue);
-        //Add new forecasted value
-        outputValue.Add(Forecast(newSmoothedValue, newTrendValue, index));
-        return Calculate(
-          lastRealValue, ++index, --amountOfPeriodToCalculate, outputValue,
-          newSmoothedValue, dataSmoothingValue, trendSmoothingFactor,
-          newTrendValue);
+        output.Add(Forecast(smoothedValues.First(), trendValues.First(), 1));
       }
+      return Calculate(smoothedValues.Skip(1).ToList(),
+        trendValues.Skip(1).ToList(), output);
     }
     public static double SmoothedValue(
       double dataSmoothingFactor, double realValue,
@@ -78,21 +68,6 @@ namespace Forecast.Method.AverageBased
       return CalculteSmoothedAndTrendValues(
         realValues.Skip(1).ToList(), dataSmoothingFactor, trendSmoothingFactor,
         smoothedValues, trendValues, false);
-    }
-    public static List<double> CalculateForecast(
-      List<double> smoothedValues, List<double> trendValues,
-      List<double> output)
-    {
-      if(0 == smoothedValues.Count)
-      {
-        return output;
-      }
-      else
-      {
-        output.Add(Forecast(smoothedValues.First(), trendValues.First(), 1));
-      }
-      return CalculateForecast(smoothedValues.Skip(1).ToList(),
-        trendValues.Skip(1).ToList(), output);
     }
   }
 }
