@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Utils.Exceptions;
 
 namespace Forecast.Method.AverageBased
 {
@@ -7,8 +8,9 @@ namespace Forecast.Method.AverageBased
   {
     public static double[] Calculate(double[] inputValue, double smoothingConstant)
     {
+      if (0 == inputValue.Length) throw new EmptyParameterArray();
       return SimpleExponentialSmoothingHelper.Calculate(
-        inputValue.ToList(), new List<double>(), smoothingConstant).ToArray();
+        inputValue.ToList(), inputValue.Take(1).ToList<double>(), smoothingConstant).ToArray();
     }
   }
 }
