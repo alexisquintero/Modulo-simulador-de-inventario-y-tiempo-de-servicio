@@ -5,35 +5,47 @@ namespace Forecast.Method.AverageBased
 {
   public class WintersHelper
   {
-    public static List<double> Calculate(
-     double lastRealValue, List<double> outputValues, double levelConstant,
-     double trendConstant, double seasonalConstant,
-     int amountOfPeriodToCalculate, int index, double smoothedValue,
-     double trendValue, double seasonalValue)
+    //    public static List<double> Calculate(
+    //     double lastRealValue, List<double> outputValues, double levelConstant,
+    //     double trendConstant, double seasonalConstant,
+    //     int amountOfPeriodToCalculate, int index, double smoothedValue,
+    //     double trendValue, double seasonalValue)
+    //    {
+    //      if (0 == amountOfPeriodToCalculate) return outputValues;
+    //      else
+    //      {
+    //        //Calculate new smoothed value
+    //        double newSmoothedValue =
+    //          SmoothedValue(
+    //            levelConstant, lastRealValue, seasonalValue, smoothedValue,
+    //            trendValue);
+    //        //Calculate new trend value
+    //        double newTrendValue =
+    //          TrendValue(trendConstant, newSmoothedValue, smoothedValue,
+    //          trendValue);
+    //        //Calculate new seasonal value
+    //        double newSeasonalValue =
+    //          SeasonalValue(
+    //            seasonalConstant, lastRealValue, newSmoothedValue, seasonalValue);
+    //        //Add new forecasted value
+    //        outputValues.Add(
+    //          Forecast(newSmoothedValue, index, newTrendValue, newSeasonalValue));
+    //        return Calculate(
+    //          lastRealValue, outputValues, levelConstant, trendConstant,
+    //          seasonalConstant, --amountOfPeriodToCalculate, index++,
+    //          newSmoothedValue, newTrendValue, newSeasonalValue);
+    //      }
+    //    }
+    public static List<double> Calculate(double level, double trend,
+      double season, int index, int amountOfPeriodsToCalculate,
+      List<double> output)
     {
-      if (0 == amountOfPeriodToCalculate) return outputValues;
+      if (index > amountOfPeriodsToCalculate) return output;
       else
       {
-        //Calculate new smoothed value
-        double newSmoothedValue =
-          SmoothedValue(
-            levelConstant, lastRealValue, seasonalValue, smoothedValue,
-            trendValue);
-        //Calculate new trend value
-        double newTrendValue =
-          TrendValue(trendConstant, newSmoothedValue, smoothedValue,
-          trendValue);
-        //Calculate new seasonal value
-        double newSeasonalValue =
-          SeasonalValue(
-            seasonalConstant, lastRealValue, newSmoothedValue, seasonalValue);
-        //Add new forecasted value
-        outputValues.Add(
-          Forecast(newSmoothedValue, index, newTrendValue, newSeasonalValue));
-        return Calculate(
-          lastRealValue, outputValues, levelConstant, trendConstant,
-          seasonalConstant, --amountOfPeriodToCalculate, index++,
-          newSmoothedValue, newTrendValue, newSeasonalValue);
+        double forecastValue = Forecast(level, index, trend, season);
+        output.Add(forecastValue);
+        return Calculate(level, trend, season, ++index, amountOfPeriodsToCalculate, output);
       }
     }
     public static double SmoothedValue(
@@ -53,6 +65,18 @@ namespace Forecast.Method.AverageBased
       double previousSeasonalValue)
     {
       return seasonalConstant * realValue / smoothedValue + (1 - seasonalConstant) * previousSeasonalValue;
+    }
+    public static List<double> firstForecast(List<double> levels,
+      List<double> trends, List<double> seasons, List<double> output)
+    {
+      if (1 == levels.Count()) return output;
+      else
+      {
+        double forecastValue = Forecast(levels.First(), 1, trends.First(), seasons.First());
+        output.Add(forecastValue);
+        return firstForecast(levels.Skip(1).ToList(), trends.Skip(1).ToList(),
+          seasons.Skip(1).ToList(), output);
+      }
     }
     public static double Forecast(
       double smoothedValue, int index, double trendValue, double seasonalValue)
