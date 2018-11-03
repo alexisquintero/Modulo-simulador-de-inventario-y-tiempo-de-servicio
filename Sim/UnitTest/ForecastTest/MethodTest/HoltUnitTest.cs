@@ -1,17 +1,16 @@
 ﻿using Forecast.Method.AverageBased;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System;
 using System.Linq;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
-  [TestClass]
   public class HoltUnitTest
   {
     double[] input = new double[] { 500, 350, 250, 400, 450, 350, 200, 300,
       350, 200, 150, 400, 550, 350, 250, 550, 550, 400, 350, 600, 750, 500,
       400, 650, 850 }; //Data from 4-8 ~73
-    [TestMethod]
+    [Fact]
     public void Calculate()
     {
       double alpha = 0.3;
@@ -23,7 +22,7 @@ namespace UnitTest.ForecastTest.MethodTest
         567.9, 527.3, 577.6, 681 };
       double[] simplifiedForecast = forecastValue.Select(f => Math.Round(f, 1)).ToArray<double>();
 
-      CollectionAssert.AreEqual(expectedValue, simplifiedForecast);
+      Assert.Equal(expectedValue, simplifiedForecast);
     }
   }
 }

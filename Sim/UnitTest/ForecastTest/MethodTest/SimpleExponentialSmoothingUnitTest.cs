@@ -1,17 +1,16 @@
 ﻿using Forecast.Method.AverageBased;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System;
 using System.Linq;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
-  [TestClass]
   public class SimpleExponentialSmoothingUnitTest
   {
     double[] input = new double[] { 500, 350, 250, 400, 450, 350, 200, 300,
         350, 200, 150, 400, 550, 350, 250, 550, 550, 400, 350, 600, 750, 500,
         400, 650, 850 }; //Data from 4-7 ~70
-    [TestMethod]
+    [Fact]
     public void Calculate_LowAlpha()
     {
       double alpha = 0.1;
@@ -23,9 +22,9 @@ namespace UnitTest.ForecastTest.MethodTest
      
       double[] simplifiedForecast = forecast.Select(f => Math.Round(f, 1)).ToArray<double>();
 
-      CollectionAssert.AreEqual(simplifiedForecast, expectedValue);
+      Assert.Equal(simplifiedForecast, expectedValue);
     }
-    [TestMethod]
+    [Fact]
     public void Calculate_HighAlpha()
     {
       double alpha = 0.6;
@@ -37,7 +36,7 @@ namespace UnitTest.ForecastTest.MethodTest
       
       double[] simplifiedForecast = forecast.Select(f => Math.Round(f, 1)).ToArray<double>();
 
-      CollectionAssert.AreEqual(simplifiedForecast, expectedValue);
+      Assert.Equal(simplifiedForecast, expectedValue);
     }
   }
 }

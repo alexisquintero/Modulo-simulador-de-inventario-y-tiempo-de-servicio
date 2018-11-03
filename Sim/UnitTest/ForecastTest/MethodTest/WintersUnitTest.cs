@@ -1,17 +1,16 @@
 ﻿using Forecast.Method.AverageBased;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using System;
 using System.Linq;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
-  [TestClass]
   public class WintersUnitTest
   {
     double[] input = new double[] { 500, 350, 250, 400, 450, 350, 200, 300, 350,
        200, 150, 400, 550, 350, 250, 550, 550, 400, 350, 600, 750, 500, 400, 650,
        850, 600, 450, 700 };
-    [TestMethod]
+    [Fact]
     public void Calculate()
     {
       double alpha = 0.4;
@@ -26,7 +25,7 @@ namespace UnitTest.ForecastTest.MethodTest
       //  716.726 };
       //
       // Assuming the following expected values are correct for the time being
-      // Original values will never match since the inital values are calculated
+      // Original values will never match since the initial values are calculated
       //  different.
 
       double[] expectedValue = new double[] { 500.000, 350.000, 250.000,
@@ -37,7 +36,8 @@ namespace UnitTest.ForecastTest.MethodTest
 
       double[] simplifiedForecast = forecast.Select(f => Math.Round(f, 3)).ToArray();
 
-      CollectionAssert.AreEqual(simplifiedForecast, expectedValue);
+      Assert.Equal(simplifiedForecast, expectedValue);
+      //Assert.Equal(simplifiedForecast, expectedValue);
     }
   }
 }

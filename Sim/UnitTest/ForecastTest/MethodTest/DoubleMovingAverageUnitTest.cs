@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
 using Forecast.Method.AverageBased;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Utils.Exceptions;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
-  [TestClass]
   public class DoubleMovingAverageUnitTest
   {
-    [TestMethod]
+    [Fact]
     public void Calculate_negativeMovinAverageTerms()
     {
       double[] input = new double[] { };
@@ -19,10 +18,10 @@ namespace UnitTest.ForecastTest.MethodTest
       }
       catch (NegativeMovingAverageTerms e)
       {
-        StringAssert.Contains(e.Message, NegativeMovingAverageTerms.eMessage);
+        Assert.Equal(e.Message, NegativeMovingAverageTerms.eMessage);
       }
     }
-    [TestMethod]
+    [Fact]
     public void Calculate_1Periods()
     {
       double[] input = new double[] { 654, 658, 665, 672, 673, 671, 693, 694, 701, 703, 702, 710, 712, 711, 728 };
@@ -30,7 +29,7 @@ namespace UnitTest.ForecastTest.MethodTest
       double[] expectedValue = new double[] { 681, 678, 690, 700, 714, 710, 708, 711, 714, 717, 727 };
       double[] simplifiedForecast = forecast.Select(d => Math.Round(d)).ToArray<double>();
 
-      CollectionAssert.AreEqual(expectedValue, simplifiedForecast);
+      Assert.Equal(expectedValue, simplifiedForecast);
     }
   }
 }

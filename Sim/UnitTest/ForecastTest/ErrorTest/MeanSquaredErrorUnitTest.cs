@@ -1,13 +1,12 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Utils.Exceptions;
 
 namespace UnitTest.ForecastTest.ErrorTest
 {
-  [TestClass]
   public class MeanSquaredErrorUnitTest
   {
-    [TestMethod]
+    [Fact]
     public void Calculation_emptyArrays()
     {
       double[] input = Array.Empty<double>();
@@ -20,10 +19,10 @@ namespace UnitTest.ForecastTest.ErrorTest
       }
       catch (EmptyParameterArray e)
       {
-        StringAssert.Contains(e.Message, EmptyParameterArray.eMessage);
+        Assert.Equal(e.Message, EmptyParameterArray.eMessage);
       }
     }
-    [TestMethod]
+    [Fact]
     public void Calculation_differentSizeArrays()
     {
       double[] input = new double[] { 1 };
@@ -35,10 +34,10 @@ namespace UnitTest.ForecastTest.ErrorTest
       }
       catch (DifferentSizeArrays e)
       {
-        StringAssert.Contains(e.Message, DifferentSizeArrays.eMessage);
+        Assert.Equal(e.Message, DifferentSizeArrays.eMessage);
       }
     }
-    [TestMethod]
+    [Fact]
     public void Calculation_BasicFlow()
     {
       double[] input = new double[] { 41, 45, 49, 47, 44 };
@@ -48,7 +47,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double result =
         Forecast.Error.MeanSquaredError.Calculation(input, forecast);
 
-      Assert.AreEqual(expected, result, 0.001);
+      Assert.Equal(expected, result, 3);
     }
   }
 }

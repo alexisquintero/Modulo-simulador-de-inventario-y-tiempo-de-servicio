@@ -1,15 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Forecast.Method.AverageBased;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using Utils.Exceptions;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
-  [TestClass]
   public class SimpleAverageUnitTest
   {
-    [TestMethod]
+    [Fact]
     public void Calculate_negativePeriods()
     {
       double[] input = new double[] { };
@@ -19,25 +18,25 @@ namespace UnitTest.ForecastTest.MethodTest
       }
       catch (NegativePeriodsToCalculate e)
       {
-        StringAssert.Contains(e.Message, NegativePeriodsToCalculate.eMessage);
+        Assert.Equal(e.Message, NegativePeriodsToCalculate.eMessage);
       }
     }
-    [TestMethod]
+    [Fact]
     public void Calculate_zeroPeriods()
     {
       double[] input = new double[] { 200, 225, 245 };
       double[] forecast = SimpleAverage.Calculate(input, 0);
 
-      CollectionAssert.AreEqual(input, forecast);
+      Assert.Equal(input, forecast);
     }
-    [TestMethod]
+    [Fact]
     public void Calculate_1Period()
     {
       double[] input = new double[] { 100, 150, 200 };
       double[] forecast = SimpleAverage.Calculate(input, 1);
       double[] expectedValue = new double[] { 100, 150, 200, 150 };
 
-      CollectionAssert.AreEqual(expectedValue, forecast);
+      Assert.Equal(expectedValue, forecast);
     }
   }
 }
