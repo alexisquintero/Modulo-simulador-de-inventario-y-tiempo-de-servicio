@@ -1,15 +1,12 @@
-﻿<Project Sdk="Microsoft.Net.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.6.0" />
-  </ItemGroup>
-  
+
   <ItemGroup>
     <ProjectReference Include="..\Utils\Utils.csproj" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.6.0" />
   </ItemGroup>
- 
+
 </Project>
