@@ -1,0 +1,35 @@
+Modo de uso
+
+La ventana de inicio muestra todos los productos de la base de datos a los cuales se les puede realizar procesos de simulaciones y pronósticos, ya que 
+es necesario tener por lo menos 200 datos únicos para obtener resultados estadísticamente significativos, sin embargo permite realizar operaciones en 
+productos con una cantidad menor de operaciones para adecuarse al mundo real.
+La ventana principal está dividia en 3 columnas, la columna de la izquierda presenta las gráficas relacionadas a las simulaciones, con el nombre de cada
+una presente encima de cada uno. La columna del medio se subdivide en 2, mostrando los detalles específicos a cada gráfica. La columna de la derecha
+muestra las gráficas generadas a partir de los datos de los pronósticos.
+
+Acciones sobre las gráficas
+    Click con el botón izquierdo del mouse para obtener los datos exactos del punto más cercano a la gráfica.
+    Click y mantener apretado el botón derecho del mouse para mover la gráfica.
+    Rueda del mouse para hacer zoom.
+    Selección de área con el tercer botón del mouse (rueda) para hacer un zoom de área.
+    Doble click con el tercer botón del mouse (rueda) para resetear la gráfica.
+    
+Menú
+    Opciones por defecto: establece las opciones por defecto que se usarán para realizar las simulaciónes y los pronósticos. Vuelve a generar todas las
+    gráficas.
+    Cambio de producto: vuelve a la venta inicial para seleccionar otro producto, o el mismo.
+    Reporte: genera un reporte en formato pdf en el directorio de ejecución de la aplicación.
+    Salir: cierra la aplicación.
+    
+    Ayuda: muestra esta ventana de dialogo.
+    Acerca: muestra información de la aplicación.
+    
+Explicaciones de los datos adicionales a la gráficas / estadísticos:
+    Tamaño de la muestra: indica la cantidad de datos que se utilizaron del total de la población.
+    Tamaño de la población: indica el cantidad total de datos disponibles para generar datos para las simulaciones y pronósticos.
+    Desviación Media Absoluta: https://es.wikipedia.org/wiki/Desviaci%C3%B3n_media
+    Desviación Media Porcentual: la desviación media absoluta pero como porcentaje.
+    Error Porcentual Medio: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
+    Error Cuadrático Medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
+    Raíz cuadrada del error cuadrático medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
+    Próximo período: indica la cantidad de demanda esperada para el próximo período en el futuro de acuerdo al método utilizado.
