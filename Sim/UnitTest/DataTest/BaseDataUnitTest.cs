@@ -1,5 +1,6 @@
 ﻿using System;
 using Xunit;
+using Data;
 using Utils.Exceptions;
 
 namespace UnitTest.DataTest
@@ -7,9 +8,28 @@ namespace UnitTest.DataTest
   public class BaseDataUnitTest
   {
     [Fact]
-    public void Asd()
+    public void GetAllProducts_Exception()
     {
-      //TODO: Implement
+      try
+      {
+        BaseData.GetAllProducts();
+      }
+      catch (BaseDataMethod e)
+      {
+        Assert.Equal(e.Message, BaseDataMethod.eMessage);
+      }
+    }
+    [Fact]
+    public void GetProductSaleData_Exception()
+    {
+      try
+      {
+        BaseData.GetProductSaleData(1, 2);
+      }
+      catch (BaseDataMethod e)
+      {
+        Assert.Equal(e.Message, BaseDataMethod.eMessage);
+      }
     }
   }
 }

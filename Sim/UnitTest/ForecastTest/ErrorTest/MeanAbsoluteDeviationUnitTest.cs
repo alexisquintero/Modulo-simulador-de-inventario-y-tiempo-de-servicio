@@ -14,8 +14,7 @@ namespace UnitTest.ForecastTest.ErrorTest
 
       try
       {
-        double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+        double result = Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
       }
       catch (EmptyParameterArray e)
       {
@@ -29,8 +28,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double[] forecast = new double[] { 1, 2 };
       try
       {
-        double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+        double result = Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
       }
       catch (DifferentSizeArrays e)
       {
@@ -44,8 +42,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double[] forecast = new double[] { 1 };
       try
       {
-        double result =
-          Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+        double result = Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
       }
       catch (ZeroInputArray e)
       {
@@ -59,8 +56,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double[] forecast = new double[] { 42.275, 42.275, 42.275 };
       double expected = 1.92833;
 
-      double result =
-        Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
+      double result = Forecast.Error.MeanAbsoluteDeviation.Calculation(input, forecast);
 
       Assert.Equal(expected, result, 3);
     }

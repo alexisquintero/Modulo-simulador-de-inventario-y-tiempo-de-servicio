@@ -14,8 +14,7 @@ namespace UnitTest.ForecastTest.ErrorTest
 
       try
       {
-        double result =
-          Forecast.Error.MeanSquaredError.Calculation(input, forecast);
+        double result = Forecast.Error.MeanSquaredError.Calculation(input, forecast);
       }
       catch (EmptyParameterArray e)
       {
@@ -29,8 +28,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double[] forecast = new double[] { 1, 2 };
       try
       {
-        double result =
-          Forecast.Error.MeanSquaredError.Calculation(input, forecast);
+        double result = Forecast.Error.MeanSquaredError.Calculation(input, forecast);
       }
       catch (DifferentSizeArrays e)
       {
@@ -44,8 +42,7 @@ namespace UnitTest.ForecastTest.ErrorTest
       double[] forecast = new double[] { 43.6, 44.4, 45.2, 46, 46.8 };
       double expected = 6.08;
 
-      double result =
-        Forecast.Error.MeanSquaredError.Calculation(input, forecast);
+      double result = Forecast.Error.MeanSquaredError.Calculation(input, forecast);
 
       Assert.Equal(expected, result, 3);
     }
