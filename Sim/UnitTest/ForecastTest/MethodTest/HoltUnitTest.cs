@@ -2,6 +2,7 @@
 using Xunit;
 using System;
 using System.Linq;
+using Utils;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
@@ -15,7 +16,7 @@ namespace UnitTest.ForecastTest.MethodTest
     {
       double alpha = 0.3;
       double beta = 0.1;
-      double[] forecastValue = Holt.Calculate(input, 1, alpha, beta);
+      double[] forecastValue = ArrayBased.Join(Holt.Calculate(input, 1, alpha, beta));
       double[] expectedValue = new double[] { 500.0, 500.7, 451.0, 380.1,
         376.1, 390.6, 369.4, 304.6, 289.0, 295.0, 251.3, 202.7, 249.6,
         336.4, 337.6, 305.8, 380.9, 438.5, 432.7, 411.1, 476.7, 575.8,

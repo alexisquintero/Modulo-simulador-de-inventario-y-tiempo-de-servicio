@@ -1,13 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Utils;
 
 namespace Forecast.Method.AverageBased
 {
   public class Winters 
   {
-    public static double[] Calculate(double[] inputValues, double levelConstant,
+    public static string Name = "Winters";
+    public static (double[], double[]) Calculate(double[] inputValues, double levelConstant,
       double trendConstant, double seasonalConstant,
-      int amountOfPeriodToCalculate, int seasonLength = 4)
+      int amountOfPeriodsToCalculate, int seasonLength = 4)
     {
       (List<double>, List<double>, List<double>) initialCalculations =
         WintersHelper.CalculateSmoothedTrendAndSeasonalValues(
@@ -24,12 +26,13 @@ namespace Forecast.Method.AverageBased
         levelValues, trendValues, seasonValues,
         inputValues.Take(seasonLength - 1).ToList());
 
-      return WintersHelper.Calculate(levelValues.Last(), trendValues.Last(),
+      double[] full = WintersHelper.Calculate(levelValues.Last(), trendValues.Last(),
         seasonValues.Skip(seasonValues.Count() - seasonLength - 1).First(), 1,
-        amountOfPeriodToCalculate, firstForecast).ToArray<double>();
+        amountOfPeriodsToCalculate, firstForecast).ToArray<double>();
+      return ArrayBased.Split(full, amountOfPeriodsToCalculate);
 //      return WintersHelper.Calculate(
 //        inputValues.ToList().Last(), new List<double>(), levelConstant,
-//        trendConstant, seasonalConstant, amountOfPeriodToCalculate, 1,
+//        trendConstant, seasonalConstant, amountOfPeriodsToCalculate, 1,
 //        initialCalculations.Item1.Last(), initialCalculations.Item2.Last(),
 //        initialCalculations.Item3.Last()).ToArray();
     }

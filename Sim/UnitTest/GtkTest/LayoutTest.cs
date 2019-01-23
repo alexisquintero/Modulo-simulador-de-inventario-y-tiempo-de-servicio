@@ -3,6 +3,7 @@ using GtkOxyPlot.GTK;
 using Utils.Exceptions;
 using System.Collections.Generic;
 using System;
+using Utils;
 
 namespace GtkTest
 {

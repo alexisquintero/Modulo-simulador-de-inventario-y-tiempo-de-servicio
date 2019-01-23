@@ -15,6 +15,7 @@
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Forecast\Forecast.csproj" />
     <ProjectReference Include="..\GtkOxyPlot.GTK\GtkOxyPlot.GTK.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

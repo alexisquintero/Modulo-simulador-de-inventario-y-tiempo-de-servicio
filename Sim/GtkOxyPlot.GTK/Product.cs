@@ -1,14 +1,16 @@
-﻿using Gtk;
+﻿using Glue;
+using Gtk;
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using Utils;
 
 namespace GtkOxyPlot.GTK
 {
   class Product
   {
     public static Window mainWindow = null;
-    private static string activeElement;
+    public static (int, string) activeElement;
+    private static List<(int, string)> products;
 
     public static void Init()
     {
@@ -33,22 +35,31 @@ namespace GtkOxyPlot.GTK
     }
     public static List<string> Products()
     {
-      List<string> ps = new List<string> { "Pera", "Manzana", "Banana" };
+      List<string> ps = new List<string>();
+      products = Center.StartData();
+      foreach ((int, string) ip in products) { ps.Add(ip.Item2); }
       return ps;
     }
     public static void RunMainWindow()
     {
-      if (null == activeElement) return;
+      if (null == activeElement.Item2) return;
       mainWindow.HideAll();
       DefaultOptions defaultOptions = new DefaultOptions();
-      (List<PlotViewData>, List<PlotViewData>, List<TableData>, List<TableData>) data = Helper.GatherData(defaultOptions);
-      Helper.InitWindow(data.Item1, data.Item2, data.Item3, data.Item4);
+      Helper.GatherData(defaultOptions);
+      Helper.InitWindow();
     }
     private static void OnComboBoxChanged (object o, EventArgs args)
     {
       ComboBox combo = o as ComboBox;
       if (o == null) return;
-      if (combo.GetActiveIter(out TreeIter iter)) activeElement = (string)combo.Model.GetValue(iter, 0);
+      if (combo.GetActiveIter(out TreeIter iter))
+      {
+        string activeElementName = (string)combo.Model.GetValue(iter, 0);
+        foreach ((int, string) ip in products)
+        {
+          activeElement = ip.Item2 == activeElementName ? ip : activeElement;
+        }
+      }
     }
   }
 }

@@ -3,6 +3,7 @@ using System.Linq;
 using Forecast.Method.AverageBased;
 using Xunit;
 using Utils.Exceptions;
+using Utils;
 
 namespace UnitTest.ForecastTest.MethodTest
 {
@@ -25,7 +26,7 @@ namespace UnitTest.ForecastTest.MethodTest
     public void Calculate_zeroPeriods()
     {
       double[] input = new double[] { 200, 225, 245 };
-      double[] forecast = SimpleAverage.Calculate(input, 0);
+      double[] forecast = ArrayBased.Join(SimpleAverage.Calculate(input, 0));
 
       Assert.Equal(input, forecast);
     }
@@ -33,7 +34,7 @@ namespace UnitTest.ForecastTest.MethodTest
     public void Calculate_1Period()
     {
       double[] input = new double[] { 100, 150, 200 };
-      double[] forecast = SimpleAverage.Calculate(input, 1);
+      double[] forecast = ArrayBased.Join(SimpleAverage.Calculate(input, 1));
       double[] expectedValue = new double[] { 100, 150, 200, 150 };
 
       Assert.Equal(expectedValue, forecast);
