@@ -14,10 +14,9 @@ namespace Forecast.Error
       int m = forecastValue.Length;
       if (0 == n || 0 == m) throw new EmptyParameterArray();
       //Check if there's any 0 on the realValue array
-      if (newReal.Contains(0.0)) throw new ZeroInputArray();
+      if (newReal.Contains(0.0)) return -1;  //throw new ZeroInputArray();
       //Sum of absolute differences divided by real values
-      double sumOfDifferences = 
-        newReal.Zip(forecastValue, (r, f) => (r - f) / r).Sum();
+      double sumOfDifferences = newReal.Zip(forecastValue, (r, f) => (r - f) / r).Sum();
       return sumOfDifferences / n;
     }
   }

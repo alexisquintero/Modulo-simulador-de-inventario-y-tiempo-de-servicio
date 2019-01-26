@@ -24,7 +24,7 @@ namespace UnitTest.DataTest
     {
       try
       {
-        BaseData.GetProductSaleData(1, 2);
+        BaseData.GetProductSaleDataDaily(1, 2);
       }
       catch (BaseDataMethod e)
       {

@@ -8,7 +8,7 @@ namespace UnitTest.ForecastTest.MethodTest
 {
   public class HoltUnitTest
   {
-    double[] input = new double[] { 500, 350, 250, 400, 450, 350, 200, 300,
+    readonly double[] input = new double[] { 500, 350, 250, 400, 450, 350, 200, 300,
       350, 200, 150, 400, 550, 350, 250, 550, 550, 400, 350, 600, 750, 500,
       400, 650, 850 }; //Data from 4-8 ~73
     [Fact]

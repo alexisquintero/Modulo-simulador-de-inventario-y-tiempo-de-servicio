@@ -8,9 +8,7 @@ namespace Simulador.Events
     {
       Init();
     }
-    public Departure(
-      double timeMean   = 0,
-      double timeStdDev = 0)
+    public Departure( double timeMean = 0, double timeStdDev = 0)
     {
       TimeMean   = timeMean;
       TimeStdDev = timeStdDev;

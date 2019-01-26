@@ -32,7 +32,7 @@ namespace Data
         }
       }
     }
-    public static new List<(DateTime, int)> GetProductSaleData(int productId, int sampleSize)
+    public static new List<(DateTime, int)> GetProductSaleDataDaily(int productId, int sampleSize)
     {
       using (SqlConnection connection = new SqlConnection(connectionString))
       {
@@ -52,7 +52,7 @@ namespace Data
             {
               output.Add((reader.GetDateTime(0), reader.GetInt32(1)));
             }
-            return output;
+            return AddZeroValuePeriodDaily(output);
           }
         }
       }

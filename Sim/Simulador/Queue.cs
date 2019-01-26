@@ -2,6 +2,7 @@
 using Simulador.Events;
 using static Simulador.Utils.Enumerators;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace Simulador
 {
@@ -9,18 +10,12 @@ namespace Simulador
   {
     private Server[] servers;
     //TODO: add different queue modes
-    private LinkedList<Arrival> queue;
+    private List<Arrival> queue;
     private int numberOfClientsOnQueue = 0;
     private int numberOfClientsServed = 0;
     private double queueTime = 0;
-    private void Simulation(
-      double timeStartSimulation, 
-      double timeEndSimulation, 
-      int numberOfServers,
-      double arrivalMean, 
-      double arrivalStdDev, 
-      double departureMean, 
-      double departureStdDev)
+    private void Simulation( double timeStartSimulation, double timeEndSimulation, int numberOfServers,
+      double arrivalMean, double arrivalStdDev, double departureMean, double departureStdDev)
     {
       Initialization(
         timeStartSimulation, 
@@ -119,10 +114,10 @@ namespace Simulador
             //Update number of clients served
             numberOfClientsServed += 1;
             //Assign client on queue to server 
-            servers[d.ServerIndex].Arrival = queue.Head();
+            servers[d.ServerIndex].Arrival = queue.First();
             //Remove a client from the queue
             numberOfClientsOnQueue -= 1;
-            queue = queue.Tail();
+            queue = queue.Skip(1).ToList();
             //Generate next departure time
             servers[d.ServerIndex].Departure = d.GenerateEvent();
             //Update next event departure

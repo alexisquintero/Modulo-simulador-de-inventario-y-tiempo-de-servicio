@@ -4,10 +4,7 @@ namespace Simulador.Events
 {
   class Arrival : Event
   {
-    public Arrival(
-      double timeMean = 0,
-      double timeStdDev = 0, 
-      double clockOfSimulation = 0)
+    public Arrival(double timeMean = 0, double timeStdDev = 0, double clockOfSimulation = 0)
     {
       TimeMean   = timeMean;
       TimeStdDev = timeStdDev;

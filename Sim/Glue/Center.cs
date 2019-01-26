@@ -27,7 +27,7 @@ namespace Glue
     {
       if (product.Equals(currentProduct)) return;
       currentProduct = product;
-      List<(DateTime, int)> rawData = FromMicrosoftSQL.GetProductSaleData(currentProduct.Item1, 200);
+      List<(DateTime, int)> rawData = FromMicrosoftSQL.GetProductSaleDataDaily(currentProduct.Item1, 200);
       currentProductData = new List<(DateTime, double)>();
       foreach ((DateTime, int) da in rawData)
       {

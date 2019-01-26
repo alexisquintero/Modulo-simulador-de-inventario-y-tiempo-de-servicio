@@ -1,5 +1,8 @@
 ﻿using Simulador.Events;
 using Simulador.Utils;
+using System;
+using System.Collections.Generic;
+using Utils.Exceptions;
 
 namespace Simulador
 {
@@ -9,71 +12,51 @@ namespace Simulador
     //Determine order frequency probability distribution
     //Determine order size probability distribution
 
-    private static double inventory;  //Inventory value at start of simulation
+    private static double inventory = 0;        //Inventory value at start of simulation
     //TODO: Manage inventory refill, different modes, etc.
     private static double totalDemand = 0;      //Total demanded ammount
     private static double satisfiedDemand = 0;  //Satisfied demand
     private static double missedDemand = 0;     //Not satisfied demand
 
+    private static double initialInventory;
+    public static double orderSizeMean;
+    public static double orderSizeStdDev;
+    public static double timeBetweenOrdersMean;
+    public static double timeBetweenOrdersStdDev;
+
     //Statistics
     private static int totalNumberOfOrders = 0;
     private static int numberOfOrdersNotEnoughStock = 0;
-    private void Simulation(
-      double timeStartSimulation, 
-      double timeEndSimulation, 
-      double initialInventory,
-      double orderSizeMean,
-      double orderSizeStdDev,
-      double timeBetweenOrdersMean,
-      double timeBetweenOrdersStdDev)
+    private void Simulation()
     {
-      Initialization(
-        timeStartSimulation, 
-        timeEndSimulation, 
-        initialInventory,
-        orderSizeMean, 
-        orderSizeStdDev, 
-        timeBetweenOrdersMean, 
-        timeBetweenOrdersStdDev);
+      if (-1 == clock) throw new SimulationNotInitialized();
       while (clock < endTime)
       {
         Statistics();
         GenerateEvent();
       }
     }
-    private static void GatherData()
+    public static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
+      double pInitialInventory, double pInventory, List<(DateTime, double)> rawData)
     {
-      //Do something
-      //Simulation();
-    }
-    public static void StartSimulation(
-      double pInventory = 0, 
-      double pEndTime = 0)
-    {
-      inventory = pInventory;
-      endTime = pEndTime;
-      GatherData();
-    }
-    private static void Initialization(
-      double startOfSimulationTime,
-      double endOfSimulationTime,
-      double initialInventory,
-      double osMean, 
-      double osStdDev, 
-      double tboMean, 
-      double tboStdDev)
-    {
-      //Set the end of simulation time
-      endTime = endOfSimulationTime;
-      //Set the start of simultion time
       clock = startOfSimulationTime;
+      endTime = endOfSimulationTime;
+      initialInventory = pInitialInventory;
+      CalculateMeansAndStdDevs(rawData);
       //Generate first event
-      eventList[(int)nextEvent] = (new Order(osMean, osStdDev, tboMean, tboStdDev));
+      eventList[(int)nextEvent] = (new Order());
       //Advance clock of simulation to first event
       if (eventList[(int)nextEvent] is Order o)
       {
         clock += o.Time;
       }
+    }
+    private static void CalculateMeansAndStdDevs(List<(DateTime, double)> rawData)
+    {
+      //orderSizeMean = osMean;
+      //orderSizeStdDev = osStdDev;
+      //timeBetweenOrdersMean = tboMean;
+      //timeBetweenOrdersStdDev = tboStdDev;
     }
     private static void Statistics()
     {
