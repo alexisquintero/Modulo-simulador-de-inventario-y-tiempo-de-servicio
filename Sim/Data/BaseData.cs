@@ -27,7 +27,37 @@ namespace Data
       }
       return zerolizedData;
     }
-    //protected static List<(DateTime, int)> AddZeroValuePeriodMonthly(List<(DateTime, int)> originalData)
-    //protected static List<(DateTime, int)> AddZeroValuePeriodYearly(List<(DateTime, int)> originalData)
+    protected static List<(DateTime, int)> AddZeroValuePeriodMonthly(List<(DateTime, int)> originalData)
+    {
+      List<(DateTime, int)> zerolizedData = new List<(DateTime, int)>();
+      DateTime nextDate = originalData.First().Item1.Date;
+      foreach ((DateTime, int) od in originalData)
+      {
+        while (!od.Item1.Date.Equals(nextDate))
+        {
+          zerolizedData.Add((nextDate, 0));
+          nextDate = nextDate.AddMonths(1);
+        }
+        zerolizedData.Add(od);
+        nextDate = nextDate.AddMonths(1);
+      }
+      return zerolizedData;
+    }
+    protected static List<(DateTime, int)> AddZeroValuePeriodYearly(List<(DateTime, int)> originalData)
+    {
+      List<(DateTime, int)> zerolizedData = new List<(DateTime, int)>();
+      DateTime nextDate = originalData.First().Item1.Date;
+      foreach ((DateTime, int) od in originalData)
+      {
+        while (!od.Item1.Date.Equals(nextDate))
+        {
+          zerolizedData.Add((nextDate, 0));
+          nextDate = nextDate.AddYears(1);
+        }
+        zerolizedData.Add(od);
+        nextDate = nextDate.AddYears(1);
+      }
+      return zerolizedData;
+    }
   }
 }

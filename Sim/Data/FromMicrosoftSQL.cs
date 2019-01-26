@@ -42,7 +42,8 @@ namespace Data
           "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
           "ON o.[order_id] = oi.[order_id] " +
           "WHERE oi.[product_id] = " + productId.ToString() + " " +
-          "GROUP BY o.[order_date] ";
+          "GROUP BY o.[order_date] " +
+          "ORDER BY o.[order_date] ";
 
         using (SqlCommand command = new SqlCommand(query, connection))
         {
@@ -53,6 +54,58 @@ namespace Data
               output.Add((reader.GetDateTime(0), reader.GetInt32(1)));
             }
             return AddZeroValuePeriodDaily(output);
+          }
+        }
+      }
+    }
+    public static new List<(DateTime, int)> GetProductSaleDataMonthly(int productId, int sampleSize)
+    {
+      using (SqlConnection connection = new SqlConnection(connectionString))
+      {
+        List<(DateTime, int)> output = new List<(DateTime, int)>();
+        connection.Open();
+        string query = "SELECT DATEPART(YEAR, o.[order_date]) Year, DATEPART(MONTH, o.[order_date]) Month, SUM(oi.[quantity]) " +
+          "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
+          "ON o.[order_id] = oi.[order_id] " +
+          "WHERE oi.[product_id] = " + productId.ToString() + " " +
+          "GROUP BY DATEPART(YEAR, o.[order_date]), DATEPART(MONTH, o.[order_date]) " +
+          "ORDER BY DATEPART(YEAR, o.[order_date]), DATEPART(MONTH, o.[order_date]) ";
+
+        using (SqlCommand command = new SqlCommand(query, connection))
+        {
+          using (SqlDataReader reader = command.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              output.Add(( new DateTime(reader.GetInt32(0), reader.GetInt32(1), 1), reader.GetInt32(2)));
+            }
+            return AddZeroValuePeriodMonthly(output);
+          }
+        }
+      }
+    }
+    public static new List<(DateTime, int)> GetProductSaleDataYearly(int productId, int sampleSize)
+    {
+      using (SqlConnection connection = new SqlConnection(connectionString))
+      {
+        List<(DateTime, int)> output = new List<(DateTime, int)>();
+        connection.Open();
+        string query = "SELECT DATEPART(YEAR, o.[order_date]) Year, SUM(oi.[quantity]) " +
+          "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
+          "ON o.[order_id] = oi.[order_id] " +
+          "WHERE oi.[product_id] = " + productId.ToString() + " " +
+          "GROUP BY DATEPART(YEAR, o.[order_date]) " +
+          "ORDER BY DATEPART(YEAR, o.[order_date]) ";
+
+        using (SqlCommand command = new SqlCommand(query, connection))
+        {
+          using (SqlDataReader reader = command.ExecuteReader())
+          {
+            while (reader.Read())
+            {
+              output.Add((new DateTime(reader.GetInt32(0), 1, 1), reader.GetInt32(1)));
+            }
+            return AddZeroValuePeriodYearly(output);
           }
         }
       }
