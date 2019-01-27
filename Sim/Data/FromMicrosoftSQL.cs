@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using Utils.Normalized;
 
 namespace Data
 {
@@ -53,7 +54,7 @@ namespace Data
             {
               output.Add((reader.GetDateTime(0), reader.GetInt32(1)));
             }
-            return AddZeroValuePeriodDaily(output);
+            return Zerolized.AddZeroValuePeriodDaily(output);
           }
         }
       }
@@ -79,7 +80,7 @@ namespace Data
             {
               output.Add(( new DateTime(reader.GetInt32(0), reader.GetInt32(1), 1), reader.GetInt32(2)));
             }
-            return AddZeroValuePeriodMonthly(output);
+            return Zerolized.AddZeroValuePeriodMonthly(output);
           }
         }
       }
@@ -105,7 +106,7 @@ namespace Data
             {
               output.Add((new DateTime(reader.GetInt32(0), 1, 1), reader.GetInt32(1)));
             }
-            return AddZeroValuePeriodYearly(output);
+            return Zerolized.AddZeroValuePeriodYearly(output);
           }
         }
       }

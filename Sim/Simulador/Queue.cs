@@ -1,14 +1,19 @@
-﻿using Simulador.Utils;
-using Simulador.Events;
+﻿using Simulador.Events;
 using static Simulador.Utils.Enumerators;
 using System.Linq;
 using System.Collections.Generic;
+using System;
 
 namespace Simulador
 {
-  class Queue : SimBase
+  class Queue
   {
     private Server[] servers;
+    private static double clock = -1;                       //Simulation time
+    private static Event[] eventList = new Event[Enum.GetNames(typeof(EventEnum)).Length]; //Event list
+    private static EventEnum nextEvent;                     //Points to the type of next event
+    private static List<Event> events = new List<Event>();  //Every event list
+    private static double endTime;                          //Simulation end time  
     //TODO: add different queue modes
     private List<Arrival> queue;
     private int numberOfClientsOnQueue = 0;

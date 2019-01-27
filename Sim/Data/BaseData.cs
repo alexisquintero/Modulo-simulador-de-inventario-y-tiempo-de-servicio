@@ -11,53 +11,5 @@ namespace Data
     public static List<(DateTime, int)> GetProductSaleDataDaily(int productId, int sampleSize) { throw new BaseDataMethod(); }
     public static List<(DateTime, int)> GetProductSaleDataMonthly(int productId, int sampleSize) { throw new BaseDataMethod(); }
     public static List<(DateTime, int)> GetProductSaleDataYearly(int productId, int sampleSize) { throw new BaseDataMethod(); }
-    protected static List<(DateTime, int)> AddZeroValuePeriodDaily(List<(DateTime, int)> originalData)
-    {
-      List<(DateTime, int)> zerolizedData = new List<(DateTime, int)>();
-      DateTime nextDate = originalData.First().Item1.Date;
-      foreach ((DateTime, int) od in originalData)
-      {
-        while (!od.Item1.Date.Equals(nextDate))
-        {
-          zerolizedData.Add((nextDate, 0));
-          nextDate = nextDate.AddDays(1);
-        }
-        zerolizedData.Add(od);
-        nextDate = nextDate.AddDays(1);
-      }
-      return zerolizedData;
-    }
-    protected static List<(DateTime, int)> AddZeroValuePeriodMonthly(List<(DateTime, int)> originalData)
-    {
-      List<(DateTime, int)> zerolizedData = new List<(DateTime, int)>();
-      DateTime nextDate = originalData.First().Item1.Date;
-      foreach ((DateTime, int) od in originalData)
-      {
-        while (!od.Item1.Date.Equals(nextDate))
-        {
-          zerolizedData.Add((nextDate, 0));
-          nextDate = nextDate.AddMonths(1);
-        }
-        zerolizedData.Add(od);
-        nextDate = nextDate.AddMonths(1);
-      }
-      return zerolizedData;
-    }
-    protected static List<(DateTime, int)> AddZeroValuePeriodYearly(List<(DateTime, int)> originalData)
-    {
-      List<(DateTime, int)> zerolizedData = new List<(DateTime, int)>();
-      DateTime nextDate = originalData.First().Item1.Date;
-      foreach ((DateTime, int) od in originalData)
-      {
-        while (!od.Item1.Date.Equals(nextDate))
-        {
-          zerolizedData.Add((nextDate, 0));
-          nextDate = nextDate.AddYears(1);
-        }
-        zerolizedData.Add(od);
-        nextDate = nextDate.AddYears(1);
-      }
-      return zerolizedData;
-    }
   }
 }

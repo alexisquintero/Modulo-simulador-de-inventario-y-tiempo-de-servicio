@@ -276,6 +276,7 @@ namespace GtkOxyPlot.GTK
     public static (List<PlotViewData>, List<PlotViewData>, List<TableData>, List<TableData>) GatherData(DefaultOptions defaultOptions)
     {
       //Get data from simulations
+      List<(string, double[])> simulations = Center.SimulationData(Product.activeElement);
       //Get stats data from simulations
       //Get data from forecasts
       List<(string, (double[], double[]))> forecasts = Center.ForecastData(Product.activeElement);
@@ -290,10 +291,11 @@ namespace GtkOxyPlot.GTK
 
       List<PlotData> pdSimulation = new List<PlotData>
       {
-        new PlotData("Cos", cos),
-        new PlotData("Sin", sin),
-        new PlotData("Cosh", cosh),
-        new PlotData("Tanh", tanh)
+        //new PlotData("Cos", cos),
+        //new PlotData("Sin", sin),
+        //new PlotData("Cosh", cosh),
+        //new PlotData("Tanh", tanh)
+        new PlotData(simulations.First().Item1, simulations.First().Item2)
       };
 
       List<PlotData> pdForecast = new List<PlotData>();

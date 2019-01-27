@@ -5,7 +5,9 @@ using Data;
 using Forecast.Error;
 using Forecast.Method.AverageBased;
 using Forecast.Method.LinearRegression;
+using Simulador;
 using Utils;
+using Utils.Normalized;
 
 namespace Glue
 {
@@ -13,6 +15,7 @@ namespace Glue
   {
     private static (int, string) currentProduct = (-1, null);
     private static List<(DateTime, double)> currentProductData = new List<(DateTime, double)>();
+    private static List<(DateTime, double)> currentProductDataDaily = new List<(DateTime, double)>();
     private static double[] rawDouble;
     private static List<(string, (double[], double[]))> forecasts = new List<(string, (double[], double[]))>();
     public static List<(int, string)> StartData()
@@ -33,10 +36,33 @@ namespace Glue
       {
         currentProductData.Add((da.Item1, da.Item2));
       }
+      //Requiered for simulation
+      List<(DateTime, int)> rawDataDaily = FromMicrosoftSQL.GetProductSaleDataDaily(currentProduct.Item1, 200);
+      currentProductDataDaily = new List<(DateTime, double)>();
+      foreach ((DateTime, int) da in rawDataDaily)
+      {
+        currentProductDataDaily.Add((da.Item1, da.Item2));
+      }
     }
-    public static void SimulationData((int, string) product)
+    public static List<(string, double[])> SimulationData((int, string) product)
     {
-
+      GetProductData(product);
+      Inventory.Initialization(0.0, 26272000.0, 99999.0, currentProductData);
+      List<(DateTime, double)> simData = Inventory.Simulation();
+      //groupby month
+      List<(DateTime, double)> groupedData = simData.GroupBy(
+        s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
+        s => s.Item2,
+        (date, doub) => (date, doub.Sum())
+      ).OrderBy(g => g.Item1).ToList();
+      List<(DateTime, double)> zeroData = Zerolized.AddZeroValuePeriodMonthly(groupedData);
+      List<double> onlyDoubles = new List<double>();
+      foreach ((DateTime, double) z in zeroData) { onlyDoubles.Add(z.Item2); }
+      List<(string, double[])> returnData = new List<(string, double[])>
+      {
+        ("Simulation", onlyDoubles.ToArray())
+      };
+      return returnData;
     }
     public static void SimulationStatData((int, string) product)
     {
