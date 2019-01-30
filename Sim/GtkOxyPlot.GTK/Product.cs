@@ -10,6 +10,7 @@ namespace GtkOxyPlot.GTK
   {
     public static Window mainWindow = null;
     public static (int, string) activeElement;
+    public static Period period;
     private static List<(int, string)> products;
 
     public static void Init()
@@ -18,17 +19,23 @@ namespace GtkOxyPlot.GTK
       mainWindow.Destroyed += new EventHandler(delegate (object o, EventArgs args) { Application.Quit(); });
       mainWindow.SetDefaultSize(300, 100);
 
-      ComboBox comboBox = ComboBox.NewText();
-      comboBox.Changed += new EventHandler(OnComboBoxChanged);
-      Products().ForEach(p => comboBox.AppendText(p));
+      ComboBox cbProducts = ComboBox.NewText();
+      cbProducts.Changed += new EventHandler(OncbProductsChanged);
+      Products().ForEach(p => cbProducts.AppendText(p));
+
+      ComboBox cbPeriod = ComboBox.NewText();
+      cbPeriod.Changed += new EventHandler(OncbPeriodChanged);
+      foreach(Period p in Enum.GetValues(typeof(Period))) { cbPeriod.AppendText(p.ToString()); }
+      cbPeriod.Active = 1;
 
       Button button = new Button("Aceptar");
       button.Clicked += new EventHandler(delegate (object o, EventArgs args) { RunMainWindow(); });
 
-      Table table = new Table(3, 1, true);
+      Table table = new Table(4, 1, true);
       table.Attach(new Label("Seleccione un producto"), 0, 1, 0, 1);
-      table.Attach(comboBox, 0, 1, 1, 2);
-      table.Attach(button, 0, 1, 2, 3);
+      table.Attach(cbProducts, 0, 1, 1, 2);
+      table.Attach(cbPeriod, 0, 1, 2, 3);
+      table.Attach(button, 0, 1, 3, 4);
 
       mainWindow.Add(table);
       mainWindow.ShowAll();
@@ -48,7 +55,7 @@ namespace GtkOxyPlot.GTK
       Helper.GatherData(defaultOptions);
       Helper.InitWindow();
     }
-    private static void OnComboBoxChanged (object o, EventArgs args)
+    private static void OncbProductsChanged (object o, EventArgs args)
     {
       ComboBox combo = o as ComboBox;
       if (o == null) return;
@@ -59,6 +66,17 @@ namespace GtkOxyPlot.GTK
         {
           activeElement = ip.Item2 == activeElementName ? ip : activeElement;
         }
+      }
+    }
+    private static void OncbPeriodChanged (object o, EventArgs args)
+    {
+      ComboBox combo = o as ComboBox;
+      if (o == null) return;
+      if (combo.GetActiveIter(out TreeIter iter))
+      {
+        string strPeriod = (string)combo.Model.GetValue(iter, 0);
+        Enum.TryParse(strPeriod, out Period tempPeriod);
+        period = tempPeriod;
       }
     }
   }

@@ -8,7 +8,7 @@ namespace Simulador.Events
     {
       TimeMean   = timeMean;
       TimeStdDev = timeStdDev;
-      Time = NormalDIstribution.ArrivalTime(timeMean, timeStdDev);
+      Time = NormalDistribution.ArrivalTime();
       TimeOfArrival = clockOfSimulation;
     }
     private static double TimeMean;

@@ -54,7 +54,7 @@ namespace Data
             {
               output.Add((reader.GetDateTime(0), reader.GetInt32(1)));
             }
-            return Zerolized.AddZeroValuePeriodDaily(output);
+            return Zerolized.AddZeroValue(output, Utils.Period.Diario);
           }
         }
       }
@@ -80,7 +80,7 @@ namespace Data
             {
               output.Add(( new DateTime(reader.GetInt32(0), reader.GetInt32(1), 1), reader.GetInt32(2)));
             }
-            return Zerolized.AddZeroValuePeriodMonthly(output);
+            return Zerolized.AddZeroValue(output, Utils.Period.Mensual);
           }
         }
       }
@@ -106,7 +106,7 @@ namespace Data
             {
               output.Add((new DateTime(reader.GetInt32(0), 1, 1), reader.GetInt32(1)));
             }
-            return Zerolized.AddZeroValuePeriodYearly(output);
+            return Zerolized.AddZeroValue(output, Utils.Period.Anual);
           }
         }
       }

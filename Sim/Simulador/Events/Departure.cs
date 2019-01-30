@@ -23,7 +23,7 @@ namespace Simulador.Events
       }
       else
       {
-        Time = NormalDIstribution.DepartureTime(TimeMean, TimeStdDev);
+        Time = NormalDistribution.DepartureTime();
       }
     }
     private bool firstEvent = true;

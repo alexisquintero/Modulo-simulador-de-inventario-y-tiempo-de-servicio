@@ -1,9 +1,10 @@
 ﻿using MathNet.Numerics.Statistics;
 using Simulador.Events;
-using Simulador.Utils;
+using Simulador.Generators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Utils;
 using Utils.Exceptions;
 using static Simulador.Utils.Enumerators;
 
@@ -27,12 +28,9 @@ namespace Simulador
     private static double satisfiedDemand = 0;  //Satisfied demand
     private static double missedDemand = 0;     //Not satisfied demand
 
-    public static double orderSizeMean;
-    public static double orderSizeStdDev;
-    public static double timeBetweenOrdersMean;
-    public static double timeBetweenOrdersStdDev;
-
     private static DateTime firstDateTime;
+    private static Distributions orderAmmount;
+    private static Distributions timeBetweenOrders;
 
     //Statistics
     private static int totalNumberOfOrders = 0;
@@ -61,31 +59,54 @@ namespace Simulador
       return returnData;
     }
     public static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
-      double pInitialInventory, List<(DateTime, double)> rawData)
+      double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
+      Distributions pTimeBetweenOrders)
     {
       clock = startOfSimulationTime;
       endTime = endOfSimulationTime;
       inventory = pInitialInventory;
       firstDateTime = rawData.First().Item1;
-      CalculateMeansAndStdDevs(rawData);
+      orderAmmount = pOrderAmmount;
+      timeBetweenOrders = pTimeBetweenOrders;
+      CalculateDistributionsParameters(rawData);
       nextEvent = EventEnum.Order;
       //Generate first event
-      eventList[(int)nextEvent] = (new Order());
+      eventList[(int)nextEvent] = (new Order(orderAmmount, timeBetweenOrders));
       //Advance clock of simulation to first event
       if (eventList[(int)nextEvent] is Order o)
       {
         clock += o.Time;
       }
     }
-    private static void CalculateMeansAndStdDevs(List<(DateTime, double)> rawData)
+    private static void CalculateDistributionsParameters(List<(DateTime, double)> rawData)
     {
       List<double> amounts = new List<double>();
       List<DateTime> dates = new List<DateTime>();
-      foreach ((DateTime, double) rd in rawData) { dates.Add(rd.Item1); amounts.Add(rd.Item2); }
+      double lowest = Double.MaxValue;
+      double max = Double.MinValue;
+      foreach ((DateTime, double) rd in rawData) {
+        dates.Add(rd.Item1); amounts.Add(rd.Item2);
+        lowest = rd.Item2 < lowest ? rd.Item2 : lowest;
+        max = rd.Item2 > max ? rd.Item2 : max;
+      }
 
       Tuple<double, double> osMeanStdDev = amounts.ToArray().MeanStandardDeviation();
-      orderSizeMean = osMeanStdDev.Item1;
-      orderSizeStdDev = osMeanStdDev.Item2;
+
+      switch (orderAmmount)
+      {
+        case Distributions.Normal:
+          NormalDistribution.Initialize(osMeanStdDev.Item1, osMeanStdDev.Item2, Generator.OrderSize); break;
+        case Distributions.Poisson:
+          PoissonDistribution.Initialize(osMeanStdDev.Item1, Generator.OrderSize); break;
+        case Distributions.Exponential:
+          ExponentialDistribution.Initialize(1 / osMeanStdDev.Item1, Generator.OrderSize); break;
+        case Distributions.UniformCont:
+          UniformContDistribution.Initialize(lowest, max, Generator.OrderSize); break;
+        case Distributions.UniformDisc:
+          //Truncating gives me floor value already
+          UniformDiscDistribution.Initialize((int)Math.Ceiling(lowest), (int)max, Generator.OrderSize); break;
+        default: break;
+      }
 
       //For tbo we use the time between orders in seconds
       //Max int in seconds is approximately 68 years
@@ -95,8 +116,22 @@ namespace Simulador
         secondsBetweenOrders.Add(dates.ElementAt(i + 1).Subtract(dates.ElementAt(i)).TotalSeconds);
       }
       Tuple<double, double> tboMeanStdDev = secondsBetweenOrders.ToArray().MeanStandardDeviation();
-      timeBetweenOrdersMean = tboMeanStdDev.Item1;
-      timeBetweenOrdersStdDev = tboMeanStdDev.Item2;
+
+      switch (timeBetweenOrders)
+      {
+        case Distributions.Normal:
+          NormalDistribution.Initialize(tboMeanStdDev.Item1, tboMeanStdDev.Item2, Generator.TimeBetweenOrders); break;
+        case Distributions.Poisson:
+          PoissonDistribution.Initialize(tboMeanStdDev.Item1, Generator.TimeBetweenOrders); break;
+        case Distributions.Exponential:
+          ExponentialDistribution.Initialize(1 / tboMeanStdDev.Item1, Generator.TimeBetweenOrders); break;
+        case Distributions.UniformCont:
+          UniformContDistribution.Initialize(lowest, max, Generator.TimeBetweenOrders); break;
+        case Distributions.UniformDisc:
+          //Truncating gives me floor value already
+          UniformDiscDistribution.Initialize((int)Math.Ceiling(lowest), (int)max, Generator.TimeBetweenOrders); break;
+        default: break;
+      }
     }
     private static void Statistics()
     {
