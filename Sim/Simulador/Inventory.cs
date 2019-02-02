@@ -35,8 +35,12 @@ namespace Simulador
     //Statistics
     private static int totalNumberOfOrders = 0;
     private static int numberOfOrdersNotEnoughStock = 0;
-    public static List<(DateTime, double)> Simulation()
+    public static List<(DateTime, double)> Simulation(double startOfSimulationTime, double endOfSimulationTime,
+      double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
+      Distributions pTimeBetweenOrders)
     {
+      Initialization(startOfSimulationTime, endOfSimulationTime, pInitialInventory, rawData, pOrderAmmount,
+        pTimeBetweenOrders);
       if (-1 == clock) throw new SimulationNotInitialized();
       while (clock < endTime)
       {
@@ -58,10 +62,15 @@ namespace Simulador
 
       return returnData;
     }
-    public static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
+    private static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
       double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
       Distributions pTimeBetweenOrders)
     {
+      //Reset variables
+      events = new List<Event>();
+      totalDemand = satisfiedDemand = missedDemand = 0;
+      totalNumberOfOrders = numberOfOrdersNotEnoughStock = 0;
+
       clock = startOfSimulationTime;
       endTime = endOfSimulationTime;
       inventory = pInitialInventory;

@@ -286,13 +286,11 @@ namespace GtkOxyPlot.GTK
       //Get stats data from forecasts
       stdForecast = Center.ForecastStatData();
 
-      List<PlotData> pdSimulation = new List<PlotData>
-      {
-        new PlotData(simulations.First().Item1, simulations.First().Item2)
-      };
+      List<PlotData> pdSimulation = new List<PlotData>();
+      foreach ((string, double[]) s in simulations) { pdSimulation.Add(new PlotData(s.Item1, s.Item2)); }
 
       List<PlotData> pdForecast = new List<PlotData>();
-      foreach ((string, (double[], double[])) f in forecasts) { pdForecast.Add(new PlotData(f.Item1, ArrayBased.Join(f.Item2))); };
+      foreach ((string, (double[], double[])) f in forecasts) { pdForecast.Add(new PlotData(f.Item1, ArrayBased.Join(f.Item2))); }
 
       pvdsSimulation = PlotBuilder(pdSimulation, Utils.PlotType.Simulation);
       pvdsForecast = PlotBuilder(pdForecast, Utils.PlotType.Forecast);

@@ -60,22 +60,15 @@ namespace Glue
     public static List<(string, double[])> SimulationData((int, string) product)
     {
       GetProductData(product);
-      Inventory.Initialization(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Poisson, Distributions.Exponential);
-      List<(DateTime, double)> simData = Inventory.Simulation();
-      //groupby month
-      List<(DateTime, double)> groupedData = simData.GroupBy(
-        s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
-        s => s.Item2,
-        (date, doub) => (date, doub.Sum())
-      ).OrderBy(g => g.Item1).ToList();
-      List<(DateTime, double)> zeroData = Zerolized.AddZeroValue(groupedData, period);
-      List<double> onlyDoubles = new List<double>();
-      foreach ((DateTime, double) z in zeroData) { onlyDoubles.Add(z.Item2); }
-      List<(string, double[])> returnData = new List<(string, double[])>
+      List<(string, double[])> simulations = new List<(string, double[])>
       {
-        ("Simulation", onlyDoubles.ToArray())
+        ("Simulation P/E", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Poisson, Distributions.Exponential))),
+        ("Simulation N/N", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Normal, Distributions.Normal))),
+        ("Simulation E/P", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Exponential, Distributions.Poisson))),
+        ("Simulation UC/E", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformCont, Distributions.Exponential))),
+        ("Simulation UD/N", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformDisc, Distributions.Normal)))
       };
-      return returnData;
+      return simulations;
     }
     public static void SimulationStatData((int, string) product)
     {
@@ -117,6 +110,22 @@ namespace Glue
       }
 
       return stds;
+    }
+    private static double[] ProcessSimulationOutput(List<(DateTime, double)> simData)
+    {
+      //groupby month
+      List<(DateTime, double)> groupedData = simData.GroupBy(
+        s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
+        s => s.Item2,
+        (date, doub) => (date, doub.Sum())
+      ).OrderBy(g => g.Item1).ToList();
+
+      List<(DateTime, double)> zeroData = Zerolized.AddZeroValue(groupedData, period);
+
+      List<double> onlyDoubles = new List<double>();
+      foreach ((DateTime, double) z in zeroData) { onlyDoubles.Add(z.Item2); }
+
+      return onlyDoubles.ToArray();
     }
   }
 }

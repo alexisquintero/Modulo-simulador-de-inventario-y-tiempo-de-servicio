@@ -12,7 +12,7 @@ namespace Simulador.Events
       ammountDistribution = ad;
       timeDistribution = td;
 
-      Ammount = new Func<double>(() =>
+      Ammount = NonNegativeValue(new Func<double>(() =>
       {
         switch (ammountDistribution)
         {
@@ -23,9 +23,9 @@ namespace Simulador.Events
           case Distributions.UniformDisc: return UniformDiscDistribution.OrderSize();
           default: return -1;
         }
-      })();
+      })());
 
-      Time = new Func<double>(() =>
+      Time = NonNegativeValue(new Func<double>(() =>
       {
         switch (timeDistribution)
         {
@@ -36,8 +36,9 @@ namespace Simulador.Events
           case Distributions.UniformDisc: return UniformDiscDistribution.TimeBetweenOrder();
           default: return -1;
         }
-      })();
+      })());
     }
+    private double NonNegativeValue(double d) { return d = d < 0 ? 0 : d; }
     public double Ammount { get; }
     public Order GenerateNext() { return new Order(ammountDistribution, timeDistribution); }
   }
