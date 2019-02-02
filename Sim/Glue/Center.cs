@@ -87,8 +87,10 @@ namespace Glue
         (MovingAverage.Name, MovingAverage.Calculate(rawDouble, 3)),
         (DoubleMovingAverage.Name, DoubleMovingAverage.Calculate(rawDouble, 1, 3)),
         (SimpleExponentialSmoothing.Name, SimpleExponentialSmoothing.Calculate(rawDouble, 0.2)),
-        (Holt.Name, Holt.Calculate(rawDouble, 1, 0.2, 0.2)),
-        (Winters.Name, Winters.Calculate(rawDouble, 0.2, 0.2, 0.2, 1))
+        //(Holt.Name, Holt.Calculate(rawDouble, 1, 0.2, 0.2)),
+        (Holt.Name, Holt.CalculateBest(rawDouble, 1)),
+        //(Winters.Name, Winters.Calculate(rawDouble, 0.2, 0.2, 0.2, 1))
+        (NewWinters.Name, NewWinters.CalculateBest(rawDouble, 1, 4))
       };
 
       return forecasts;

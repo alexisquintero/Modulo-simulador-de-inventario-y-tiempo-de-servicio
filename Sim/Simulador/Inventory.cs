@@ -48,9 +48,9 @@ namespace Simulador
         GenerateEvent();
       }
 
-      List<(DateTime, double)> returnData = new List<(DateTime, double)>
-      {
-        (firstDateTime.AddSeconds(events.First().Time), ((Order)events.First()).Ammount)
+      List<(DateTime, double)> returnData = new List<(DateTime, double)>();
+      if (events.Count > 0) {
+        returnData.Add((firstDateTime.AddSeconds(events.First().Time), ((Order)events.First()).Ammount));
       };
       for (int i = 1; i < events.Count; i++)
       {

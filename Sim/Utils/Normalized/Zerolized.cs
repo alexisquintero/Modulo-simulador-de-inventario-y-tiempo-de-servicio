@@ -53,6 +53,7 @@ namespace Utils.Normalized
     }
     private static List<(DateTime, T)> AddZeroValuePeriodYearly<T>(List<(DateTime, T)> originalData)
     {
+      if (originalData.Count == 0) return new List<(DateTime, T)>();
       List<(DateTime, T)> zerolizedData = new List<(DateTime, T)>();
       T zero = (T)Convert.ChangeType(0, typeof(T));
       DateTime nextDate = originalData.First().Item1.Date;
@@ -61,7 +62,7 @@ namespace Utils.Normalized
         while (!od.Item1.Date.Equals(nextDate))
         {
           zerolizedData.Add((nextDate, zero));
-          nextDate = nextDate.AddYears(1);
+          nextDate = new DateTime(nextDate.Year + 1, nextDate.Month, nextDate.Day, nextDate.Hour, nextDate.Minute, nextDate.Second);
         }
         zerolizedData.Add(od);
         nextDate = nextDate.AddYears(1);

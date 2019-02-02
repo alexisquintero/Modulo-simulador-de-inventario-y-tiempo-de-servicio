@@ -10,7 +10,7 @@ namespace Forecast.Error
     public static double Calculation(double[] realValue, double[] forecastValue)
     {
       double[] newReal = ArrayBased.ShortenRealValueArray(realValue, forecastValue);
-      int n = newReal.Length;
+      double n = newReal.Length;
       int m = forecastValue.Length;
       if (0 == n || 0 == m) throw new EmptyParameterArray();
       //Sum of absolute differences
