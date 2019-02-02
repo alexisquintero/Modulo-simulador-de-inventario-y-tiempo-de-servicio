@@ -21,19 +21,19 @@ namespace Utils
     public int PopulationSize;
     public string GetPopulationSize() { return "Tamaño de la población: " + PopulationSize.ToString(); }
     public double MeanAbsoluteDeviation;
-    public string GetMeanAbsoluteDeviation() { return "Desviación Media Absoluta: " + MeanAbsoluteDeviation.ToString(); }
+    public string GetMeanAbsoluteDeviation() { return "Desviación Media Absoluta: " + Math.Round(MeanAbsoluteDeviation, 3).ToString(); }
     public double MeanAbsolutePercentageError;
-    public string GetMeanAbsolutePercentageError() { return "Desviación Media Porcentual: " + MeanAbsolutePercentageError.ToString(); }
+    public string GetMeanAbsolutePercentageError() { return "Desviación Media Porcentual: " + Math.Round(MeanAbsolutePercentageError, 3).ToString(); }
     public double MeanPercentageError;
-    public string GetMeanPercentageError() { return "Error Porcentual Medio: " + MeanPercentageError.ToString(); }
+    public string GetMeanPercentageError() { return "Error Porcentual Medio: " + Math.Round(MeanPercentageError, 3).ToString(); }
     public double MeanSquaredError;
-    public string GetMeanSquaredError() { return "Error Cuadrático Medio: " + MeanSquaredError.ToString(); }
+    public string GetMeanSquaredError() { return "Error Cuadrático Medio: " + Math.Round(MeanSquaredError, 3).ToString(); }
     public double RootMeanSquareDeviation;
-    public string GetRootMeanSquareDeviation() { return "Raíz cuadrada del error cuadrático medio: " + RootMeanSquareDeviation.ToString(); }
+    public string GetRootMeanSquareDeviation() { return "Raíz cuadrada del error cuadrático medio: " + Math.Round(RootMeanSquareDeviation, 3).ToString(); }
     public DateTime StartDate;
     public string GetStartDate() { return "Fecha de inicio: " + StartDate.ToShortDateString().ToString(); }
     public double NextPeriod;
-    public string GetNextPeriod() { return "Próximo período: " + NextPeriod.ToString(); }
+    public string GetNextPeriod() { return "Próximo período: " + Math.Round(NextPeriod, 3).ToString(); }
   }
   public class DefaultOptions
   {
