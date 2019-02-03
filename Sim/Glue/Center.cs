@@ -17,7 +17,7 @@ namespace Glue
     private static List<(DateTime, double)> currentProductData = new List<(DateTime, double)>();
     private static List<(DateTime, double)> currentProductDataDaily = new List<(DateTime, double)>();
     private static double[] rawDouble;
-    private static List<(string, (double[], double[]))> forecasts = new List<(string, (double[], double[]))>();
+    private static List<((double[], double[]), string)> forecasts = new List<((double[], double[]), string)>();
 
     public static Period period;
     public static List<(int, string)> StartData()
@@ -57,16 +57,16 @@ namespace Glue
         currentProductDataDaily.Add((da.Item1, da.Item2));
       }
     }
-    public static List<(string, double[])> SimulationData((int, string) product)
+    public static List<(double[], string)> SimulationData((int, string) product)
     {
       GetProductData(product);
-      List<(string, double[])> simulations = new List<(string, double[])>
+      List<(double[], string)> simulations = new List<(double[], string)>
       {
-        ("Simulation P/E", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Poisson, Distributions.Exponential))),
-        ("Simulation N/N", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Normal, Distributions.Normal))),
-        ("Simulation E/P", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Exponential, Distributions.Poisson))),
-        ("Simulation UC/E", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformCont, Distributions.Exponential))),
-        ("Simulation UD/N", ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformDisc, Distributions.Normal)))
+        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Poisson, Distributions.Exponential)), "Simulation P/E"),
+        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Normal, Distributions.Normal)), "Simulation N/N"),
+        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Exponential, Distributions.Poisson)), "Simulation E/P"),
+        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformCont, Distributions.Exponential)), "Simulation UC/E"),
+        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformDisc, Distributions.Normal)), "Simulation UD/N")
       };
       return simulations;
     }
@@ -74,23 +74,21 @@ namespace Glue
     {
 
     }
-    public static List<(string, (double[], double[]))> ForecastData((int, string) product)
+    public static List<((double[], double[]), string)> ForecastData((int, string) product)
     {
       GetProductData(product);
       List<double> listDoubles = new List<double>();
       foreach ((DateTime, double) dd in currentProductData) { listDoubles.Add(dd.Item2); }
       rawDouble = listDoubles.ToArray();
-      forecasts = new List<(string, (double[], double[]))>()
+      forecasts = new List<((double[], double[]), string)>()
       {
-        (SimpleLinearRegression.Name, SimpleLinearRegression.Calculate(rawDouble, 1)),
-        (SimpleAverage.Name, SimpleAverage.Calculate(rawDouble, 1)),
-        (MovingAverage.Name, MovingAverage.Calculate(rawDouble, 3)),
-        (DoubleMovingAverage.Name, DoubleMovingAverage.Calculate(rawDouble, 1, 3)),
-        (SimpleExponentialSmoothing.Name, SimpleExponentialSmoothing.Calculate(rawDouble, 0.2)),
-        //(Holt.Name, Holt.Calculate(rawDouble, 1, 0.2, 0.2)),
-        (Holt.Name, Holt.CalculateBest(rawDouble, 1)),
-        //(Winters.Name, Winters.Calculate(rawDouble, 0.2, 0.2, 0.2, 1))
-        (NewWinters.Name, NewWinters.CalculateBest(rawDouble, 1, 4))
+        (SimpleLinearRegression.Calculate(rawDouble, 1), SimpleLinearRegression.Name),
+        (SimpleAverage.Calculate(rawDouble, 1), SimpleAverage.Name),
+        (MovingAverage.Calculate(rawDouble, 3), MovingAverage.Name),
+        (DoubleMovingAverage.Calculate(rawDouble, 1, 3), DoubleMovingAverage.Name),
+        (SimpleExponentialSmoothing.Calculate(rawDouble, 0.2), SimpleExponentialSmoothing.Name),
+        (Holt.CalculateBest(rawDouble, 1), Holt.Name),
+        (Winters.CalculateBest(rawDouble, 1, (int)period), Winters.Name)
       };
 
       return forecasts;
@@ -99,15 +97,15 @@ namespace Glue
     {
       List<StatisticsTableData> stds = new List<StatisticsTableData>();
 
-      foreach ((string, (double[], double[])) f in forecasts)
+      foreach (((double[], double[]), string) f in forecasts)
       {
-        double mad = MeanAbsoluteDeviation.Calculation(rawDouble, f.Item2.Item1);
-        double mape = MeanAbsolutePercentageError.Calculation(rawDouble, f.Item2.Item1);
-        double mpe = MeanPercentageError.Calculation(rawDouble, f.Item2.Item1);
-        double mse = MeanSquaredError.Calculation(rawDouble, f.Item2.Item1);
-        double rmsd = RootMeanSquareDeviation.Calculation(rawDouble, f.Item2.Item1);
+        double mad = MeanAbsoluteDeviation.Calculation(rawDouble, f.Item1.Item1);
+        double mape = MeanAbsolutePercentageError.Calculation(rawDouble, f.Item1.Item1);
+        double mpe = MeanPercentageError.Calculation(rawDouble, f.Item1.Item1);
+        double mse = MeanSquaredError.Calculation(rawDouble, f.Item1.Item1);
+        double rmsd = RootMeanSquareDeviation.Calculation(rawDouble, f.Item1.Item1);
         StatisticsTableData std = new StatisticsTableData(
-          0, 1, mad, mape, mpe, mse, rmsd, currentProductData.First().Item1, f.Item2.Item2.Last());
+          0, 1, mad, mape, mpe, mse, rmsd, currentProductData.First().Item1, f.Item1.Item2.Last());
         stds.Add(std);
       }
 

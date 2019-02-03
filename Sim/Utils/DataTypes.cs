@@ -5,7 +5,7 @@ using System.Text;
 namespace Utils
 {
   public enum PlotType { Simulation, Forecast };
-  public enum Period { Diario, Mensual, Anual };
+  public enum Period { Diario = 50, Mensual = 4, Anual = 2};
   public enum Distributions { Normal, Poisson, Exponential, UniformCont, UniformDisc };
   public enum Generator { OrderSize, TimeBetweenOrders };
   public class StatisticsTableData

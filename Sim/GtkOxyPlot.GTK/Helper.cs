@@ -279,18 +279,18 @@ namespace GtkOxyPlot.GTK
       Center.period = Product.period;
 
       //Get data from simulations
-      List<(string, double[])> simulations = Center.SimulationData(Product.activeElement);
+      List<(double[], string)> simulations = Center.SimulationData(Product.activeElement);
       //Get stats data from simulations
       //Get data from forecasts
-      List<(string, (double[], double[]))> forecasts = Center.ForecastData(Product.activeElement);
+      List<((double[], double[]), string)> forecasts = Center.ForecastData(Product.activeElement);
       //Get stats data from forecasts
       stdForecast = Center.ForecastStatData();
 
       List<PlotData> pdSimulation = new List<PlotData>();
-      foreach ((string, double[]) s in simulations) { pdSimulation.Add(new PlotData(s.Item1, s.Item2)); }
+      foreach ((double[], string) s in simulations) { pdSimulation.Add(new PlotData(s.Item2, s.Item1)); }
 
       List<PlotData> pdForecast = new List<PlotData>();
-      foreach ((string, (double[], double[])) f in forecasts) { pdForecast.Add(new PlotData(f.Item1, ArrayBased.Join(f.Item2))); }
+      foreach (((double[], double[]), string) f in forecasts) { pdForecast.Add(new PlotData(f.Item2, ArrayBased.Join(f.Item1))); }
 
       pvdsSimulation = PlotBuilder(pdSimulation, Utils.PlotType.Simulation);
       pvdsForecast = PlotBuilder(pdForecast, Utils.PlotType.Forecast);

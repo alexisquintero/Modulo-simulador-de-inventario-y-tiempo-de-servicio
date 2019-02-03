@@ -1,55 +1,39 @@
 ﻿using Forecast.Error;
 using System.Collections.Generic;
 using System.Linq;
-using Utils;
 
 namespace Forecast.Method.AverageBased
 {
-  public class Winters 
+  public class Winters
   {
     public static string Name = "Winters";
-    public static (double[], double[]) Calculate(double[] inputValues, double levelConstant, double trendConstant,
-      double seasonalConstant, int amountOfPeriodsToCalculate, int seasonLength = 4)
+    private static double SmallestError = double.MaxValue;
+    private static double BestAlpha;
+    private static double BestBeta;
+    private static double BestGamma;
+    private static (double[], double[]) BestResult;
+    public static (double[], double[]) Calculate(double[] Y, double alpha, double beta, double gamma, int p, int s)
     {
-      (List<double>, List<double>, List<double>) initialCalculations =
-        WintersHelper.CalculateSmoothedTrendAndSeasonalValues(inputValues.ToList(), levelConstant, trendConstant,
-        seasonalConstant, new List<double>(), new List<double>(), new List<double>());
-
-      List<double> levelValues = initialCalculations.Item1.Skip(seasonLength - 1).ToList();
-      List<double> trendValues = initialCalculations.Item2 .Skip(seasonLength - 1).ToList();
-      List<double> seasonValues = initialCalculations.Item3;
-
-      List<double> firstForecast = WintersHelper.FirstForecast(
-        levelValues, trendValues, seasonValues, inputValues.Take(seasonLength - 1).ToList());
-
-      double[] full = WintersHelper.Calculate(
-        levelValues.Last(), trendValues.Last(), seasonValues.Skip(seasonValues.Count() - seasonLength - 1).First(), 1,
-        amountOfPeriodsToCalculate, firstForecast).ToArray<double>();
-      return ArrayBased.Split(full, amountOfPeriodsToCalculate);
+      WintersHelper.Init(Y, s, alpha, beta, gamma);
+      (double[], double[]) calculated = WintersHelper.Calculate(p, s);
+      double mad = MeanAbsoluteDeviation.Calculation(Y, calculated.Item1);
+      if(!double.IsNaN(mad) && mad < SmallestError)
+      {
+        SmallestError = mad;
+        BestAlpha = alpha;
+        BestBeta = beta;
+        BestGamma = gamma;
+        BestResult = calculated;
+      }
+      return calculated;
     }
-    public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate)
+    public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate, int s)
     {
-      List<(double[], double[])> all = new List<(double[], double[])>();
-      for (double l = 0.1; l < 1.0; l+=0.1)
-      {
-        for (double t = 0.1; t < 1.0; t+=0.1)
-        {
-          for (double s = 0.1; s < 1.0; s+=0.1)
-          {
-            all.Add(Calculate(inputValue, l, t, s ,amountOfPeriodsToCalculate));
-          }
-        }
-      }
-
-      List<(double, (double[], double[]))> allWithError = new List<(double, (double[], double[]))>();
-      foreach ((double[], double[]) f in all)
-      {
-        double mad = MeanAbsoluteDeviation.Calculation(inputValue, f.Item1);
-        allWithError.Add((mad, f));
-      }
-      List<(double, (double[], double[]))> allWithErrorSorted = allWithError.OrderBy(a => a.Item1).ToList();
-
-      return allWithErrorSorted.First().Item2;
+      for (double a = 0.1; a < 1.0; a+=0.1) { for (double b = 0.1; b < 1.0; b+=0.1) { for (double g = 0.1; g < 1.0; g+=0.1) {
+            Calculate(inputValue, a, b, g, amountOfPeriodsToCalculate, s);
+          } } }
+      Name += string.Format(" | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
+      return BestResult;
     }
   }
 }

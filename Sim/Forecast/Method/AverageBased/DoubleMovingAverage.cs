@@ -14,6 +14,7 @@ namespace Forecast.Method.AverageBased
       if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
       if (inputValue.Length < movingAverageTerms) throw new MovingAverageTermsBiggerThanInputSize();
       if (0 > amountOfPeriodsToCalculate) throw new NegativePeriodsToCalculate();
+      Name += string.Format(" ({0})", movingAverageTerms);
       //Calculate first moving average
       double[] firstAverage = ArrayBased.Join(MovingAverage.Calculate(inputValue, movingAverageTerms));
       //Calculate second moving average

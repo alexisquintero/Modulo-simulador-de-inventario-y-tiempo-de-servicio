@@ -8,6 +8,10 @@ namespace Forecast.Method.AverageBased
   public class Holt
   {
     public static string Name = "Holt";
+    private static double SmallestError = double.MaxValue;
+    private static double BestDataSmoothing;
+    private static double BestTrendSmoothing;
+    private static (double[], double[]) BestResult;
     public static (double[], double[]) Calculate(
       double[] inputValue, int amountOfPeriodsToCalculate, double dataSmoothingFactor, double trendSmoothingFactor) 
     {
@@ -17,28 +21,24 @@ namespace Forecast.Method.AverageBased
       //Calculate forecast for periods which already have real values
       double[] full =
         HoltHelper.Calculate(auxValues.Item1, auxValues.Item2, inputValue.Take(1).ToList()).ToArray<double>();
-      return ArrayBased.Split(full, amountOfPeriodsToCalculate);
+      (double[], double[]) calculated = ArrayBased.Split(full, amountOfPeriodsToCalculate);
+        double mad = MeanAbsoluteDeviation.Calculation(inputValue, calculated.Item1);
+      if(!double.IsNaN(mad) && mad < SmallestError)
+      {
+        SmallestError = mad;
+        BestDataSmoothing = dataSmoothingFactor;
+        BestTrendSmoothing = trendSmoothingFactor;
+        BestResult = calculated;
+      }
+      return calculated;
     }
     public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate)
     {
-      List<(double[], double[])> all = new List<(double[], double[])>();
-      for (double d = 0.1; d < 1.0; d+=0.1)
-      {
-        for (double t = 0.1; t < 1.0; t+=0.1)
-        {
-          all.Add(Calculate(inputValue, amountOfPeriodsToCalculate, d, t));
-        }
-      }
-
-      List<(double, (double[], double[]))> allWithError = new List<(double, (double[], double[]))>();
-      foreach ((double[], double[]) f in all)
-      {
-        double mad = MeanAbsoluteDeviation.Calculation(inputValue, f.Item1);
-        allWithError.Add((mad, f));
-      }
-      List<(double, (double[], double[]))> allWithErrorSorted = allWithError.OrderBy(a => a.Item1).ToList();
-
-      return allWithErrorSorted.First().Item2;
+      for (double d = 0.1; d < 1.0; d+=0.1) { for (double t = 0.1; t < 1.0; t+=0.1) {
+          Calculate(inputValue, amountOfPeriodsToCalculate, d, t);
+        } }
+      Name += string.Format(" | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
+      return BestResult;
     }
   }
 }

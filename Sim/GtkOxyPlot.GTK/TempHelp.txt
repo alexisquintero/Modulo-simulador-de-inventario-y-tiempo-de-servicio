@@ -6,6 +6,7 @@ productos con una cantidad menor de operaciones para adecuarse al mundo real.
 La ventana principal está dividia en 3 columnas, la columna de la izquierda presenta las gráficas relacionadas a las simulaciones, con el nombre de cada
 una presente encima de cada uno. La columna del medio se subdivide en 2, mostrando los detalles específicos a cada gráfica. La columna de la derecha
 muestra las gráficas generadas a partir de los datos de los pronósticos.
+Un valor de -1 en alguna estadística significa que dicha estadística no se pudo calcular debido a que los datos no cumplian los requisitos de cálculo.
 
 Acciones sobre las gráficas
     Click con el botón izquierdo del mouse para obtener los datos exactos del punto más cercano a la gráfica.

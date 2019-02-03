@@ -18,7 +18,7 @@ namespace UnitTest.ForecastTest.MethodTest
       double beta = 0.1;
       double gamma = 0.3;
 
-      double[] forecast = ArrayBased.Join(NewWinters.Calculate(input, alpha, beta, gamma, 4, 4));
+      double[] forecast = ArrayBased.Join(Winters.Calculate(input, alpha, beta, gamma, 4, 4));
       //double[] expectedValue = new double[] { 563.257, 328.859, 222.565,
       //  375.344, 367.063, 249.255, 195.221, 315.576, 300.945, 202.255, 121.863,
       //  201.294, 292.949, 263.306, 211.335, 423.599, 532.584, 351.428, 264.999,
