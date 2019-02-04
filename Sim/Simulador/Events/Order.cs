@@ -4,7 +4,8 @@ using Utils;
 
 namespace Simulador.Events
 {
-  class Order : Event {
+  public class Order : Event
+  {
     private Distributions ammountDistribution;
     private Distributions timeDistribution;
     public Order(Distributions ad, Distributions td)

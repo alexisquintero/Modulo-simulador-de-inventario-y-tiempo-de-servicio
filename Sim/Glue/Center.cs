@@ -7,7 +7,6 @@ using Forecast.Method.AverageBased;
 using Forecast.Method.LinearRegression;
 using Simulador;
 using Utils;
-using Utils.Normalized;
 
 namespace Glue
 {
@@ -57,22 +56,23 @@ namespace Glue
         currentProductDataDaily.Add((da.Item1, da.Item2));
       }
     }
-    public static List<(double[], string)> SimulationData((int, string) product)
+    public static List<InventoryOutput> SimulationData((int, string) product)
     {
       GetProductData(product);
-      List<(double[], string)> simulations = new List<(double[], string)>
-      {
-        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Poisson, Distributions.Exponential)), "Simulation P/E"),
-        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Normal, Distributions.Normal)), "Simulation N/N"),
-        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.Exponential, Distributions.Poisson)), "Simulation E/P"),
-        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformCont, Distributions.Exponential)), "Simulation UC/E"),
-        (ProcessSimulationOutput(Inventory.Simulation(0.0, 26272000.0, 99999.0, currentProductData, Distributions.UniformDisc, Distributions.Normal)), "Simulation UD/N")
+      List<(Distributions, Distributions)> distributions = new List<(Distributions, Distributions)>{
+        (Distributions.Poisson, Distributions.Exponential),
+        (Distributions.Normal, Distributions.Normal),
+        (Distributions.Exponential, Distributions.Poisson),
+        (Distributions.UniformCont, Distributions.Exponential),
+        (Distributions.UniformDisc, Distributions.Normal)
       };
+      List<InventoryOutput> simulations = new List<InventoryOutput>();
+      int endOfSimulation = CalculateEndOfSimulation();
+      foreach ((Distributions, Distributions) d in distributions)
+      {
+        simulations.Add(Inventory.Simulation(0, endOfSimulation, double.MaxValue, currentProductData, d.Item1, d.Item2, period));
+      }
       return simulations;
-    }
-    public static void SimulationStatData((int, string) product)
-    {
-
     }
     public static List<((double[], double[]), string)> ForecastData((int, string) product)
     {
@@ -93,9 +93,9 @@ namespace Glue
 
       return forecasts;
     }
-    public static List<StatisticsTableData> ForecastStatData()
+    public static List<ForecastStatisticsTableData> ForecastStatData()
     {
-      List<StatisticsTableData> stds = new List<StatisticsTableData>();
+      List<ForecastStatisticsTableData> stds = new List<ForecastStatisticsTableData>();
 
       foreach (((double[], double[]), string) f in forecasts)
       {
@@ -104,28 +104,26 @@ namespace Glue
         double mpe = MeanPercentageError.Calculation(rawDouble, f.Item1.Item1);
         double mse = MeanSquaredError.Calculation(rawDouble, f.Item1.Item1);
         double rmsd = RootMeanSquareDeviation.Calculation(rawDouble, f.Item1.Item1);
-        StatisticsTableData std = new StatisticsTableData(
+        ForecastStatisticsTableData std = new ForecastStatisticsTableData(
           0, 1, mad, mape, mpe, mse, rmsd, currentProductData.First().Item1, f.Item1.Item2.Last());
         stds.Add(std);
       }
 
       return stds;
     }
-    private static double[] ProcessSimulationOutput(List<(DateTime, double)> simData)
+    private static int CalculateEndOfSimulation()
     {
-      //groupby month
-      List<(DateTime, double)> groupedData = simData.GroupBy(
-        s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
-        s => s.Item2,
-        (date, doub) => (date, doub.Sum())
-      ).OrderBy(g => g.Item1).ToList();
-
-      List<(DateTime, double)> zeroData = Zerolized.AddZeroValue(groupedData, period);
-
-      List<double> onlyDoubles = new List<double>();
-      foreach ((DateTime, double) z in zeroData) { onlyDoubles.Add(z.Item2); }
-
-      return onlyDoubles.ToArray();
+      DateTime firstDate = currentProductData.First().Item1;
+      DateTime lastDate = currentProductData.Last().Item1;
+      int endOfSimulation = (int)lastDate.Subtract(firstDate).TotalSeconds;
+      switch (period)
+      {
+        case Period.Diario: endOfSimulation += 86401; break;
+        case Period.Mensual: endOfSimulation += 2678401; break;
+        case Period.Anual: endOfSimulation += 980294401; break;
+        default: break;
+      }
+      return endOfSimulation;
     }
   }
 }

@@ -20,8 +20,8 @@ namespace GtkOxyPlot.GTK
     public static List<PlotViewData> pvdsForecast;
     public static List<TableData> stbSimulation;
     public static List<TableData> stbForecast;
-    public static List<StatisticsTableData> stdSimulation;
-    public static List<StatisticsTableData> stdForecast;
+    public static List<InventoryOutput> stdSimulation;
+    public static List<ForecastStatisticsTableData> stdForecast;
     public static Window mainWindow = null;
     public static VBox box = null;
     private static List<PlotView> PlotViewBuilder(List<PlotData> pds)
@@ -77,23 +77,14 @@ namespace GtkOxyPlot.GTK
 
       return pvds;
     }
-    public static List<TableData> StatisticalTableBuilder(Utils.PlotType tt)
+    public static List<TableData> ForecastStatisticalTableBuilder()
     {
-      uint left, right;
-      float xalign;
-      List<StatisticsTableData> stds = null;
-      switch (tt)
-      {
-        case Utils.PlotType.Simulation: left = 2; right = 3; xalign = 0; stds = stdSimulation; break;
-        case Utils.PlotType.Forecast: left = 3; right = 4; xalign = 1; stds = stdForecast; break;
-        default: left = 0; right = 0; xalign = 0; break;
-      }
-      if (null == stds) throw new NullParameter();
+      if (null == stdForecast) throw new NullParameter();
       //TODO: throw new exception if left == right
 
       List<TableData> tds = new List<TableData>();
 
-      stds.ForEach(std =>
+      stdForecast.ForEach(std =>
       {
         List<Label> lbls = new List<Label>
         {
@@ -108,18 +99,48 @@ namespace GtkOxyPlot.GTK
         };
 
         VBox vbox = new VBox(true, 0);
-        uint lblsCounter = 0;
-        lbls.ForEach(l =>
-        {
-          vbox.PackStart(new Alignment(xalign, 0, 0, 0) { l }, true, true, 0);
-          lblsCounter++;
-        });
+        lbls.ForEach(l => { vbox.PackStart(new Alignment(1, 0, 0, 0) { l }, true, true, 0); });
 
         TableData td = new TableData
         {
           vbox = vbox,
-          left = left,
-          right = right,
+          left = 3,
+          right = 4,
+          top = (uint)tds.Count + 1,
+          bottom = (uint)tds.Count + 2
+        };
+
+        tds.Add(td);
+      });
+
+      return tds;
+    }
+    public static List<TableData> SimulationStatisticalTableBuilder()
+    {
+      if (null == stdSimulation) throw new NullParameter();
+      //TODO: throw new exception if left == right
+
+      List<TableData> tds = new List<TableData>();
+
+      stdSimulation.ForEach(std =>
+      {
+        List<Label> lbls = new List<Label>
+        {
+          new Label(std.GetTotalDemand()),
+          new Label(std.GetSatisfiedDemand()),
+          new Label(std.GetMissedDemand()),
+          new Label(std.GetChiSquare()),
+          new Label(std.GetNextPeriod())
+        };
+
+        VBox vbox = new VBox(true, 0);
+        lbls.ForEach(l => { vbox.PackStart(new Alignment(0, 0, 0, 0) { l }, true, true, 0); });
+
+        TableData td = new TableData
+        {
+          vbox = vbox,
+          left = 2,
+          right = 3,
           top = (uint)tds.Count + 1,
           bottom = (uint)tds.Count + 2
         };
@@ -279,7 +300,7 @@ namespace GtkOxyPlot.GTK
       Center.period = Product.period;
 
       //Get data from simulations
-      List<(double[], string)> simulations = Center.SimulationData(Product.activeElement);
+      stdSimulation = Center.SimulationData(Product.activeElement);
       //Get stats data from simulations
       //Get data from forecasts
       List<((double[], double[]), string)> forecasts = Center.ForecastData(Product.activeElement);
@@ -287,7 +308,10 @@ namespace GtkOxyPlot.GTK
       stdForecast = Center.ForecastStatData();
 
       List<PlotData> pdSimulation = new List<PlotData>();
-      foreach ((double[], string) s in simulations) { pdSimulation.Add(new PlotData(s.Item2, s.Item1)); }
+      foreach (InventoryOutput s in stdSimulation)
+      {
+        pdSimulation.Add(new PlotData(s.name, s.returnDoubles));
+      }
 
       List<PlotData> pdForecast = new List<PlotData>();
       foreach (((double[], double[]), string) f in forecasts) { pdForecast.Add(new PlotData(f.Item2, ArrayBased.Join(f.Item1))); }
@@ -295,20 +319,8 @@ namespace GtkOxyPlot.GTK
       pvdsSimulation = PlotBuilder(pdSimulation, Utils.PlotType.Simulation);
       pvdsForecast = PlotBuilder(pdForecast, Utils.PlotType.Forecast);
 
-      StatisticsTableData std11 = new StatisticsTableData(defaultOptions.sampleSize, 2, 3, 4, 5, 6, 7, defaultOptions.startDate, 99);
-      StatisticsTableData std12 = new StatisticsTableData(defaultOptions.sampleSize, 2, 3, 4, 5, 6, 7, defaultOptions.startDate, 99);
-      StatisticsTableData std13 = new StatisticsTableData(defaultOptions.sampleSize, 2, 3, 4, 5, 6, 7, defaultOptions.startDate, 99);
-      StatisticsTableData std14 = new StatisticsTableData(defaultOptions.sampleSize, 2, 3, 4, 5, 6, 7, defaultOptions.startDate, 99);
-      stdSimulation = new List<StatisticsTableData>
-      {
-        std11,
-        std12,
-        std13,
-        std14
-      };
-
-      stbSimulation = StatisticalTableBuilder(Utils.PlotType.Simulation);
-      stbForecast = StatisticalTableBuilder(Utils.PlotType.Forecast);
+      stbSimulation = SimulationStatisticalTableBuilder();
+      stbForecast = ForecastStatisticalTableBuilder();
       return (pvdsSimulation, pvdsForecast, stbSimulation, stbForecast);
     }
     private static void ShowAbout()
@@ -334,8 +346,7 @@ namespace GtkOxyPlot.GTK
       string html = "<h1>Reporte</h1>";
       string path = Directory.GetCurrentDirectory();
 
-      html += PngToPdf(Utils.PlotType.Simulation);
-      html += PngToPdf(Utils.PlotType.Forecast);
+      html += PngToPdf();
 
       PdfDocument pdfdoc = Renderer.RenderHtmlAsPdf(html);
       pdfdoc.SaveAs("Reporte.pdf");
@@ -366,51 +377,53 @@ namespace GtkOxyPlot.GTK
         i++;
       }
     }
-    private static string PngToPdf(Utils.PlotType plotType)
+    private static string PngToPdf()
     {
       PngExporter pngExporter = new PngExporter { Width = 700, Height = 400, Background = OxyColors.White };
       string html = "";
       int index = 0;
-      string fileName = "plot_";
-      List<(PlotViewData, StatisticsTableData)> zipList = new List<(PlotViewData, StatisticsTableData)>();
+      string fn = "plot_";
+      List<(PlotViewData, InventoryOutput)> zipListSim = new List<(PlotViewData, InventoryOutput)>();
+      List<(PlotViewData, ForecastStatisticsTableData)> zipListFor= new List<(PlotViewData, ForecastStatisticsTableData)>();
 
-      switch (plotType)
-      {
-        case Utils.PlotType.Simulation:
-          fileName += "simulation_";
-          zipList = pvdsSimulation.Zip(stdSimulation, (p, s) => (p, s)).ToList();
-          break;
-        case Utils.PlotType.Forecast: fileName += "forecast_";
-          zipList = pvdsForecast.Zip(stdForecast, (p, s) => (p, s)).ToList();
-          break;
-        default: break;
-      }
+      zipListSim = pvdsSimulation.Zip(stdSimulation, (p, s) => (p, s)).ToList();
+      zipListFor = pvdsForecast.Zip(stdForecast, (p, s) => (p, s)).ToList();
 
-      foreach ((PlotViewData, StatisticsTableData) z in zipList)
+      foreach ((PlotViewData, ForecastStatisticsTableData) z in zipListFor)
       {
-        PlotViewData pvd = z.Item1; StatisticsTableData std = z.Item2;
+        string fileName = fn + "forecast_";
+        PlotViewData pvd = z.Item1; ForecastStatisticsTableData std = z.Item2;
 
         Stream stream = new FileStream(fileName + index.ToString() + ".png", FileMode.Create, FileAccess.Write, FileShare.None);
         pngExporter.Export(pvd.plotView.Model, stream);
         stream.Close();
         byte[] pngBinaryData = File.ReadAllBytes(fileName + index.ToString() + ".png");
         string imgDataURI = @"data:image/png;base64," + Convert.ToBase64String(pngBinaryData);
-        html += String.Format("<img src='{0}'>", imgDataURI);
+        html += string.Format("<img src='{0}'>", imgDataURI);
         html += "<br/>";
 
-        html += "<div>" +
-          std.GetSampleSize() + "</span><br>" +
-          std.GetPopulationSize() + "</span><br>" +
-          std.GetMeanAbsoluteDeviation() + "</span><br>" +
-          std.GetMeanAbsolutePercentageError() + "</span><br>" +
-          std.GetMeanPercentageError() + "</span><br>" +
-          std.GetMeanSquaredError() + "</span><br>" +
-          std.GetRootMeanSquareDeviation() + "</span><br>" +
-          std.GetStartDate() + "</span><br>" +
-          std.GetNextPeriod() + "</span><br>" +
-          "</div>";
+        html += std.GenerateHtml();
         index++;
       }
+
+      index = 0;
+      foreach ((PlotViewData, InventoryOutput) z in zipListSim)
+      {
+        string fileName = fn + "simulation_";
+        PlotViewData pvd = z.Item1; InventoryOutput io = z.Item2;
+
+        Stream stream = new FileStream(fileName + index.ToString() + ".png", FileMode.Create, FileAccess.Write, FileShare.None);
+        pngExporter.Export(pvd.plotView.Model, stream);
+        stream.Close();
+        byte[] pngBinaryData = File.ReadAllBytes(fileName + index.ToString() + ".png");
+        string imgDataURI = @"data:image/png;base64," + Convert.ToBase64String(pngBinaryData);
+        html += string.Format("<img src='{0}'>", imgDataURI);
+        html += "<br/>";
+
+        html += io.GenerateHtml();
+        index++;
+      }
+
       DeleteFiles();
       return html;
     }

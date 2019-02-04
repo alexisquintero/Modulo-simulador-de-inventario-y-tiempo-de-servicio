@@ -1,6 +1,6 @@
 ﻿namespace Simulador.Events
 {
-  class Event
+  public class Event
   {
     public double Time { get; protected set; }
   }

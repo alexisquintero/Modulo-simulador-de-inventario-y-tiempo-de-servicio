@@ -85,7 +85,7 @@ namespace GtkTest
     {
       try
       {
-        Helper.StatisticalTableBuilder(PlotType.Forecast);
+        Helper.ForecastStatisticalTableBuilder(PlotType.Forecast);
       }
       catch (NullParameter np)
       {
@@ -95,12 +95,12 @@ namespace GtkTest
     [Fact]
     public void StatisticalTableBuilder_Simulation()
     {
-      StatisticsTableData std11 = new StatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
-      StatisticsTableData std12 = new StatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
-      StatisticsTableData std13 = new StatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
-      StatisticsTableData std14 = new StatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std11 = new ForecastStatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std12 = new ForecastStatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std13 = new ForecastStatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std14 = new ForecastStatisticsTableData(1, 2, 3, 4, 5, 6, 7, DateTime.MinValue, 99);
 
-      Helper.stdSimulation = new List<StatisticsTableData>
+      Helper.stdSimulation = new List<ForecastStatisticsTableData>
       {
         std11,
         std12,
@@ -108,7 +108,7 @@ namespace GtkTest
         std14
       };
 
-      List<TableData> stbSimulation = Helper.StatisticalTableBuilder(PlotType.Simulation);
+      List<TableData> stbSimulation = Helper.ForecastStatisticalTableBuilder(PlotType.Simulation);
 
       uint top, right, bottom, left;
       top = 1; left = 2; bottom = 2; right = 3;
@@ -124,12 +124,12 @@ namespace GtkTest
     [Fact]
     public void StatisticalTableBuilder_Forecast()
     {
-      StatisticsTableData std21 = new StatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
-      StatisticsTableData std22 = new StatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
-      StatisticsTableData std23 = new StatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
-      StatisticsTableData std24 = new StatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std21 = new ForecastStatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std22 = new ForecastStatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std23 = new ForecastStatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
+      ForecastStatisticsTableData std24 = new ForecastStatisticsTableData(0, 9, 8, 7, 6, 5, 4, DateTime.MinValue, 99);
 
-      Helper. stdForecast = new List<StatisticsTableData>
+      Helper. stdForecast = new List<ForecastStatisticsTableData>
       {
         std21,
         std22,
@@ -137,7 +137,7 @@ namespace GtkTest
         std24
       };
 
-      List<TableData> stbForecast = Helper.StatisticalTableBuilder(PlotType.Forecast);
+      List<TableData> stbForecast = Helper.ForecastStatisticalTableBuilder(PlotType.Forecast);
 
       uint top, right, bottom, left;
       top = 1; left = 3; bottom = 2; right = 4;

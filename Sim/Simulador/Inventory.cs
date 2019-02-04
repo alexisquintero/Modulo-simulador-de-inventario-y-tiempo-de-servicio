@@ -22,7 +22,7 @@ namespace Simulador
     private static List<Event> events = new List<Event>();  //Every event list
     private static double endTime;                          //Simulation end time  
 
-    private static double inventory = 0;        //Inventory value at start of simulation
+    private static double inventory = 0;        
     //TODO: Manage inventory refill, different modes, etc.
     private static double totalDemand = 0;      //Total demanded ammount
     private static double satisfiedDemand = 0;  //Satisfied demand
@@ -31,16 +31,17 @@ namespace Simulador
     private static DateTime firstDateTime;
     private static Distributions orderAmmount;
     private static Distributions timeBetweenOrders;
+    private static Period period;
 
     //Statistics
     private static int totalNumberOfOrders = 0;
     private static int numberOfOrdersNotEnoughStock = 0;
-    public static List<(DateTime, double)> Simulation(double startOfSimulationTime, double endOfSimulationTime,
+    public static InventoryOutput Simulation(double startOfSimulationTime, double endOfSimulationTime,
       double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
-      Distributions pTimeBetweenOrders)
+      Distributions pTimeBetweenOrders, Period p)
     {
       Initialization(startOfSimulationTime, endOfSimulationTime, pInitialInventory, rawData, pOrderAmmount,
-        pTimeBetweenOrders);
+        pTimeBetweenOrders, p);
       if (-1 == clock) throw new SimulationNotInitialized();
       while (clock < endTime)
       {
@@ -60,11 +61,11 @@ namespace Simulador
         );
       }
 
-      return returnData;
+      return new InventoryOutput(totalDemand, satisfiedDemand, missedDemand, returnData, rawData, period, orderAmmount, timeBetweenOrders);
     }
     private static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
       double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
-      Distributions pTimeBetweenOrders)
+      Distributions pTimeBetweenOrders, Period p)
     {
       //Reset variables
       events = new List<Event>();
@@ -77,6 +78,7 @@ namespace Simulador
       firstDateTime = rawData.First().Item1;
       orderAmmount = pOrderAmmount;
       timeBetweenOrders = pTimeBetweenOrders;
+      period = p;
       CalculateDistributionsParameters(rawData);
       nextEvent = EventEnum.Order;
       //Generate first event
