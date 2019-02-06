@@ -1,4 +1,5 @@
-﻿using MathNet.Numerics.Statistics;
+﻿using MathNet.Numerics;
+using MathNet.Numerics.Statistics;
 using Simulador.Events;
 using Simulador.Generators;
 using System;
@@ -36,6 +37,10 @@ namespace Simulador
     //Statistics
     private static int totalNumberOfOrders = 0;
     private static int numberOfOrdersNotEnoughStock = 0;
+
+    private static double orderCoefficientOfDetermination;
+    private static double tboCoefficientOfDetermination;
+    private static List<double> secondsBetweenOrders = new List<double>();
     public static InventoryOutput Simulation(double startOfSimulationTime, double endOfSimulationTime,
       double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
       Distributions pTimeBetweenOrders, Period p)
@@ -61,7 +66,30 @@ namespace Simulador
         );
       }
 
-      return new InventoryOutput(totalDemand, satisfiedDemand, missedDemand, returnData, rawData, period, orderAmmount, timeBetweenOrders);
+      //Orders
+      orderCoefficientOfDetermination = -1;
+      double[] xdata = rawData.Select(r => r.Item2).OrderBy(x => x).ToArray();
+      double[] ydata = events.Select(e => ((Order)e).Time).OrderBy(x => x).ToArray();
+      int shortest = xdata.Length < ydata.Length ? xdata.Length : ydata.Length;
+      double[] nxdata = xdata.Take(shortest).ToArray();
+      double[] nydata = ydata.Take(shortest).ToArray();
+      Tuple<double, double> f = Fit.Line(nxdata, nydata);
+      double a = f.Item1; double b = f.Item2;
+      orderCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata.Select(x => a + b * x), nydata);
+
+      //Tbo
+      tboCoefficientOfDetermination = -1;
+      double[] xdata2 = rawData.Select(r => r.Item2).OrderBy(x => x).ToArray();
+      double[] ydata2 = events.Select(e => ((Order)e).Ammount).OrderBy(x => x).ToArray();
+      shortest = xdata2.Length < ydata2.Length ? xdata2.Length : ydata2.Length;
+      double[] nxdata2 = xdata2.Take(shortest).ToArray();
+      double[] nydata2 = ydata2.Take(shortest).ToArray();
+      Tuple<double, double> f2 = Fit.Line(nxdata2, nydata2);
+      double a2 = f2.Item1; double b2 = f2.Item2;
+      tboCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata2.Select(x => a2 + b2 * x), nydata2);
+
+      return new InventoryOutput(totalDemand, satisfiedDemand, missedDemand, returnData, rawData, period, orderAmmount,
+        timeBetweenOrders, orderCoefficientOfDetermination, tboCoefficientOfDetermination);
     }
     private static void Initialization(double startOfSimulationTime, double endOfSimulationTime,
       double pInitialInventory, List<(DateTime, double)> rawData, Distributions pOrderAmmount, 
@@ -121,7 +149,6 @@ namespace Simulador
 
       //For tbo we use the time between orders in seconds
       //Max int in seconds is approximately 68 years
-      List<double> secondsBetweenOrders = new List<double>();
       for (int i = 0; i < dates.Count - 1; i++)
       {
         secondsBetweenOrders.Add(dates.ElementAt(i + 1).Subtract(dates.ElementAt(i)).TotalSeconds);

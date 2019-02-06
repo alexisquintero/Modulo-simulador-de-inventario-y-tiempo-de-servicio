@@ -129,7 +129,8 @@ namespace GtkOxyPlot.GTK
           new Label(std.GetTotalDemand()),
           new Label(std.GetSatisfiedDemand()),
           new Label(std.GetMissedDemand()),
-          new Label(std.GetChiSquare()),
+          new Label(std.GetOrderFitness()),
+          new Label(std.GetTboFitness()),
           new Label(std.GetNextPeriod())
         };
 

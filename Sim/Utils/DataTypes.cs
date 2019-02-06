@@ -66,22 +66,27 @@ namespace Utils
     public string GetMissedDemand() { return "Demanda no satisfacida: " + missedDemand.ToString(); }
     public List<(DateTime, double)> returnData;
     public double[] returnDoubles;
-    public double chiSquare;
-    public string GetChiSquare() { return "Fitness(Chi cuadrado): " + chiSquare.ToString(); }
+    public double orderFitness;
+    public string GetOrderFitness() { return "Order fitness: " + Math.Round(orderFitness, 3).ToString(); }
+    public double tboFitness;
+    public string GetTboFitness() { return "Time between orders fitness: " + Math.Round(tboFitness, 3).ToString(); }
     private static List<(DateTime, double)> realValues;
     public string GetNextPeriod() { return "Próximo perído: " + returnDoubles.Last().ToString(); }
     public InventoryOutput(double t, double s, double m, List<(DateTime, double)> r, List<(DateTime, double)> rv,
-      Period p, Distributions orderAmmount, Distributions timeBetweenOrders)
+      Period p, Distributions orderAmmount, Distributions timeBetweenOrders, double ocod, double tbocod)
     { totalDemand = t; satisfiedDemand = s; missedDemand = m; returnData = r; realValues = rv;
       returnDoubles = ProcessSimulationOutput(r, p);
-      name += "(" + orderAmmount.ToString() + "|" + timeBetweenOrders.ToString() + ")"; }
+      name += "(" + orderAmmount.ToString() + "|" + timeBetweenOrders.ToString() + ")"; orderFitness = ocod;
+      tboFitness = tbocod;
+    }
     public string GenerateHtml()
     {
       string html = "<div>" + 
         GetTotalDemand() + "</span><br>" +
         GetSatisfiedDemand() + "</span><br>" +
         GetMissedDemand() + "</span><br>" +
-        GetChiSquare() + "</span><br>" +
+        GetOrderFitness() + "</span><br>" +
+        GetTboFitness() + "</span><br>" +
         GetNextPeriod() + "</span><br>" +
         "</div>";
       return html;
