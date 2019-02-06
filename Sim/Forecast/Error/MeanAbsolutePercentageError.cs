@@ -12,7 +12,7 @@ namespace Forecast.Error
       double[] newReal = ArrayBased.ShortenRealValueArray(realValue, forecastValue);
       int n = newReal.Length;
       int m = forecastValue.Length;
-      if (0 == n || 0 == m) throw new EmptyParameterArray();
+      if (0 == n || 0 == m) return -1;// throw new EmptyParameterArray();
       //Check if there's any 0 on the realValue array
       if (newReal.Contains(0.0)) return -1; // throw new ZeroInputArray();
       //Sum of absolute differences

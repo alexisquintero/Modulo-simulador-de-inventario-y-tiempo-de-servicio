@@ -11,7 +11,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) Calculate(double[] inputValue, int movingAverageTerms)
     {
       if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
-      if (inputValue.Length < movingAverageTerms) throw new MovingAverageTermsBiggerThanInputSize();
+      if (inputValue.Length < movingAverageTerms) return (new double[0], new double[0]);// throw new MovingAverageTermsBiggerThanInputSize();
       Name += string.Format(" ({0})", movingAverageTerms);
       //Call function to calculate the 'n' next periods
       double[] full = MovingAverageHelper.Calculate(

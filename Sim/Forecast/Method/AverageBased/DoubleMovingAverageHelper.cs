@@ -8,6 +8,7 @@ namespace Forecast.Method.AverageBased
     public static List<double> Calculate(
       List<double> firstAverage, List<double> secondAverage, List<double> outputValue, int movingAverageTerms, int index, int amountOfPeriodToCalculate)
     {
+      if (secondAverage.Count == 0 || firstAverage.Count == 0) return new List<double>();
       if (index > amountOfPeriodToCalculate) return outputValue;
       double at = 2 * firstAverage.First() - secondAverage.First();
       double bt = 2 / (movingAverageTerms - 1) * (firstAverage.First() - secondAverage.First());

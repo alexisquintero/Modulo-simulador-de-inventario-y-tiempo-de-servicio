@@ -5,6 +5,7 @@ es necesario tener por lo menos 200 datos únicos para obtener resultados estad�
 productos con una cantidad menor de operaciones para adecuarse al mundo real.
 La ventana principal está dividia en 3 columnas, la columna de la izquierda presenta las gráficas relacionadas a las simulaciones, con el nombre de cada
 una presente encima de cada uno. La columna del medio se subdivide en 2, mostrando los detalles específicos a cada gráfica. La columna de la derecha
+
 muestra las gráficas generadas a partir de los datos de los pronósticos.
 Un valor de -1 en alguna estadística significa que dicha estadística no se pudo calcular debido a que los datos no cumplian los requisitos de cálculo.
 
@@ -26,6 +27,19 @@ Menú
     Acerca: muestra información de la aplicación.
     
 Explicaciones de los datos adicionales a la gráficas / estadísticos:
+    Demanda total: indica la cantidad demandada total simulada.
+    Demanda satisfacida: indica la cantidad de demanda a la que se pudo responder.
+    Demanda no satisfacida: indica que existió demanda cuando la cantidad en stock no era suficiente para satisfacerla.
+    Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados con los datos reales.
+    Tiempo entre órdenes fitness: similar al anterior, solo que se realiza en los tiempos entre ordenes.
+    Nota: Ambas métricas se podrían mejorar al implementar el método de Chi Cuadrado o Kolmogorov-Smirnov
+    Distribuciones utilizadas en las simulaciones:
+    Normal: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_normal
+    Poisson: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_de_Poisson
+    Exponencial: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_exponencial
+    Uniforme continua: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_uniforme_continua
+    Uniforme discreta: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_uniforme_discreta
+
     Tamaño de la muestra: indica la cantidad de datos que se utilizaron del total de la población.
     Tamaño de la población: indica el cantidad total de datos disponibles para generar datos para las simulaciones y pronósticos.
     Desviación Media Absoluta: https://es.wikipedia.org/wiki/Desviaci%C3%B3n_media
@@ -34,3 +48,5 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Error Cuadrático Medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
     Raíz cuadrada del error cuadrático medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
     Próximo período: indica la cantidad de demanda esperada para el próximo período en el futuro de acuerdo al método utilizado.
+
+    Una gráfica vacía puede indicar que no existen los datos suficientes para calcular los valores que la compondrían.

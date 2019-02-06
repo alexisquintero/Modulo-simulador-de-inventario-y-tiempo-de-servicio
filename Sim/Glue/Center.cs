@@ -105,7 +105,7 @@ namespace Glue
         double mse = MeanSquaredError.Calculation(rawDouble, f.Item1.Item1);
         double rmsd = RootMeanSquareDeviation.Calculation(rawDouble, f.Item1.Item1);
         ForecastStatisticsTableData std = new ForecastStatisticsTableData(
-          0, 1, mad, mape, mpe, mse, rmsd, currentProductData.First().Item1, f.Item1.Item2.Last());
+          0, 1, mad, mape, mpe, mse, rmsd, currentProductData.First().Item1, f.Item1.Item2.LastOrDefault());
         stds.Add(std);
       }
 

@@ -37,8 +37,8 @@ namespace Utils
     public string GetNextPeriod() { return "Próximo período: " + Math.Round(NextPeriod, 3).ToString(); }
     public string GenerateHtml()
     {
-      string html = "<div>" + GetSampleSize() + "</span><br>" +
-        GetPopulationSize() + "</span><br>" +
+      string html = "<div>" + //GetSampleSize() + "</span><br>" +
+        //GetPopulationSize() + "</span><br>" +
         GetMeanAbsoluteDeviation() + "</span><br>" +
         GetMeanAbsolutePercentageError() + "</span><br>" +
         GetMeanPercentageError() + "</span><br>" +
@@ -57,7 +57,7 @@ namespace Utils
   }
   public class InventoryOutput
   {
-    public string name = "Inventory simulation";
+    public string name = "Simulación de Inventario ";
     public double totalDemand = 0;
     public string GetTotalDemand() { return "Demanda total: " + totalDemand.ToString(); }
     public double satisfiedDemand = 0;
@@ -67,11 +67,11 @@ namespace Utils
     public List<(DateTime, double)> returnData;
     public double[] returnDoubles;
     public double orderFitness;
-    public string GetOrderFitness() { return "Order fitness: " + Math.Round(orderFitness, 3).ToString(); }
+    public string GetOrderFitness() { return "Órden fitness: " + Math.Round(orderFitness, 3).ToString(); }
     public double tboFitness;
-    public string GetTboFitness() { return "Time between orders fitness: " + Math.Round(tboFitness, 3).ToString(); }
+    public string GetTboFitness() { return "Tiempo entre órdenes fitness: " + Math.Round(tboFitness, 3).ToString(); }
     private static List<(DateTime, double)> realValues;
-    public string GetNextPeriod() { return "Próximo perído: " + returnDoubles.Last().ToString(); }
+    public string GetNextPeriod() { return "Próximo período: " + returnDoubles.Last().ToString(); }
     public InventoryOutput(double t, double s, double m, List<(DateTime, double)> r, List<(DateTime, double)> rv,
       Period p, Distributions orderAmmount, Distributions timeBetweenOrders, double ocod, double tbocod)
     { totalDemand = t; satisfiedDemand = s; missedDemand = m; returnData = r; realValues = rv;
@@ -93,12 +93,35 @@ namespace Utils
     }
     private static double[] ProcessSimulationOutput(List<(DateTime, double)> simData, Period period)
     {
+      //TODO group by day/month/year
+      List<(DateTime, double)> groupedData = new List<(DateTime, double)>();
+      switch (period)
+      {
+        case Period.Diario:
+          groupedData = simData.GroupBy(
+            s => new DateTime(s.Item1.Year, s.Item1.Month, s.Item1.Day),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        case Period.Mensual:
+          groupedData = simData.GroupBy(
+            s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        case Period.Anual:
+          groupedData = simData.GroupBy(
+            s => new DateTime(s.Item1.Year, 1, 1),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        default: break;
+      }
+
       //groupby month
-      List<(DateTime, double)> groupedData = simData.GroupBy(
-        s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
-        s => s.Item2,
-        (date, doub) => (date, doub.Sum())
-      ).OrderBy(g => g.Item1).ToList();
 
       List<(DateTime, double)> zeroData = Zerolized.AddZeroValue(groupedData, period);
 
