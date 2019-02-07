@@ -86,7 +86,7 @@ namespace Utils
         GetSatisfiedDemand() + "</span><br>" +
         GetMissedDemand() + "</span><br>" +
         GetOrderFitness() + "</span><br>" +
-        GetTboFitness() + "</span><br>" +
+        //GetTboFitness() + "</span><br>" +
         GetNextPeriod() + "</span><br>" +
         "</div>";
       return html;

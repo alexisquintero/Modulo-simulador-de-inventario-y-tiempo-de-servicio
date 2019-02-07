@@ -69,7 +69,7 @@ namespace Simulador
       //Orders
       orderCoefficientOfDetermination = -1;
       double[] xdata = rawData.Select(r => r.Item2).OrderBy(x => x).ToArray();
-      double[] ydata = events.Select(e => ((Order)e).Time).OrderBy(x => x).ToArray();
+      double[] ydata = events.Select(e => ((Order)e).Ammount).OrderBy(x => x).ToArray();
       int shortest = xdata.Length < ydata.Length ? xdata.Length : ydata.Length;
       double[] nxdata = xdata.Take(shortest).ToArray();
       double[] nydata = ydata.Take(shortest).ToArray();
@@ -79,14 +79,14 @@ namespace Simulador
 
       //Tbo
       tboCoefficientOfDetermination = -1;
-      double[] xdata2 = rawData.Select(r => r.Item2).OrderBy(x => x).ToArray();
-      double[] ydata2 = events.Select(e => ((Order)e).Ammount).OrderBy(x => x).ToArray();
-      shortest = xdata2.Length < ydata2.Length ? xdata2.Length : ydata2.Length;
-      double[] nxdata2 = xdata2.Take(shortest).ToArray();
-      double[] nydata2 = ydata2.Take(shortest).ToArray();
-      Tuple<double, double> f2 = Fit.Line(nxdata2, nydata2);
-      double a2 = f2.Item1; double b2 = f2.Item2;
-      tboCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata2.Select(x => a2 + b2 * x), nydata2);
+      //double[] xdata2 = secondsBetweenOrders.ToArray();
+      //double[] ydata2 = events.Select(e => ((Order)e).Time).OrderBy(x => x).ToArray();
+      //shortest = xdata2.Length < ydata2.Length ? xdata2.Length : ydata2.Length;
+      //double[] nxdata2 = xdata2.Take(shortest).ToArray();
+      //double[] nydata2 = ydata2.Take(shortest).ToArray();
+      //Tuple<double, double> f2 = Fit.Line(nxdata2, nydata2);
+      //double a2 = f2.Item1; double b2 = f2.Item2;
+      //tboCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata2.Select(x => a2 + b2 * x), nydata2);
 
       return new InventoryOutput(totalDemand, satisfiedDemand, missedDemand, returnData, rawData, period, orderAmmount,
         timeBetweenOrders, orderCoefficientOfDetermination, tboCoefficientOfDetermination);
