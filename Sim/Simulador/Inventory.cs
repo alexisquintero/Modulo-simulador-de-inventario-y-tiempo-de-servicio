@@ -73,9 +73,12 @@ namespace Simulador
       int shortest = xdata.Length < ydata.Length ? xdata.Length : ydata.Length;
       double[] nxdata = xdata.Take(shortest).ToArray();
       double[] nydata = ydata.Take(shortest).ToArray();
-      Tuple<double, double> f = Fit.Line(nxdata, nydata);
-      double a = f.Item1; double b = f.Item2;
-      orderCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata.Select(x => a + b * x), nydata);
+      if(events.Count > 1)
+      {
+        Tuple<double, double> f = Fit.Line(nxdata, nydata);
+        double a = f.Item1; double b = f.Item2;
+        orderCoefficientOfDetermination = GoodnessOfFit.RSquared(nxdata.Select(x => a + b * x), nydata);
+      }
 
       //Tbo
       tboCoefficientOfDetermination = -1;
