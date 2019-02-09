@@ -72,6 +72,7 @@ namespace Glue
       {
         simulations.Add(Inventory.Simulation(0, endOfSimulation, double.MaxValue, currentProductData, d.Item1, d.Item2, period));
       }
+
       return simulations;
     }
     public static List<((double[], double[]), string)> ForecastData((int, string) product)

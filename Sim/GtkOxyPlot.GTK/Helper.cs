@@ -222,10 +222,10 @@ namespace GtkOxyPlot.GTK
       MenuBar mb = new MenuBar();
       Menu file_menu = new Menu();
 
-      MenuItem set_default_options_item = new MenuItem("Opciones por defecto");
-      Button btnSave = new Button("Guardar");
-      set_default_options_item.Activated += new EventHandler(delegate (object o, EventArgs args) { DefaultOptions(btnSave).ShowAll(); });
-      file_menu.Append(set_default_options_item);
+      //MenuItem set_default_options_item = new MenuItem("Opciones por defecto");
+      //Button btnSave = new Button("Guardar");
+      //set_default_options_item.Activated += new EventHandler(delegate (object o, EventArgs args) { DefaultOptions(btnSave).ShowAll(); });
+      //file_menu.Append(set_default_options_item);
 
       MenuItem product_item = new MenuItem("Cambio de opciones iniciales");
       product_item.Activated += new EventHandler(delegate (object o, EventArgs args) { mainWindow.HideAll(); Product.mainWindow.ShowAll(); });
@@ -302,11 +302,24 @@ namespace GtkOxyPlot.GTK
 
       //Get data from simulations
       stdSimulation = Center.SimulationData(Product.activeElement);
-      //Get stats data from simulations
+      stdSimulation = stdSimulation.OrderBy(s => s.orderFitness).ToList();
       //Get data from forecasts
       List<((double[], double[]), string)> forecasts = Center.ForecastData(Product.activeElement);
       //Get stats data from forecasts
       stdForecast = Center.ForecastStatData();
+
+      List<(((double[], double[]), string), ForecastStatisticsTableData)> sortedForecasts =
+        forecasts.Zip(stdForecast, (f, s) => (f, s)).OrderBy(fs => fs.Item2.MeanAbsoluteDeviation).ToList();
+      //Move simple average to the bottom
+      if(sortedForecasts.First().Item1.Item2 ==  "Simple Average")
+      {
+        var t = sortedForecasts.First();
+        sortedForecasts = sortedForecasts.Skip(1).ToList();
+        sortedForecasts.Add(t);
+      }
+      forecasts = sortedForecasts.Select(sf => sf.Item1).ToList();
+      stdForecast = sortedForecasts.Select(sf => sf.Item2).ToList();
+
 
       List<PlotData> pdSimulation = new List<PlotData>();
       foreach (InventoryOutput s in stdSimulation)

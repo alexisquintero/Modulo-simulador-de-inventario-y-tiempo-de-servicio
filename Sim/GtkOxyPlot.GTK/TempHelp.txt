@@ -31,7 +31,6 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Demanda satisfacida: indica la cantidad de demanda a la que se pudo responder.
     Demanda no satisfacida: indica que existió demanda cuando la cantidad en stock no era suficiente para satisfacerla.
     Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados con los datos reales.
-    Tiempo entre órdenes fitness: similar al anterior, solo que se realiza en los tiempos entre ordenes.
     Nota: Ambas métricas se podrían mejorar al implementar el método de Chi Cuadrado o Kolmogorov-Smirnov
     Distribuciones utilizadas en las simulaciones:
     Normal: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_normal
