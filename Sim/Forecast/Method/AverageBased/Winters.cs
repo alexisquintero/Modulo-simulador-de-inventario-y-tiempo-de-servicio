@@ -32,7 +32,7 @@ namespace Forecast.Method.AverageBased
       for (double a = 0.1; a < 1.0; a+=0.1) { for (double b = 0.1; b < 1.0; b+=0.1) { for (double g = 0.1; g < 1.0; g+=0.1) {
             Calculate(inputValue, a, b, g, amountOfPeriodsToCalculate, s);
           } } }
-      Name += string.Format(" | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
+      Name = string.Format("Winters | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
       return BestResult;
     }
   }

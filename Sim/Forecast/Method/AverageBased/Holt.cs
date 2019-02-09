@@ -37,7 +37,7 @@ namespace Forecast.Method.AverageBased
       for (double d = 0.1; d < 1.0; d+=0.1) { for (double t = 0.1; t < 1.0; t+=0.1) {
           Calculate(inputValue, amountOfPeriodsToCalculate, d, t);
         } }
-      Name += string.Format(" | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
+      Name = string.Format("Holt | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
       return BestResult;
     }
   }

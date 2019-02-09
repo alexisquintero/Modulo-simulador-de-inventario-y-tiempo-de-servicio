@@ -10,7 +10,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) Calculate(double[] inputValue, double smoothingConstant)
     {
       if (0 == inputValue.Length) throw new EmptyParameterArray();
-      Name += string.Format(" | cte. de suavización: {0}", smoothingConstant);
+      Name = string.Format("Simple Exponential Smoothing | cte. de suavización: {0}", smoothingConstant);
       double[] full = SimpleExponentialSmoothingHelper.Calculate(
         inputValue.ToList(), inputValue.Take(1).ToList<double>(), smoothingConstant).ToArray();
       return ArrayBased.Split(full, 1);
