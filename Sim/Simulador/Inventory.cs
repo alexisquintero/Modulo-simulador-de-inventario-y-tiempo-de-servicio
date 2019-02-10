@@ -68,11 +68,40 @@ namespace Simulador
 
       //Orders
       orderCoefficientOfDetermination = -1;
-      double[] xdata = rawData.Select(r => r.Item2).OrderBy(x => x).ToArray();
-      double[] ydata = events.Select(e => ((Order)e).Ammount).OrderBy(x => x).ToArray();
+
+      List<(DateTime, double)> grouppedEvents = new List<(DateTime, double)>();
+      switch (period)
+      {
+        case Period.Diario:
+          grouppedEvents = returnData.GroupBy(
+            s => new DateTime(s.Item1.Year, s.Item1.Month, s.Item1.Day),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        case Period.Mensual:
+          grouppedEvents = returnData.GroupBy(
+            s => new DateTime(s.Item1.Year, s.Item1.Month, 1),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        case Period.Anual:
+          grouppedEvents = returnData.GroupBy(
+            s => new DateTime(s.Item1.Year, 1, 1),
+            s => s.Item2,
+            (date, doub) => (date, doub.Sum())
+          ).OrderBy(g => g.Item1).ToList();
+          break;
+        default: break;
+      }
+
+      double[] xdata = rawData.Select(r => r.Item2).ToArray();
+      double[] ydata = grouppedEvents.Select(g => g.Item2).ToArray();
       int shortest = xdata.Length < ydata.Length ? xdata.Length : ydata.Length;
-      double[] nxdata = xdata.Take(shortest).ToArray();
-      double[] nydata = ydata.Take(shortest).ToArray();
+      Random rnd = new Random();
+      double[] nxdata = xdata.OrderBy(x => rnd.Next()).Take(shortest).ToArray();
+      double[] nydata = ydata.OrderBy(x => rnd.Next()).Take(shortest).ToArray();
       if(events.Count > 1)
       {
         Tuple<double, double> f = Fit.Line(nxdata, nydata);

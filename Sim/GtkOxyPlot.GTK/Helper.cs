@@ -302,7 +302,7 @@ namespace GtkOxyPlot.GTK
 
       //Get data from simulations
       stdSimulation = Center.SimulationData(Product.activeElement);
-      stdSimulation = stdSimulation.OrderBy(s => s.orderFitness).ToList();
+      stdSimulation = stdSimulation.OrderBy(s => s.orderFitness).Reverse().ToList();
       //Get data from forecasts
       List<((double[], double[]), string)> forecasts = Center.ForecastData(Product.activeElement);
       //Get stats data from forecasts
@@ -447,7 +447,7 @@ namespace GtkOxyPlot.GTK
       {
         Modal = true
       };
-      window.SetDefaultSize(810, 550);
+      window.SetDefaultSize(820, 550);
       string text;
       FileStream fileStream = new FileStream(@"TempHelp.txt", FileMode.Open, FileAccess.Read);
       using (var streamReader = new StreamReader(fileStream, Encoding.UTF8))

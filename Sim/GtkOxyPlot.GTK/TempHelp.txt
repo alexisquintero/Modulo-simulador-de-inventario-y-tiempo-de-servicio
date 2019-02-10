@@ -30,7 +30,8 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Demanda total: indica la cantidad demandada total simulada.
     Demanda satisfacida: indica la cantidad de demanda a la que se pudo responder.
     Demanda no satisfacida: indica que existió demanda cuando la cantidad en stock no era suficiente para satisfacerla.
-    Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados con los datos reales.
+    Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados con los datos reales. El valor
+    varía entre 0 y 1, siendo el 1 un encaje perfecto y un 0 que no el modelo no representa a los datos reales;
     Nota: Ambas métricas se podrían mejorar al implementar el método de Chi Cuadrado o Kolmogorov-Smirnov
     Distribuciones utilizadas en las simulaciones:
     Normal: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_normal
