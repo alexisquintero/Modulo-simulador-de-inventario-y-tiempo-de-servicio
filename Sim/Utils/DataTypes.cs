@@ -93,7 +93,6 @@ namespace Utils
     }
     private static double[] ProcessSimulationOutput(List<(DateTime, double)> simData, Period period)
     {
-      //TODO group by day/month/year
       List<(DateTime, double)> groupedData = new List<(DateTime, double)>();
       switch (period)
       {
@@ -121,7 +120,83 @@ namespace Utils
         default: break;
       }
 
-      //groupby month
+      //Check data starts and end same dates as real values
+      switch (period)
+      {
+        case Period.Diario:
+          {
+            DateTime fSim = groupedData.First().Item1;
+            DateTime fReal = realValues.First().Item1;
+
+            if(fSim.Year != fReal.Year || fSim.Month != fReal.Month || fSim.Day != fReal.Day)
+            {
+              groupedData.Insert(0, (new DateTime(fReal.Year, fReal.Month, fReal.Day), 0));
+            }
+
+            DateTime lSim = groupedData.Last().Item1;
+            DateTime lReal = realValues.Last().Item1.AddDays(1);
+
+            while(lSim.Year > lReal.Year || lSim.Month > lReal.Month || lSim.Day > lReal.Day)
+            {
+              groupedData = groupedData.Take(groupedData.Count - 1).ToList();
+              lSim = groupedData.Last().Item1;
+            }
+            if(lSim.Year != lReal.Year || lSim.Month != lReal.Month || lSim.Day != lReal.Day)
+            {
+              groupedData.Add((new DateTime(lReal.Year, lReal.Month, lReal.Day), 0));
+            }
+          }
+          break;
+        case Period.Mensual:
+          {
+            DateTime fSim = groupedData.First().Item1;
+            DateTime fReal = realValues.First().Item1;
+
+            if(fSim.Year != fReal.Year || fSim.Month != fReal.Month)
+            {
+              groupedData.Insert(0, (new DateTime(fReal.Year, fReal.Month, 1), 0));
+            }
+
+            DateTime lSim = groupedData.Last().Item1;
+            DateTime lReal = realValues.Last().Item1.AddMonths(1);
+
+            while(lSim.Year > lReal.Year || lSim.Month > lReal.Month)
+            {
+              groupedData = groupedData.Take(groupedData.Count - 1).ToList();
+              lSim = groupedData.Last().Item1;
+            }
+            if(lSim.Year != lReal.Year || lSim.Month != lReal.Month)
+            {
+              groupedData.Add((new DateTime(lReal.Year, lReal.Month, 1), 0));
+            }
+          }
+          break;
+        case Period.Anual:
+          {
+            DateTime fSim = groupedData.First().Item1;
+            DateTime fReal = realValues.First().Item1;
+
+            if(fSim.Year != fReal.Year)
+            {
+              groupedData.Insert(0, (new DateTime(fReal.Year, 1, 1), 0));
+            }
+
+            DateTime lSim = groupedData.Last().Item1;
+            DateTime lReal = realValues.Last().Item1.AddYears(1);
+
+            while(lSim.Year > lReal.Year)
+            {
+              groupedData = groupedData.Take(groupedData.Count - 1).ToList();
+              lSim = groupedData.Last().Item1;
+            }
+            if(lSim.Year != lReal.Year)
+            {
+              groupedData.Add((new DateTime(lReal.Year, 1, 1), 0));
+            }
+          }
+          break;
+        default: break;
+      }
 
       List<(DateTime, double)> zeroData = Zerolized.AddZeroValue(groupedData, period);
 

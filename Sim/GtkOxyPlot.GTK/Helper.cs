@@ -88,8 +88,8 @@ namespace GtkOxyPlot.GTK
       {
         List<Label> lbls = new List<Label>
         {
-          new Label(std.GetSampleSize()),
-          new Label(std.GetPopulationSize()),
+          //new Label(std.GetSampleSize()),
+          //new Label(std.GetPopulationSize()),
           new Label(std.GetMeanAbsoluteDeviation()),
           new Label(std.GetMeanAbsolutePercentageError()),
           new Label(std.GetMeanPercentageError()),

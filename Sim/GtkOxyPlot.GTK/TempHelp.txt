@@ -39,8 +39,6 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Uniforme continua: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_uniforme_continua
     Uniforme discreta: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_uniforme_discreta
 
-    Tamaño de la muestra: indica la cantidad de datos que se utilizaron del total de la población.
-    Tamaño de la población: indica el cantidad total de datos disponibles para generar datos para las simulaciones y pronósticos.
     Desviación Media Absoluta: https://es.wikipedia.org/wiki/Desviaci%C3%B3n_media
     Desviación Media Porcentual: la desviación media absoluta pero como porcentaje.
     Error Porcentual Medio: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error

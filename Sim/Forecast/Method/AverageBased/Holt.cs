@@ -15,6 +15,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) Calculate(
       double[] inputValue, int amountOfPeriodsToCalculate, double dataSmoothingFactor, double trendSmoothingFactor) 
     {
+      SmallestError = double.MaxValue;
       double initalSmoothedValue = inputValue[0];
       (List<double>, List<double>) auxValues = HoltHelper.CalculteSmoothedAndTrendValues(
         inputValue.ToList(), dataSmoothingFactor, trendSmoothingFactor, new List<double>(), new List<double>());

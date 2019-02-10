@@ -124,8 +124,8 @@ namespace Simulador
     {
       List<double> amounts = new List<double>();
       List<DateTime> dates = new List<DateTime>();
-      double lowest = Double.MaxValue;
-      double max = Double.MinValue;
+      double lowest = double.MaxValue;
+      double max = double.MinValue;
       foreach ((DateTime, double) rd in rawData) {
         dates.Add(rd.Item1); amounts.Add(rd.Item2);
         lowest = rd.Item2 < lowest ? rd.Item2 : lowest;

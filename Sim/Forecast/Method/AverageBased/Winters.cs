@@ -14,6 +14,7 @@ namespace Forecast.Method.AverageBased
     private static (double[], double[]) BestResult;
     public static (double[], double[]) Calculate(double[] Y, double alpha, double beta, double gamma, int p, int s)
     {
+      SmallestError = double.MaxValue;
       WintersHelper.Init(Y, s, alpha, beta, gamma);
       (double[], double[]) calculated = WintersHelper.Calculate(p, s);
       double mad = MeanAbsoluteDeviation.Calculation(Y, calculated.Item1);

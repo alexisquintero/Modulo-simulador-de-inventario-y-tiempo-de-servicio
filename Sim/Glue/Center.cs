@@ -119,8 +119,8 @@ namespace Glue
       int endOfSimulation = (int)lastDate.Subtract(firstDate).TotalSeconds;
       switch (period)
       {
-        case Period.Diario: endOfSimulation += (86400 * 2); break;
-        case Period.Mensual: endOfSimulation += (2678400 * 2); break;
+        case Period.Diario: endOfSimulation += 86400; break;
+        case Period.Mensual: endOfSimulation += 2678400; break;
         case Period.Anual: endOfSimulation += (31536000 * 2); break;
         default: break;
       }
