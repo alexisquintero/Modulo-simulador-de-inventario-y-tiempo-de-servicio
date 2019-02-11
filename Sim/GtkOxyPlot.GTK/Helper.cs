@@ -1,6 +1,5 @@
 ﻿using Glue;
 using Gtk;
-using IronPdf;
 using OxyPlot;
 using OxyPlot.GtkSharp;
 using OxyPlot.Series;
@@ -356,89 +355,65 @@ namespace GtkOxyPlot.GTK
     }
     private static void Report()
     {
-      HtmlToPdf Renderer = new HtmlToPdf();
-      string html = "<h1>Reporte</h1>";
+      string html = "<!DOCTYPE html>" +
+        "<html>" +
+        "<head></head>" +
+        "<body>" +
+        "<h1>Reporte</h1>";
       string path = Directory.GetCurrentDirectory();
 
-      html += PngToPdf();
+      html += PngToPdf() + "</body>" +
+        "</html>";
 
-      PdfDocument pdfdoc = Renderer.RenderHtmlAsPdf(html);
-      pdfdoc.SaveAs("Reporte.pdf");
-    }
-    private static void DeleteFiles()
-    {
-      int i = 0;
-      string path = Directory.GetCurrentDirectory();
-      //Delete simulation plots pngs
-      foreach (PlotViewData pvd in pvdsSimulation)
+      using (FileStream fs = new FileStream("Reporte.html", FileMode.Create))
       {
-        string thisPath = path + "//plot_simulation_" + i.ToString() + ".png";
-        if(File.Exists(thisPath))
+        using (StreamWriter w = new StreamWriter(fs, Encoding.UTF8))
         {
-          File.Delete(thisPath);
+          w.WriteLine(html);
         }
-        i++;
-      }
-      //Delete forecast plots pngs
-      i = 0;
-      foreach (PlotViewData pvd in pvdsForecast)
-      {
-        string thisPath = path + "//plot_forecast_" + i.ToString() + ".png";
-        if(File.Exists(thisPath))
-        {
-          File.Delete(thisPath);
-        }
-        i++;
       }
     }
     private static string PngToPdf()
     {
-      PngExporter pngExporter = new PngExporter { Width = 700, Height = 400, Background = OxyColors.White };
       string html = "";
-      int index = 0;
-      string fn = "plot_";
       List<(PlotViewData, InventoryOutput)> zipListSim = new List<(PlotViewData, InventoryOutput)>();
       List<(PlotViewData, ForecastStatisticsTableData)> zipListFor= new List<(PlotViewData, ForecastStatisticsTableData)>();
 
       zipListSim = pvdsSimulation.Zip(stdSimulation, (p, s) => (p, s)).ToList();
       zipListFor = pvdsForecast.Zip(stdForecast, (p, s) => (p, s)).ToList();
 
+      html += "<h2>Pronósticos</h2>";
       foreach ((PlotViewData, ForecastStatisticsTableData) z in zipListFor)
       {
-        string fileName = fn + "forecast_";
         PlotViewData pvd = z.Item1; ForecastStatisticsTableData std = z.Item2;
 
-        Stream stream = new FileStream(fileName + index.ToString() + ".png", FileMode.Create, FileAccess.Write, FileShare.None);
+        MemoryStream stream = new MemoryStream();
+        var pngExporter = new PngExporter { Width = 700, Height = 250, Background = OxyColors.White };
         pngExporter.Export(pvd.plotView.Model, stream);
-        stream.Close();
-        byte[] pngBinaryData = File.ReadAllBytes(fileName + index.ToString() + ".png");
+        byte[] pngBinaryData = stream.ToArray();
         string imgDataURI = @"data:image/png;base64," + Convert.ToBase64String(pngBinaryData);
         html += string.Format("<img src='{0}'>", imgDataURI);
-        html += "<br/>";
+        html += "<br>";
 
         html += std.GenerateHtml();
-        index++;
       }
 
-      index = 0;
+      html += "<h2>Simulaciones</h2>";
       foreach ((PlotViewData, InventoryOutput) z in zipListSim)
       {
-        string fileName = fn + "simulation_";
         PlotViewData pvd = z.Item1; InventoryOutput io = z.Item2;
 
-        Stream stream = new FileStream(fileName + index.ToString() + ".png", FileMode.Create, FileAccess.Write, FileShare.None);
+        MemoryStream stream = new MemoryStream();
+        var pngExporter = new PngExporter { Width = 700, Height = 250, Background = OxyColors.White };
         pngExporter.Export(pvd.plotView.Model, stream);
-        stream.Close();
-        byte[] pngBinaryData = File.ReadAllBytes(fileName + index.ToString() + ".png");
+        byte[] pngBinaryData = stream.ToArray();
         string imgDataURI = @"data:image/png;base64," + Convert.ToBase64String(pngBinaryData);
         html += string.Format("<img src='{0}'>", imgDataURI);
-        html += "<br/>";
+        html += "<br>";
 
         html += io.GenerateHtml();
-        index++;
       }
 
-      DeleteFiles();
       return html;
     }
     private static void ShowHelp()

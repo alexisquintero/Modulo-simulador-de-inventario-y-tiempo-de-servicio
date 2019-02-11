@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <PackageReference Include="OxyPlot.GtkSharp" Version="1.0.0" />
-    <PackageReference Include="PDF.Core" Version="4.6.1.2" />
   </ItemGroup>
 
   <ItemGroup>
