@@ -8,6 +8,7 @@
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Forecast\Forecast.csproj" />
     <ProjectReference Include="..\Simulador\Simulador.csproj" />
+    <ProjectReference Include="..\Utils\Utils.csproj" />
   </ItemGroup>
 
 </Project>

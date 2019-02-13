@@ -136,7 +136,7 @@ namespace Utils
             DateTime lSim = groupedData.Last().Item1;
             DateTime lReal = realValues.Last().Item1.AddDays(1);
 
-            while(lSim.Year > lReal.Year || lSim.Month > lReal.Month || lSim.Day > lReal.Day)
+            while(lSim.Subtract(lReal).TotalSeconds > 0)
             {
               groupedData = groupedData.Take(groupedData.Count - 1).ToList();
               lSim = groupedData.Last().Item1;
@@ -160,7 +160,7 @@ namespace Utils
             DateTime lSim = groupedData.Last().Item1;
             DateTime lReal = realValues.Last().Item1.AddMonths(1);
 
-            while(lSim.Year > lReal.Year || lSim.Month > lReal.Month)
+            while(lSim.Subtract(lReal).TotalSeconds > 0)
             {
               groupedData = groupedData.Take(groupedData.Count - 1).ToList();
               lSim = groupedData.Last().Item1;
@@ -184,7 +184,7 @@ namespace Utils
             DateTime lSim = groupedData.Last().Item1;
             DateTime lReal = realValues.Last().Item1.AddYears(1);
 
-            while(lSim.Year > lReal.Year)
+            while(lSim.Subtract(lReal).TotalSeconds > 0)
             {
               groupedData = groupedData.Take(groupedData.Count - 1).ToList();
               lSim = groupedData.Last().Item1;

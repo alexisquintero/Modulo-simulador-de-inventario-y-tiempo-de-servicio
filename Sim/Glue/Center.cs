@@ -7,6 +7,7 @@ using Forecast.Method.AverageBased;
 using Forecast.Method.LinearRegression;
 using Simulador;
 using Utils;
+using Utils.Normalized;
 
 namespace Glue
 {
@@ -79,7 +80,7 @@ namespace Glue
     {
       GetProductData(product);
       List<double> listDoubles = new List<double>();
-      foreach ((DateTime, double) dd in currentProductData) { listDoubles.Add(dd.Item2); }
+      foreach ((DateTime, double) dd in Zerolized.AddZeroValue(currentProductData, period)) { listDoubles.Add(dd.Item2); }
       rawDouble = listDoubles.ToArray();
       forecasts = new List<((double[], double[]), string)>()
       {
