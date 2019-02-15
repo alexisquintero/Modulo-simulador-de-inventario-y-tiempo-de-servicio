@@ -357,7 +357,17 @@ namespace GtkOxyPlot.GTK
     {
       string html = "<!DOCTYPE html>" +
         "<html>" +
-        "<head></head>" +
+        "<head>" +
+        "<link href=\"https://fonts.googleapis.com/css?family=Crimson+Text\" rel=\"stylesheet\">" +
+        "<link href=\"https://fonts.googleapis.com/css?family=Inconsolata\" rel=\"stylesheet\">" +
+        "<style>" +
+        "h1, h2 { text-align: center; font-family: \"Crimson Text\", serif; }" +
+        "h2 { margin-bottom: -50px; }" +
+        "img { width: 100%; margin-top: 75px; margin-bottom: 15px; }" +
+        "div { font-family: \"Inconsolata\", monospace; }" +
+        "body { margin: 60px 40px; }" +
+        "</style>" +
+        "</head>" +
         "<body>" +
         "<h1>Reporte</h1>";
       string path = Directory.GetCurrentDirectory();

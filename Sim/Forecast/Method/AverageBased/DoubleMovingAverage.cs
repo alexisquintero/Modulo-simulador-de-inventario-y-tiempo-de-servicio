@@ -7,14 +7,14 @@ namespace Forecast.Method.AverageBased
 {
   public class DoubleMovingAverage
   {
-    public static string Name = "DoubleMovingAverage";
+    public static string Name = "Promedio móvil doble";
     //116 
     public static (double[], double[]) Calculate(double[] inputValue, int amountOfPeriodsToCalculate, int movingAverageTerms)
     {
       if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
       if (inputValue.Length < movingAverageTerms) throw new MovingAverageTermsBiggerThanInputSize();
       if (0 > amountOfPeriodsToCalculate) throw new NegativePeriodsToCalculate();
-      Name = string.Format("DoubleMovingAverage ({0})", movingAverageTerms);
+      Name = string.Format("Promedio móvil doble ({0})", movingAverageTerms);
       //Calculate first moving average
       double[] firstAverage = ArrayBased.Join(MovingAverage.Calculate(inputValue, movingAverageTerms));
       //Calculate second moving average

@@ -6,7 +6,7 @@ namespace Forecast.Method.AverageBased
 {
   public class SimpleAverage
   {
-    public static string Name = "Simple Average";
+    public static string Name = "Promedio simple";
     public static (double[], double[]) Calculate(double[] inputValue, int amountOfPeriodsToCalculate)
     {
       //Call function to calculate the 'n' next periods

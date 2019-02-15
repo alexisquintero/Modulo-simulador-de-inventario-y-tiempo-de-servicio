@@ -59,11 +59,11 @@ namespace Utils
   {
     public string name = "Simulación de Inventario ";
     public double totalDemand = 0;
-    public string GetTotalDemand() { return "Demanda total: " + totalDemand.ToString(); }
+    public string GetTotalDemand() { return "Demanda total: " + Math.Round(totalDemand, 3).ToString(); }
     public double satisfiedDemand = 0;
-    public string GetSatisfiedDemand() { return "Demanda satisfacida: " + satisfiedDemand.ToString(); }
+    public string GetSatisfiedDemand() { return "Demanda satisfacida: " + Math.Round(satisfiedDemand, 3).ToString(); }
     public double missedDemand = 0;
-    public string GetMissedDemand() { return "Demanda no satisfacida: " + missedDemand.ToString(); }
+    public string GetMissedDemand() { return "Demanda no satisfacida: " + Math.Round(missedDemand, 3).ToString(); }
     public List<(DateTime, double)> returnData;
     public double[] returnDoubles;
     public double orderFitness;
@@ -71,7 +71,7 @@ namespace Utils
     public double tboFitness;
     public string GetTboFitness() { return "Tiempo entre órdenes fitness: " + Math.Round(tboFitness, 3).ToString(); }
     private static List<(DateTime, double)> realValues;
-    public string GetNextPeriod() { return "Próximo período: " + returnDoubles.Last().ToString(); }
+    public string GetNextPeriod() { return "Próximo período: " + Math.Round(returnDoubles.Last(), 3).ToString(); }
     public InventoryOutput(double t, double s, double m, List<(DateTime, double)> r, List<(DateTime, double)> rv,
       Period p, Distributions orderAmmount, Distributions timeBetweenOrders, double ocod, double tbocod)
     { totalDemand = t; satisfiedDemand = s; missedDemand = m; returnData = r; realValues = rv;
