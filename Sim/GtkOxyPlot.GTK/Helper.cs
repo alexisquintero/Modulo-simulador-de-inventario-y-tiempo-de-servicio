@@ -310,7 +310,7 @@ namespace GtkOxyPlot.GTK
       List<(((double[], double[]), string), ForecastStatisticsTableData)> sortedForecasts =
         forecasts.Zip(stdForecast, (f, s) => (f, s)).OrderBy(fs => fs.Item2.MeanAbsoluteDeviation).ToList();
       //Move simple average to the bottom
-      if(sortedForecasts.First().Item1.Item2 ==  "Simple Average")
+      if(sortedForecasts.First().Item1.Item2 ==  "Promedio simple")
       {
         var t = sortedForecasts.First();
         sortedForecasts = sortedForecasts.Skip(1).ToList();
