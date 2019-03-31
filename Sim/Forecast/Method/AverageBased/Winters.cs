@@ -1,6 +1,7 @@
 ﻿using Forecast.Error;
 using System.Collections.Generic;
 using System.Linq;
+using Utils;
 
 namespace Forecast.Method.AverageBased
 {
@@ -34,6 +35,9 @@ namespace Forecast.Method.AverageBased
             Calculate(inputValue, a, b, g, amountOfPeriodsToCalculate, s);
           } } }
       Name = string.Format("Winters | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
+      //Check if a value is less than 0
+      double[] full = ArrayBased.Join(BestResult);
+      if (full.Where(f => f < 0).Count() > 0) Name = "!!!" + Name;
       return BestResult;
     }
   }

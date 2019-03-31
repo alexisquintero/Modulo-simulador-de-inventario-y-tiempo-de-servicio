@@ -1,13 +1,18 @@
 Modo de uso
 
-La ventana de inicio muestra todos los productos de la base de datos a los cuales se les puede realizar procesos de simulaciones y pronósticos, ya que 
-es necesario tener por lo menos 200 datos únicos para obtener resultados estadísticamente significativos, sin embargo permite realizar operaciones en 
-productos con una cantidad menor de operaciones para adecuarse al mundo real.
-La ventana principal está dividia en 3 columnas, la columna de la izquierda presenta las gráficas relacionadas a las simulaciones, con el nombre de cada
-una presente encima de cada uno. La columna del medio se subdivide en 2, mostrando los detalles específicos a cada gráfica. La columna de la derecha
+La ventana de inicio muestra todos los productos de la base de datos a los cuales se les puede realizar procesos de
+simulaciones y pronósticos, ya que es necesario tener por lo menos 200 datos únicos para obtener resultados
+estadísticamente significativos, sin embargo permite realizar operaciones en productos con una cantidad menor de
+operaciones para adecuarse al mundo real.
 
-muestra las gráficas generadas a partir de los datos de los pronósticos.
-Un valor de -1 en alguna estadística significa que dicha estadística no se pudo calcular debido a que los datos no cumplian los requisitos de cálculo.
+La ventana principal posee un header que muestra el producto actual, el mayor valor entre la mejor demanda simulada y
+la mejor demanda pronósticada, y el tipo de período que se tuvo en cuenta para realizar los cálculos. Luego se divide
+en 3 columnas, la columna de la izquierda presenta las gráficas relacionadas a las simulaciones, con el nombre de cada
+una presente encima de cada uno. La columna del medio se subdivide en 2, mostrando los detalles específicos a cada
+gráfica. La columna de la derecha muestra las gráficas generadas a partir de los datos de los pronósticos.
+
+Un valor de -1 en alguna estadística significa que dicha estadística no se pudo calcular debido a que los datos no
+cumplian los requisitos de cálculo.
 
 Acciones sobre las gráficas
     Click con el botón izquierdo del mouse para obtener los datos exactos del punto más cercano a la gráfica.
@@ -17,8 +22,8 @@ Acciones sobre las gráficas
     Doble click con el tercer botón del mouse (rueda) para resetear la gráfica.
     
 Menú
-    Opciones por defecto: establece las opciones por defecto que se usarán para realizar las simulaciónes y los pronósticos. Vuelve a generar todas las
-    gráficas.
+    Opciones por defecto: establece las opciones por defecto que se usarán para realizar las simulaciónes y los
+    pronósticos. Vuelve a generar todas las gráficas.
     Cambio de producto: vuelve a la venta inicial para seleccionar otro producto, o el mismo.
     Reporte: genera un reporte en formato pdf en el directorio de ejecución de la aplicación.
     Salir: cierra la aplicación.
@@ -30,8 +35,9 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Demanda total: indica la cantidad demandada total simulada.
     Demanda satisfacida: indica la cantidad de demanda a la que se pudo responder.
     Demanda no satisfacida: indica que existió demanda cuando la cantidad en stock no era suficiente para satisfacerla.
-    Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados con los datos reales. El valor
-    varía entre 0 y 1, siendo el 1 un encaje perfecto y un 0 que no el modelo no representa a los datos reales;
+    Orden fitness: se realiza un cálcula de mínimos cuadrados para determinar que tan bien encajan los datos simulados
+    con los datos reales. El valor varía entre 0 y 1, siendo el 1 un encaje perfecto y un 0 que no el modelo no
+    representa a los datos reales.
     Nota: Ambas métricas se podrían mejorar al implementar el método de Chi Cuadrado o Kolmogorov-Smirnov
     Distribuciones utilizadas en las simulaciones:
     Normal: https://es.wikipedia.org/wiki/Distribuci%C3%B3n_normal
@@ -45,6 +51,9 @@ Explicaciones de los datos adicionales a la gráficas / estadísticos:
     Error Porcentual Medio: https://en.wikipedia.org/wiki/Mean_absolute_percentage_error
     Error Cuadrático Medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
     Raíz cuadrada del error cuadrático medio: https://es.wikipedia.org/wiki/Error_cuadr%C3%A1tico_medio
-    Próximo período: indica la cantidad de demanda esperada para el próximo período en el futuro de acuerdo al método utilizado.
+    Próximo período: indica la cantidad de demanda esperada para el próximo período en el futuro de acuerdo al método
+    utilizado.
 
     Una gráfica vacía puede indicar que no existen los datos suficientes para calcular los valores que la compondrían.
+    La presencia de tres símbolos de exclamación al inicio del nombre de una gráfica significa que al menos uno de los
+    valores generados es menor a 0.
