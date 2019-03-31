@@ -266,10 +266,22 @@ namespace GtkOxyPlot.GTK
 
       int tableRows = pvdsForecast.Count > pvdsSimulation.Count ? pvdsForecast.Count : pvdsSimulation.Count;
       Table tableLayout = new Table((uint)tableRows + 2, 6, false);
-      Label lblProduct = new Label(Product.activeElement.Item2);
+      Label lblProduct = new Label
+      {
+        Markup = "<span font-size='1' weight='bold'>" + Product.activeElement.Item2 + "</span>",
+        UseMarkup = true
+      };
       double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
-      Label lblAmount = new Label(amount.ToString());
-      Label lblPeriod = new Label(Product.period.ToString());
+      Label lblAmount = new Label()
+      {
+        Markup = "<span font-size='1' weight='bold'>" + amount + "</span>",
+        UseMarkup = true
+      };
+      Label lblPeriod = new Label()
+      {
+        Markup = "<span font-size='1' weight='bold'>" + Product.period + "</span>",
+        UseMarkup = true
+      };
       tableLayout.Attach(lblProduct, 1, 2, 0, 1, AttachOptions.Expand, AttachOptions.Expand, 5, 5);
       tableLayout.Attach(lblAmount, 2, 4, 0, 1, AttachOptions.Shrink, AttachOptions.Expand, 5, 5);
       tableLayout.Attach(lblPeriod, 4, 5, 0, 1, AttachOptions.Expand, AttachOptions.Expand, 5, 5);
