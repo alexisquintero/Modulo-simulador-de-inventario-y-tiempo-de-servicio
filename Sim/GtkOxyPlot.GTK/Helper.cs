@@ -390,9 +390,12 @@ namespace GtkOxyPlot.GTK
         "img { width: 100%; margin-top: 75px; margin-bottom: 15px; }" +
         "div { font-family: \"Inconsolata\", monospace; }" +
         "body { margin: 60px 40px; }" +
+        "header { border: thin solid black }" +
+        "header span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
         "</style>" +
         "</head>" +
         "<body>" +
+        GenerateHeader() +
         "<h1>Reporte</h1>";
       string path = Directory.GetCurrentDirectory();
 
@@ -449,6 +452,19 @@ namespace GtkOxyPlot.GTK
       }
 
       return html;
+    }
+    private static string GenerateHeader()
+    {
+      string header = "<header>";
+      string product = "<span>"  + Product.activeElement.Item2 + "</span>";
+      header += product;
+      double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
+      string ammount =  "<span>" + amount + "</span>";
+      header += ammount;
+      string period = "<span>" + Product.period +  "</span>";;
+      header += period;
+      header += "</header>";
+      return header;
     }
     private static void ShowHelp()
     {
