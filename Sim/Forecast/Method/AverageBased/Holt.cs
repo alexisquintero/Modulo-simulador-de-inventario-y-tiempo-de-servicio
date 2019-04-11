@@ -39,6 +39,9 @@ namespace Forecast.Method.AverageBased
           Calculate(inputValue, amountOfPeriodsToCalculate, d, t);
         } }
       Name = string.Format("Holt | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
+      //Check if a value is less than 0
+      double[] full = ArrayBased.Join(BestResult);
+      if (full.Where(f => f < 0).Count() > 0) Name = "!!!" + Name;
       return BestResult;
     }
   }

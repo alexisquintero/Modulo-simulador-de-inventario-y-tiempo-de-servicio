@@ -16,6 +16,8 @@ namespace Forecast.Method.AverageBased
       //Call function to calculate the 'n' next periods
       double[] full = MovingAverageHelper.Calculate(
         inputValue.ToList(), movingAverageTerms, new List<double>()).ToArray<double>();
+      //Check if a value is less than 0
+      if (full.Where(f => f < 0).Count() > 0) Name = "!!!" + Name;
       return ArrayBased.Split(full, 1);
     }
   }
