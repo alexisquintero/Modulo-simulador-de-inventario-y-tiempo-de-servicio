@@ -23,6 +23,8 @@ namespace GtkOxyPlot.GTK
     public static List<ForecastStatisticsTableData> stdForecast;
     public static Window mainWindow = null;
     public static VBox box = null;
+    private static (double, double) bestForecast;
+    private static (double, double) bestSimulation;
     private static List<PlotView> PlotViewBuilder(List<PlotData> pds)
     {
       List<PlotView> pvs = new List<PlotView>();
@@ -68,8 +70,8 @@ namespace GtkOxyPlot.GTK
           plotView = pv,
           left = left,
           right = right,
-          top = (uint)pvds.Count + 1,
-          bottom = (uint)pvds.Count + 2
+          top = (uint)pvds.Count + 2,
+          bottom = (uint)pvds.Count + 3
         };
         pvds.Add(pvd);
       });
@@ -105,8 +107,8 @@ namespace GtkOxyPlot.GTK
           vbox = vbox,
           left = 3,
           right = 4,
-          top = (uint)tds.Count + 1,
-          bottom = (uint)tds.Count + 2
+          top = (uint)tds.Count + 2,
+          bottom = (uint)tds.Count + 3
         };
 
         tds.Add(td);
@@ -141,8 +143,8 @@ namespace GtkOxyPlot.GTK
           vbox = vbox,
           left = 2,
           right = 3,
-          top = (uint)tds.Count + 1,
-          bottom = (uint)tds.Count + 2
+          top = (uint)tds.Count + 2,
+          bottom = (uint)tds.Count + 3
         };
 
         tds.Add(td);
@@ -263,16 +265,35 @@ namespace GtkOxyPlot.GTK
       vbox.PackStart(mb, false, false, 0);
 
       int tableRows = pvdsForecast.Count > pvdsSimulation.Count ? pvdsForecast.Count : pvdsSimulation.Count;
-      Table tableLayout = new Table((uint)tableRows + 1, 6, false);
+      Table tableLayout = new Table((uint)tableRows + 2, 6, false);
+      Label lblProduct = new Label
+      {
+        Markup = "<span font-size='1' weight='bold'>" + Product.activeElement.Item2 + "</span>",
+        UseMarkup = true
+      };
+      double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
+      Label lblAmount = new Label()
+      {
+        Markup = "<span font-size='1' weight='bold'>" + amount + "</span>",
+        UseMarkup = true
+      };
+      Label lblPeriod = new Label()
+      {
+        Markup = "<span font-size='1' weight='bold'>" + Product.period + "</span>",
+        UseMarkup = true
+      };
+      tableLayout.Attach(lblProduct, 1, 2, 0, 1, AttachOptions.Expand, AttachOptions.Expand, 5, 5);
+      tableLayout.Attach(lblAmount, 2, 4, 0, 1, AttachOptions.Shrink, AttachOptions.Expand, 5, 5);
+      tableLayout.Attach(lblPeriod, 4, 5, 0, 1, AttachOptions.Expand, AttachOptions.Expand, 5, 5);
       Label lblSimulation = new Label("Simulación");
       Label lblOptions = new Label("Estadisticos/Datos");
       Label lblForecast = new Label("Pronóstico");
-      tableLayout.Attach(lblSimulation, 0, 2, 0, 1, AttachOptions.Expand, AttachOptions.Shrink, 5, 5);
-      tableLayout.Attach(lblOptions, 2, 4, 0, 1, AttachOptions.Shrink, AttachOptions.Shrink, 5, 5);
-      tableLayout.Attach(lblForecast, 4, 6, 0, 1, AttachOptions.Expand, AttachOptions.Shrink, 5, 5);
+      tableLayout.Attach(lblSimulation, 0, 2, 1, 2, AttachOptions.Expand, AttachOptions.Shrink, 5, 5);
+      tableLayout.Attach(lblOptions, 2, 4, 1, 2, AttachOptions.Shrink, AttachOptions.Shrink, 5, 5);
+      tableLayout.Attach(lblForecast, 4, 6, 1, 2, AttachOptions.Expand, AttachOptions.Shrink, 5, 5);
 
       int tableSize = stbSimulation.Count >= stbForecast.Count ? stbSimulation.Count : stbForecast.Count;
-      for (int i = 1; i < tableSize; i++)
+      for (int i = 2; i < tableSize; i++)
       {
         tableLayout.SetRowSpacing((uint)i, 20);
       }
@@ -302,6 +323,8 @@ namespace GtkOxyPlot.GTK
       //Get data from simulations
       stdSimulation = Center.SimulationData(Product.activeElement);
       stdSimulation = stdSimulation.OrderBy(s => s.orderFitness).Reverse().ToList();
+      bestSimulation =
+        (Math.Round(stdSimulation.First().orderFitness, 3), Math.Round(stdSimulation.First().returnDoubles.Last(), 3));
       //Get data from forecasts
       List<((double[], double[]), string)> forecasts = Center.ForecastData(Product.activeElement);
       //Get stats data from forecasts
@@ -318,7 +341,8 @@ namespace GtkOxyPlot.GTK
       }
       forecasts = sortedForecasts.Select(sf => sf.Item1).ToList();
       stdForecast = sortedForecasts.Select(sf => sf.Item2).ToList();
-
+      bestForecast =
+        (Math.Round(stdForecast.First().MeanAbsoluteDeviation, 3), Math.Round(stdForecast.First().NextPeriod, 3));
 
       List<PlotData> pdSimulation = new List<PlotData>();
       foreach (InventoryOutput s in stdSimulation)
@@ -366,9 +390,12 @@ namespace GtkOxyPlot.GTK
         "img { width: 100%; margin-top: 75px; margin-bottom: 15px; }" +
         "div { font-family: \"Inconsolata\", monospace; }" +
         "body { margin: 60px 40px; }" +
+        "header { border: thin solid black }" +
+        "header span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
         "</style>" +
         "</head>" +
         "<body>" +
+        GenerateHeader() +
         "<h1>Reporte</h1>";
       string path = Directory.GetCurrentDirectory();
 
@@ -425,6 +452,19 @@ namespace GtkOxyPlot.GTK
       }
 
       return html;
+    }
+    private static string GenerateHeader()
+    {
+      string header = "<header>";
+      string product = "<span>"  + Product.activeElement.Item2 + "</span>";
+      header += product;
+      double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
+      string ammount =  "<span>" + amount + "</span>";
+      header += ammount;
+      string period = "<span>" + Product.period +  "</span>";;
+      header += period;
+      header += "</header>";
+      return header;
     }
     private static void ShowHelp()
     {
