@@ -3,6 +3,7 @@ using Gtk;
 using System;
 using System.Collections.Generic;
 using Utils;
+using System.Linq;
 
 namespace GtkOxyPlot.GTK
 {
@@ -44,6 +45,8 @@ namespace GtkOxyPlot.GTK
     {
       List<string> ps = new List<string>();
       products = Center.StartData();
+      (int, string) everything = (0, "Todos los productos");
+      products.Insert(0, everything);
       foreach ((int, string) ip in products) { ps.Add(ip.Item2); }
       return ps;
     }
@@ -52,8 +55,20 @@ namespace GtkOxyPlot.GTK
       if (null == activeElement.Item2) return;
       mainWindow.HideAll();
       DefaultOptions defaultOptions = new DefaultOptions();
-      Helper.GatherData(defaultOptions);
-      Helper.InitWindow();
+      if (activeElement.Item1 == 0)
+      {
+        foreach ((int, string) product in products.Skip(1))
+        {
+          activeElement = product;
+          Helper.GatherData(defaultOptions);
+          Helper.Report(false);
+          Init();
+        }
+        Helper.WriteReportToDisk(false);
+      } else {
+        Helper.GatherData(defaultOptions);
+        Helper.InitWindow();
+      }
     }
     private static void OncbProductsChanged (object o, EventArgs args)
     {

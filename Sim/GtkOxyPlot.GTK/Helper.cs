@@ -25,6 +25,7 @@ namespace GtkOxyPlot.GTK
     public static VBox box = null;
     private static (double, double) bestForecast;
     private static (double, double) bestSimulation;
+    private static string html = "";
     private static List<PlotView> PlotViewBuilder(List<PlotData> pds)
     {
       List<PlotView> pvs = new List<PlotView>();
@@ -233,7 +234,7 @@ namespace GtkOxyPlot.GTK
       file_menu.Append(product_item);
 
       MenuItem report_item = new MenuItem("Reporte");
-      report_item.Activated += new EventHandler(delegate (object o, EventArgs args) { Report(); });
+      report_item.Activated += new EventHandler(delegate (object o, EventArgs args) { Report(true); });
       file_menu.Append(report_item);
 
       MenuItem exit_item = new MenuItem("Salir");
@@ -377,30 +378,39 @@ namespace GtkOxyPlot.GTK
 
       window.ShowAll();
     }
-    private static void Report()
+    public static void Report(bool single)
     {
-      string html = "<!DOCTYPE html>" +
-        "<html>" +
-        "<head>" +
-        "<link href=\"https://fonts.googleapis.com/css?family=Crimson+Text\" rel=\"stylesheet\">" +
-        "<link href=\"https://fonts.googleapis.com/css?family=Inconsolata\" rel=\"stylesheet\">" +
-        "<style>" +
-        "h1, h2 { text-align: center; font-family: \"Crimson Text\", serif; }" +
-        "h2 { margin-bottom: -50px; }" +
-        "img { width: 100%; margin-top: 75px; margin-bottom: 15px; }" +
-        "div { font-family: \"Inconsolata\", monospace; }" +
-        "body { margin: 60px 40px; }" +
-        "header { border: thin solid black }" +
-        "header span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
-        "</style>" +
-        "</head>" +
-        "<body>" +
-        GenerateHeader() +
-        "<h1>Reporte</h1>";
+      if (single) html = "";
+      if ("" == html)
+      {
+        html = "<!DOCTYPE html>" +
+          "<html>" +
+          "<head>" +
+          "<link href=\"https://fonts.googleapis.com/css?family=Crimson+Text\" rel=\"stylesheet\">" +
+          "<link href=\"https://fonts.googleapis.com/css?family=Inconsolata\" rel=\"stylesheet\">" +
+          "<style>" +
+          "h1, h2 { text-align: center; font-family: \"Crimson Text\", serif; }" +
+          "h2 { margin-bottom: -50px; }" +
+          "img { width: 100%; margin-top: 75px; margin-bottom: 15px; }" +
+          "div { font-family: \"Inconsolata\", monospace; }" +
+          "body { margin: 60px 40px; }" +
+          "header { border: thin solid black }" +
+          "header span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
+          "body span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
+          "</style>" +
+          "</head>" +
+          "<body>" +
+          "<h1>Reporte</h1>";
+      }
+      html += GenerateHeader(single);
+      if (single) WriteReportToDisk(single);
+    }
+    public static void WriteReportToDisk(bool single)
+    {
       string path = Directory.GetCurrentDirectory();
 
-      html += PngToPdf() + "</body>" +
-        "</html>";
+      if (single) html += PngToPdf();
+      html += "</body>" + "</html>";
 
       using (FileStream fs = new FileStream("Reporte.html", FileMode.Create))
       {
@@ -453,17 +463,18 @@ namespace GtkOxyPlot.GTK
 
       return html;
     }
-    private static string GenerateHeader()
+    private static string GenerateHeader(bool single)
     {
-      string header = "<header>";
-      string product = "<span>"  + Product.activeElement.Item2 + "</span>";
+      string header = "";
+      if (single) header = "<header>";
+      string product = "<span>" + Product.activeElement.Item2 + "</span>";
       header += product;
       double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
-      string ammount =  "<span>" + amount + "</span>";
+      string ammount = "<span>" + amount + "</span>";
       header += ammount;
-      string period = "<span>" + Product.period +  "</span>";;
+      string period = "<span>" + Product.period + "</span>"; ;
       header += period;
-      header += "</header>";
+      if (single) header += "</header>";
       return header;
     }
     private static void ShowHelp()
