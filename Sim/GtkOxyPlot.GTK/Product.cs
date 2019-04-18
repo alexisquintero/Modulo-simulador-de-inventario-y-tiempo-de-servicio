@@ -16,17 +16,20 @@ namespace GtkOxyPlot.GTK
 
     public static void Init()
     {
-      if (null == mainWindow) mainWindow = new Window("Products");
+      Helper.html = "";
+      activeElement = (0, null);
+      mainWindow = new Window("Products");
       mainWindow.Destroyed += new EventHandler(delegate (object o, EventArgs args) { Application.Quit(); });
       mainWindow.SetDefaultSize(300, 100);
 
       ComboBox cbProducts = ComboBox.NewText();
       cbProducts.Changed += new EventHandler(OncbProductsChanged);
       Products().ForEach(p => cbProducts.AppendText(p));
+      cbProducts.Active = -1;
 
       ComboBox cbPeriod = ComboBox.NewText();
       cbPeriod.Changed += new EventHandler(OncbPeriodChanged);
-      foreach(Period p in Enum.GetValues(typeof(Period))) { cbPeriod.AppendText(p.ToString()); }
+      foreach (Period p in Enum.GetValues(typeof(Period))) { cbPeriod.AppendText(p.ToString()); }
       cbPeriod.Active = 1;
 
       Button button = new Button("Aceptar");
@@ -39,6 +42,7 @@ namespace GtkOxyPlot.GTK
       table.Attach(button, 0, 1, 3, 4);
 
       mainWindow.Add(table);
+
       mainWindow.ShowAll();
     }
     public static List<string> Products()
@@ -62,10 +66,11 @@ namespace GtkOxyPlot.GTK
           activeElement = product;
           Helper.GatherData(defaultOptions);
           Helper.Report(false);
-          Init();
         }
         Helper.WriteReportToDisk(false);
-      } else {
+        Init();
+      }
+      else {
         Helper.GatherData(defaultOptions);
         Helper.InitWindow();
       }

@@ -25,7 +25,7 @@ namespace GtkOxyPlot.GTK
     public static VBox box = null;
     private static (double, double) bestForecast;
     private static (double, double) bestSimulation;
-    private static string html = "";
+    public static string html = "";
     private static List<PlotView> PlotViewBuilder(List<PlotData> pds)
     {
       List<PlotView> pvs = new List<PlotView>();
@@ -395,8 +395,8 @@ namespace GtkOxyPlot.GTK
           "div { font-family: \"Inconsolata\", monospace; }" +
           "body { margin: 60px 40px; }" +
           "header { border: thin solid black }" +
-          "header span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
-          "body span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
+          "div { border: thin solid black }" +
+          "span { display: inline-block; text-align: center; width: 33%; font-size: larger }" +
           "</style>" +
           "</head>" +
           "<body>" +
@@ -412,7 +412,7 @@ namespace GtkOxyPlot.GTK
       if (single) html += PngToPdf();
       html += "</body>" + "</html>";
 
-      using (FileStream fs = new FileStream("Reporte.html", FileMode.Create))
+      using (FileStream fs = new FileStream("Reporte[" + DateTime.Today.ToShortDateString() + "].html", FileMode.Create))
       {
         using (StreamWriter w = new StreamWriter(fs, Encoding.UTF8))
         {
@@ -466,7 +466,7 @@ namespace GtkOxyPlot.GTK
     private static string GenerateHeader(bool single)
     {
       string header = "";
-      if (single) header = "<header>";
+      header = single ? "<header>" : "<div>";
       string product = "<span>" + Product.activeElement.Item2 + "</span>";
       header += product;
       double amount = bestSimulation.Item2 > bestForecast.Item2 ? bestSimulation.Item2 : bestForecast.Item2;
@@ -474,7 +474,7 @@ namespace GtkOxyPlot.GTK
       header += ammount;
       string period = "<span>" + Product.period + "</span>"; ;
       header += period;
-      if (single) header += "</header>";
+      header += single ? "</header>" : "</div>";
       return header;
     }
     private static void ShowHelp()
