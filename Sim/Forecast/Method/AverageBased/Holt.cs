@@ -13,12 +13,12 @@ namespace Forecast.Method.AverageBased
     private static double BestTrendSmoothing;
     private static (double[], double[]) BestResult;
     public static (double[], double[]) Calculate(
-      double[] inputValue, int amountOfPeriodsToCalculate, double dataSmoothingFactor, double trendSmoothingFactor) 
+      double[] inputValue, int amountOfPeriodsToCalculate, decimal dataSmoothingFactor, decimal trendSmoothingFactor) 
     {
       SmallestError = double.MaxValue;
       double initalSmoothedValue = inputValue[0];
       (List<double>, List<double>) auxValues = HoltHelper.CalculteSmoothedAndTrendValues(
-        inputValue.ToList(), dataSmoothingFactor, trendSmoothingFactor, new List<double>(), new List<double>());
+        inputValue.Select(d => (decimal)d).ToList(), dataSmoothingFactor, trendSmoothingFactor, new List<decimal>(), new List<decimal>());
       //Calculate forecast for periods which already have real values
       double[] full =
         HoltHelper.Calculate(auxValues.Item1, auxValues.Item2, inputValue.Take(1).ToList()).ToArray<double>();
@@ -27,15 +27,15 @@ namespace Forecast.Method.AverageBased
       if(!double.IsNaN(mad) && mad < SmallestError)
       {
         SmallestError = mad;
-        BestDataSmoothing = dataSmoothingFactor;
-        BestTrendSmoothing = trendSmoothingFactor;
+        BestDataSmoothing = (double)dataSmoothingFactor;
+        BestTrendSmoothing = (double)trendSmoothingFactor;
         BestResult = calculated;
       }
       return calculated;
     }
     public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate)
     {
-      for (double d = 0.1; d < 1.0; d+=0.1) { for (double t = 0.1; t < 1.0; t+=0.1) {
+      for (decimal d = 0.1m; d < 1.0m; d+=0.1m) { for (decimal t = 0.1m; t < 1.0m; t+=0.1m) {
           Calculate(inputValue, amountOfPeriodsToCalculate, d, t);
         } }
       Name = string.Format("Holt | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
