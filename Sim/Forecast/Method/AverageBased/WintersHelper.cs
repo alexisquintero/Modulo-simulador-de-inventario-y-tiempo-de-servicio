@@ -20,7 +20,10 @@ namespace Forecast.Method.AverageBased
     public static decimal Tt(decimal Lt, decimal Lt1, decimal Tt1)
     { return beta * (Lt - Lt1) + (1 - beta) * Tt1; }
     public static decimal St(decimal Yt, decimal Lt, decimal Sts)
-    { return gamma * Yt / Lt + (1 - gamma) * Sts; }
+    {
+      decimal nLt = decimal.Zero == Lt ? 0.00000001m : Lt;
+      return gamma * Yt / nLt + (1 - gamma) * Sts;
+    }
     public static decimal Ytp(decimal Lt, int p, decimal Tt, decimal Stsp)
     { return (Lt + p * Tt) * Stsp; }
     private static decimal GetSts(int t, int s)
