@@ -4,6 +4,9 @@ La ventana de inicio muestra todos los productos de la base de datos a los cuale
 simulaciones y pronósticos, ya que es necesario tener por lo menos 200 datos únicos para obtener resultados
 estadísticamente significativos, sin embargo permite realizar operaciones en productos con una cantidad menor de
 operaciones para adecuarse al mundo real.
+La opción "Todos los productos" realiza un procesamiento batch de todos los productos disponibles y produce un reporte 
+simplificado, una lista de 3 columnas, el nombre del producto, la cantidad requerida para el próximo mes y el tipo de 
+período; los calculos terminan cuando reaparece el ventana de inicio.
 
 La ventana principal posee un header que muestra el producto actual, el mayor valor entre la mejor demanda simulada y
 la mejor demanda pronósticada, y el tipo de período que se tuvo en cuenta para realizar los cálculos. Luego se divide

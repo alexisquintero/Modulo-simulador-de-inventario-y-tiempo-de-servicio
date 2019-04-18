@@ -3,6 +3,7 @@ using Gtk;
 using System;
 using System.Collections.Generic;
 using Utils;
+using System.Linq;
 
 namespace GtkOxyPlot.GTK
 {
@@ -15,17 +16,20 @@ namespace GtkOxyPlot.GTK
 
     public static void Init()
     {
-      if (null == mainWindow) mainWindow = new Window("Products");
+      Helper.html = "";
+      activeElement = (0, null);
+      mainWindow = new Window("Products");
       mainWindow.Destroyed += new EventHandler(delegate (object o, EventArgs args) { Application.Quit(); });
       mainWindow.SetDefaultSize(300, 100);
 
       ComboBox cbProducts = ComboBox.NewText();
       cbProducts.Changed += new EventHandler(OncbProductsChanged);
       Products().ForEach(p => cbProducts.AppendText(p));
+      cbProducts.Active = -1;
 
       ComboBox cbPeriod = ComboBox.NewText();
       cbPeriod.Changed += new EventHandler(OncbPeriodChanged);
-      foreach(Period p in Enum.GetValues(typeof(Period))) { cbPeriod.AppendText(p.ToString()); }
+      foreach (Period p in Enum.GetValues(typeof(Period))) { cbPeriod.AppendText(p.ToString()); }
       cbPeriod.Active = 1;
 
       Button button = new Button("Aceptar");
@@ -38,12 +42,15 @@ namespace GtkOxyPlot.GTK
       table.Attach(button, 0, 1, 3, 4);
 
       mainWindow.Add(table);
+
       mainWindow.ShowAll();
     }
     public static List<string> Products()
     {
       List<string> ps = new List<string>();
       products = Center.StartData();
+      (int, string) everything = (0, "Todos los productos");
+      products.Insert(0, everything);
       foreach ((int, string) ip in products) { ps.Add(ip.Item2); }
       return ps;
     }
@@ -52,8 +59,21 @@ namespace GtkOxyPlot.GTK
       if (null == activeElement.Item2) return;
       mainWindow.HideAll();
       DefaultOptions defaultOptions = new DefaultOptions();
-      Helper.GatherData(defaultOptions);
-      Helper.InitWindow();
+      if (activeElement.Item1 == 0)
+      {
+        foreach ((int, string) product in products.Skip(1))
+        {
+          activeElement = product;
+          Helper.GatherData(defaultOptions);
+          Helper.Report(false);
+        }
+        Helper.WriteReportToDisk(false);
+        Init();
+      }
+      else {
+        Helper.GatherData(defaultOptions);
+        Helper.InitWindow();
+      }
     }
     private static void OncbProductsChanged (object o, EventArgs args)
     {

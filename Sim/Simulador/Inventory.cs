@@ -102,7 +102,8 @@ namespace Simulador
       Random rnd = new Random();
       double[] nxdata = xdata.OrderBy(x => rnd.Next()).Take(shortest).ToArray();
       double[] nydata = ydata.OrderBy(x => rnd.Next()).Take(shortest).ToArray();
-      if(events.Count > 1)
+      //if(events.Count > 1)
+      if (nxdata.Count() > 1 && nydata.Count() > 1)
       {
         Tuple<double, double> f = Fit.Line(nxdata, nydata);
         double a = f.Item1; double b = f.Item2;

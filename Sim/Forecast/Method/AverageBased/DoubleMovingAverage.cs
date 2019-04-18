@@ -12,7 +12,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) Calculate(double[] inputValue, int amountOfPeriodsToCalculate, int movingAverageTerms)
     {
       if (0 > movingAverageTerms) throw new NegativeMovingAverageTerms();
-      if (inputValue.Length < movingAverageTerms) throw new MovingAverageTermsBiggerThanInputSize();
+      if (inputValue.Length < movingAverageTerms) return (new List<double>(){-1}.ToArray(), new List<double>(){-1}.ToArray()); // throw new MovingAverageTermsBiggerThanInputSize();
       if (0 > amountOfPeriodsToCalculate) throw new NegativePeriodsToCalculate();
       Name = string.Format("Promedio móvil doble ({0})", movingAverageTerms);
       //Calculate first moving average

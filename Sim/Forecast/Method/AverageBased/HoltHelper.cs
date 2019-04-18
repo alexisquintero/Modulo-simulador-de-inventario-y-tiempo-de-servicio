@@ -14,13 +14,13 @@ namespace Forecast.Method.AverageBased
       }
       return Calculate(smoothedValues.Skip(1).ToList(), trendValues.Skip(1).ToList(), output);
     }
-    public static double SmoothedValue(double dataSmoothingFactor, double realValue,
-      double previousSmoothedValue, double previousTrendValue)
+    public static decimal SmoothedValue(decimal dataSmoothingFactor, decimal realValue,
+      decimal previousSmoothedValue, decimal previousTrendValue)
     {
       return dataSmoothingFactor * realValue + (1 - dataSmoothingFactor) * (previousSmoothedValue + previousTrendValue);
     } 
-    public static double TrendValue(double trendSmoothingFactor, double smoothedValue,
-      double previousSmoothedValue, double previousTrendValue)
+    public static decimal TrendValue(decimal trendSmoothingFactor, decimal smoothedValue,
+      decimal previousSmoothedValue, decimal previousTrendValue)
     {
       return trendSmoothingFactor * (smoothedValue - previousSmoothedValue) + (1 - trendSmoothingFactor) * previousTrendValue;
     }
@@ -29,17 +29,19 @@ namespace Forecast.Method.AverageBased
       return smoothedValue + index * trendValue;
     }
     //Starting trend is 1
-    public static (List<double>, List<double>) CalculteSmoothedAndTrendValues(List<double> realValues,
-      double dataSmoothingFactor, double trendSmoothingFactor, List<double> smoothedValues, List<double> trendValues,
+    public static (List<double>, List<double>) CalculteSmoothedAndTrendValues(List<decimal> realValuesDouble,
+      decimal dataSmoothingFactor, decimal trendSmoothingFactor, List<decimal> smoothedValues, List<decimal> trendValues,
       bool firstRunFlag = true)
     {
-      if (0 == realValues.Count) return (smoothedValues, trendValues);
+      List<decimal> realValues = realValuesDouble.Select(d => (decimal)d).ToList();
+      if (0 == realValues.Count)
+      { return (smoothedValues.Select(m => (double)m).ToList(), trendValues.Select(m => (double)m).ToList()); }
       //First trend value is always zero
       //First smoothed value is always the same as the real value
       if (firstRunFlag)
       {
-        smoothedValues.Add( SmoothedValue( dataSmoothingFactor, realValues.First(), realValues.First(), 1));
-        trendValues.Add(0.0);
+        smoothedValues.Add(SmoothedValue(dataSmoothingFactor, realValues.First(), realValues.First(), 1));
+        trendValues.Add(0.0m);
       }
       else
       {

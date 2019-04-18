@@ -9,11 +9,11 @@ namespace Forecast.Method.AverageBased
   {
     public static string Name = "Winters";
     private static double SmallestError = double.MaxValue;
-    private static double BestAlpha;
-    private static double BestBeta;
-    private static double BestGamma;
+    private static decimal BestAlpha;
+    private static decimal BestBeta;
+    private static decimal BestGamma;
     private static (double[], double[]) BestResult;
-    public static (double[], double[]) Calculate(double[] Y, double alpha, double beta, double gamma, int p, int s)
+    public static (double[], double[]) Calculate(double[] Y, decimal alpha, decimal beta, decimal gamma, int p, int s)
     {
       WintersHelper.Init(Y, s, alpha, beta, gamma);
       (double[], double[]) calculated = WintersHelper.Calculate(p, s);
@@ -31,7 +31,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate, int s)
     {
       SmallestError = double.MaxValue;
-      for (double a = 0.1; a < 1.0; a+=0.1) { for (double b = 0.1; b < 1.0; b+=0.1) { for (double g = 0.1; g < 1.0; g+=0.1) {
+      for (decimal a = 0.1m; a < 1.0m; a+=0.1m) { for (decimal b = 0.1m; b < 1.0m; b+=0.1m) { for (decimal g = 0.1m; g < 1.0m; g+=0.1m) {
             Calculate(inputValue, a, b, g, amountOfPeriodsToCalculate, s);
           } } }
       Name = string.Format("Winters | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
