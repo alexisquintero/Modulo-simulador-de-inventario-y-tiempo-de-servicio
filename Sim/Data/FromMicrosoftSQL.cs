@@ -6,18 +6,15 @@ namespace Data
 {
   public class FromMicrosoftSQL : BaseData
   {
-    private static string connectionString = "Data Source=COMPUTADORA;Initial Catalog=BikeStores;Integrated Security=True";
+    private static string connectionString = "Data Source=COMPUTADORA;Initial Catalog=DatosReales;Integrated Security=True";
     public static new List<(int, string)> GetAllProducts()
     {
       using (SqlConnection connection = new SqlConnection(connectionString))
       {
         List<(int, string)> output = new List<(int, string)>();
         connection.Open();
-        string query = "SELECT p.[product_id], p.[product_name], COUNT(o.[product_id]) " +
-          "FROM [BikeStores].[production].[products] AS p JOIN [BikeStores].[sales].[order_items] AS o " +
-          "ON p.[product_id] = o.[product_id] " +
-          "GROUP BY p.[product_id], o.[product_id], p.[product_name] " +
-          "HAVING COUNT(o.[product_id]) > 50 "; //50 should be 200, limits of database sample
+        string query = "SELECT DISTINCT [codigo], [descripcion] " +
+          "FROM [DatosReales].[dbo].[base_stock]";
 
         using (SqlCommand command = new SqlCommand(query, connection))
         {
@@ -38,12 +35,11 @@ namespace Data
       {
         List<(DateTime, int)> output = new List<(DateTime, int)>();
         connection.Open();
-        string query = "SELECT o.[order_date], SUM(oi.[quantity]) " +
-          "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
-          "ON o.[order_id] = oi.[order_id] " +
-          "WHERE oi.[product_id] = " + productId.ToString() + " " +
-          "GROUP BY o.[order_date] " +
-          "ORDER BY o.[order_date] ";
+        string query = "SELECT TOP(500) [FechaDate], SUM([Cantidad]) " +
+          "FROM [DatosReales].[dbo].[base_stock] " +
+          "WHERE [codigo] = " + productId.ToString() + " " +
+          "GROUP BY [FechaDate] " +
+          "ORDER BY [FechaDate];";
 
         using (SqlCommand command = new SqlCommand(query, connection))
         {
@@ -64,12 +60,11 @@ namespace Data
       {
         List<(DateTime, int)> output = new List<(DateTime, int)>();
         connection.Open();
-        string query = "SELECT DATEPART(YEAR, o.[order_date]) Year, DATEPART(MONTH, o.[order_date]) Month, SUM(oi.[quantity]) " +
-          "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
-          "ON o.[order_id] = oi.[order_id] " +
-          "WHERE oi.[product_id] = " + productId.ToString() + " " +
-          "GROUP BY DATEPART(YEAR, o.[order_date]), DATEPART(MONTH, o.[order_date]) " +
-          "ORDER BY DATEPART(YEAR, o.[order_date]), DATEPART(MONTH, o.[order_date]) ";
+        string query = "SELECT DATEPART(YEAR, [FechaDate]) Year, DATEPART(MONTH, [FechaDate]) Month, SUM([Cantidad]) " +
+          "FROM [DatosReales].[dbo].[base_stock] " +
+          "WHERE [codigo] = " + productId.ToString() + " " +
+          "GROUP BY DATEPART(YEAR, [FechaDate]), DATEPART(MONTH, [FechaDate]) " +
+          "ORDER BY DATEPART(YEAR, [FechaDate]), DATEPART(MONTH, [FechaDate])";
 
         using (SqlCommand command = new SqlCommand(query, connection))
         {
@@ -90,12 +85,11 @@ namespace Data
       {
         List<(DateTime, int)> output = new List<(DateTime, int)>();
         connection.Open();
-        string query = "SELECT DATEPART(YEAR, o.[order_date]) Year, SUM(oi.[quantity]) " +
-          "FROM [BikeStores].[sales].[orders] AS o JOIN [BikeStores].[sales].[order_items] AS oi " +
-          "ON o.[order_id] = oi.[order_id] " +
-          "WHERE oi.[product_id] = " + productId.ToString() + " " +
-          "GROUP BY DATEPART(YEAR, o.[order_date]) " +
-          "ORDER BY DATEPART(YEAR, o.[order_date]) ";
+        string query = "SELECT DATEPART(YEAR, [FechaDate]) Year, SUM([Cantidad]) " +
+          "FROM [DatosReales].[dbo].[base_stock] " +
+          "WHERE [codigo] = " + productId.ToString() + " " +
+          "GROUP BY DATEPART(YEAR, [FechaDate])" +
+          "ORDER BY DATEPART(YEAR, [FechaDate])";
 
         using (SqlCommand command = new SqlCommand(query, connection))
         {
