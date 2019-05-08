@@ -36,7 +36,7 @@ namespace Forecast.Method.AverageBased
     public static (double[], double[]) CalculateBest(double[] inputValue, int amountOfPeriodsToCalculate)
     {
       for (decimal d = 0.1m; d < 1.0m; d+=0.1m) { for (decimal t = 0.1m; t < 1.0m; t+=0.1m) {
-          Calculate(inputValue, amountOfPeriodsToCalculate, d, t);
+          Calculate(inputValue.Take(500).ToArray(), amountOfPeriodsToCalculate, d, t);
         } }
       Name = string.Format("Holt | cte. de nivel: {0}, cte. de tendencia: {1}", BestDataSmoothing, BestTrendSmoothing);
       //Check if a value is less than 0

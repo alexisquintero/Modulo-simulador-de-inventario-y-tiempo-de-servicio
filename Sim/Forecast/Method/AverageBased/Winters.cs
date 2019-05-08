@@ -32,7 +32,7 @@ namespace Forecast.Method.AverageBased
     {
       SmallestError = double.MaxValue;
       for (decimal a = 0.1m; a < 1.0m; a+=0.1m) { for (decimal b = 0.1m; b < 1.0m; b+=0.1m) { for (decimal g = 0.1m; g < 1.0m; g+=0.1m) {
-            Calculate(inputValue, a, b, g, amountOfPeriodsToCalculate, s);
+            Calculate(inputValue.Take(500).ToArray(), a, b, g, amountOfPeriodsToCalculate, s);
           } } }
       Name = string.Format("Winters | cte. de nivel: {0}, cte. de tendencia: {1}, cte. de estacionalidad: {2}", BestAlpha, BestBeta, BestGamma);
       //Check if a value is less than 0

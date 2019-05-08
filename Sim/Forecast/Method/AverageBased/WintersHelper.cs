@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Forecast.Method.AverageBased
@@ -16,16 +17,42 @@ namespace Forecast.Method.AverageBased
     private static decimal beta;
     private static decimal gamma;
     public static decimal Lt(decimal Yt, decimal Sts, decimal Lt1,decimal Tt1)
-    { return alpha * Yt / Sts + (1 - alpha) * (Lt1 + Tt1); }
+    {
+      try
+      {
+        decimal nSts = decimal.Zero == Sts ? 0.00000001m : Sts;
+        return alpha * Yt / nSts + (1 - alpha) * (Lt1 + Tt1);
+      } catch (OverflowException e) {
+        return decimal.MaxValue;
+      }
+    }
     public static decimal Tt(decimal Lt, decimal Lt1, decimal Tt1)
-    { return beta * (Lt - Lt1) + (1 - beta) * Tt1; }
+    {
+      try
+      {
+        return beta * (Lt - Lt1) + (1 - beta) * Tt1;
+      }
+      catch (OverflowException)
+      {
+        return decimal.MaxValue;
+      }
+    }
     public static decimal St(decimal Yt, decimal Lt, decimal Sts)
     {
       decimal nLt = decimal.Zero == Lt ? 0.00000001m : Lt;
       return gamma * Yt / nLt + (1 - gamma) * Sts;
     }
     public static decimal Ytp(decimal Lt, int p, decimal Tt, decimal Stsp)
-    { return (Lt + p * Tt) * Stsp; }
+    {
+      try
+      {
+        return (Lt + p * Tt) * Stsp;
+      }
+      catch (OverflowException e)
+      {
+        return decimal.MaxValue;
+      }
+    }
     private static decimal GetSts(int t, int s)
     {
       int index = (t - s) - 1;
