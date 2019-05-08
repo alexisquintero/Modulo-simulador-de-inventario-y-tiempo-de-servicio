@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Utils.Exceptions.BaseDataMethod">
+    <Position X="6.25" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\BaseDataMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.DifferentSizeArrays">
+    <Position X="9" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\DifferentSizeArrays.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.DistributionMethod">
+    <Position X="3.5" Y="2.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\DistributionMethod.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.EmptyParameterArray">
+    <Position X="6.5" Y="2.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\EmptyParameterArray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.MovingAverageTermsBiggerThanInputSize">
+    <Position X="3.5" Y="4.5" Width="4" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\MovingAverageTermsBiggerThanInputSize.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.NegativeMovingAverageTerms">
+    <Position X="7.75" Y="4.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NegativeMovingAverageTerms.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.NegativePeriodsToCalculate">
+    <Position X="3.5" Y="6.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NegativePeriodsToCalculate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.NullParameter">
+    <Position X="6.25" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\NullParameter.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.SimulationNotInitialized">
+    <Position X="7" Y="6.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\SimulationNotInitialized.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Exceptions.ZeroInputArray">
+    <Position X="3.5" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Exceptions\ZeroInputArray.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.Normalized.Zerolized">
+    <Position X="9" Y="8.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAAAgAAAAAAAIAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Normalized\Zerolized.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.ArrayBased">
+    <Position X="3.5" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAQAAAAAAAAAAAQAAAAAAAAAAA=</HashCode>
+      <FileName>ArrayBased.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.ForecastStatisticsTableData">
+    <Position X="8.5" Y="10.5" Width="3" />
+    <TypeIdentifier>
+      <HashCode>IAIAJgAICCAACAAEICAAAAAAQADAAAgACAQAAEAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.DefaultOptions">
+    <Position X="9.5" Y="2.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Utils.InventoryOutput">
+    <Position X="5.5" Y="10.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gAIIBQAAAAAAAAAQQEAYAAAAAABFAAkAABAAgAAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Enum Name="Utils.PlotType">
+    <Position X="3.5" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Utils.Period">
+    <Position X="3.5" Y="13.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ARAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAE=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Utils.Distributions">
+    <Position X="3.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAAAAAQACACAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Utils.Generator">
+    <Position X="3.5" Y="10.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTypes.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

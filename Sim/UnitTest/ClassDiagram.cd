@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="UnitTest.DataTest.BaseDataUnitTest">
+    <Position X="6" Y="0.5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAAACAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>DataTest\BaseDataUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.ErrorTest.MeanAbsoluteDeviationUnitTest">
+    <Position X="6" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAgAAAAA=</HashCode>
+      <FileName>ForecastTest\ErrorTest\MeanAbsoluteDeviationUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.ErrorTest.MeanAbsolutePercentageErrorUnitTest">
+    <Position X="9" Y="2" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ForecastTest\ErrorTest\MeanAbsolutePercentageErrorUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.ErrorTest.MeanPercentageErrorUnitTest">
+    <Position X="6" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAEAAgAAAAA=</HashCode>
+      <FileName>ForecastTest\ErrorTest\MeanPercentageErrorUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.ErrorTest.MeanSquaredErrorUnitTest">
+    <Position X="9" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ForecastTest\ErrorTest\MeanSquaredErrorUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.ErrorTest.RootMeanSquareDeviationUnitTest">
+    <Position X="6" Y="6" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAA=</HashCode>
+      <FileName>ForecastTest\ErrorTest\RootMeanSquareDeviationUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.DoubleMovingAverageUnitTest">
+    <Position X="9" Y="0.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAAAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\DoubleMovingAverageUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.HoltUnitTest">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\HoltUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.MovingAverageUnitTest">
+    <Position X="9" Y="3.75" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgABAAAQAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\MovingAverageUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.SimpleAverageUnitTest">
+    <Position X="12" Y="7.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAIAAAAAIAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\SimpleAverageUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.SimpleExponentialSmoothingUnitTest">
+    <Position X="6" Y="7.75" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAQAAAAAAAAAAAABAAEAAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\SimpleExponentialSmoothingUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="UnitTest.ForecastTest.MethodTest.WintersUnitTest">
+    <Position X="12.5" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAABAAAAAAAAAAAAA=</HashCode>
+      <FileName>ForecastTest\MethodTest\WintersUnitTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GtkTest.LayoutTest">
+    <Position X="9" Y="5.5" Width="3.25" />
+    <TypeIdentifier>
+      <HashCode>AABAAAAQhAAAAAAAAAAAQAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>GtkTest\LayoutTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

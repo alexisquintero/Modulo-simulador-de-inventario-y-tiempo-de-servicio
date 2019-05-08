@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1" MembersFormat="NameAndType">
+  <Class Name="Forecast.Error.MeanAbsoluteDeviation">
+    <Position X="12.75" Y="11.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Error\MeanAbsoluteDeviation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Error.MeanAbsolutePercentageError">
+    <Position X="17" Y="11.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Error\MeanAbsolutePercentageError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Error.MeanPercentageError">
+    <Position X="15.25" Y="12.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Error\MeanPercentageError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Error.MeanSquaredError">
+    <Position X="15" Y="11.25" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Error\MeanSquaredError.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Error.RootMeanSquareDeviation">
+    <Position X="12.75" Y="12.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Error\RootMeanSquareDeviation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.DoubleMovingAverage">
+    <Position X="16.75" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\DoubleMovingAverage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.DoubleMovingAverageHelper">
+    <Position X="19" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\DoubleMovingAverageHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.Holt">
+    <Position X="12.75" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAIEABAAAAAAAAAAACAAAAQCACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\Holt.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.HoltHelper">
+    <Position X="15.25" Y="4" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>EABAAAAAAAAAAAAAAAAAAAAAACQAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\HoltHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.MovingAverage">
+    <Position X="12.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\MovingAverage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.MovingAverageHelper">
+    <Position X="14.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\MovingAverageHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.SimpleAverage">
+    <Position X="12.75" Y="2.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\SimpleAverage.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.SimpleAverageHelper">
+    <Position X="14.5" Y="2.25" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\SimpleAverageHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.SimpleExponentialSmoothing">
+    <Position X="16.75" Y="2.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\SimpleExponentialSmoothing.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.SimpleExponentialSmoothingHelper">
+    <Position X="19.25" Y="2.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\SimpleExponentialSmoothingHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.Winters">
+    <Position X="12.75" Y="6.75" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAIEAAAAAAAAAAAAACAAAAQAASAAAEEAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\AverageBased\Winters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.AverageBased.WintersHelper">
+    <Position X="15" Y="6.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAEAAAAAAAAAAAAAAAAABACMICQEAAACAAASAASEIAA=</HashCode>
+      <FileName>Method\AverageBased\WintersHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Forecast.Method.LinearRegression.SimpleLinearRegression">
+    <Position X="18.25" Y="4" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAACAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Method\LinearRegression\SimpleLinearRegression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
